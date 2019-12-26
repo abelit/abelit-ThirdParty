@@ -4,7 +4,7 @@ module.exports = {
   // config
   assetsDir: "static", // For simple configuration of static files in Flask (the "static_folder='client/dist/static'" part in app.py)
   devServer: {
-    proxy: "http://10.10.10.200:55001/", // So that the client dev server can access your Flask routes
+    proxy: "http://58.42.231.98:55001/", // So that the client dev server can access your Flask routes
     // host: 'localhost',
     // port: 8080,
 

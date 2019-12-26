@@ -14,7 +14,7 @@ import "@mdi/font/css/materialdesignicons.css";
 
 // import axios for ajax application
 import axios from "axios";
-axios.defaults.baseURL = "http://10.10.10.200:55001/";
+axios.defaults.baseURL = "http://58.42.231.98:55001/";
 Vue.prototype.$axios = axios;
 
 Vue.config.productionTip = false;

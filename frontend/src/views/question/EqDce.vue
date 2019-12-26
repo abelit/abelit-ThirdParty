@@ -7,31 +7,31 @@
         >
       </v-col>
     </v-row>
-    <v-row v-for="item in dceQuestion" :key="item.id">
-      <v-col cols="12" v-if="item.Block == block && item.id == id">
+    <v-row v-for="(item, index) in listTemp" :key="item.id">
+      <v-col cols="12" v-if="index == itemOrder">
         <v-row align="center" justify="center">
           <v-col cols="4">
             <v-card
               style="height:200px"
               class="pa-3"
-              :class="answer == item.AnswerA ? 'primary' : ''"
+              :class="answer == item.answer ? 'primary' : ''"
               v-model="answer"
-              @click="chooseAnswer(item.AnswerA)"
+              @click="chooseAnswer(item.answer)"
             >
-              <h3>{{ item.AnswerA }}</h3>
-              <p>{{ item.SourceA }}</p>
+              <h3>{{ item[0].answer }}{{ item[0].name }}</h3>
+              <p>{{ item[0].source_text }}</p>
             </v-card>
           </v-col>
           <v-col cols="4">
             <v-card
               style="height:200px"
               class="pa-3"
-              :class="answer == item.AnswerB ? 'primary' : ''"
+              :class="answer == item.answer ? 'primary' : ''"
               v-model="answer"
-              @click="chooseAnswer(item.AnswerB)"
+              @click="chooseAnswer(item.answer)"
             >
-              <h3>{{ item.AnswerB }}</h3>
-              <p>{{ item.SourceB }}</p>
+              <h3>{{ item[1].answer }}{{ item[1].name }}</h3>
+              <p>{{ item[1].source_text }}</p>
             </v-card>
           </v-col>
         </v-row>
@@ -56,23 +56,36 @@ export default {
     dceQuestion: [{}],
     block: 1,
     itemOrder: 0,
-    name: "",
     answer: ""
   }),
   created() {
     this.getdceQuestion();
 
-    console.log(this.dceQuestion);
+    //console.log(this.getdceQuestion());
   },
   mounted() {
     //console.log(this.dceQuestion);
   },
   computed: {
-    ...mapState(["userInfo"])
+    ...mapState(["userInfo"]),
+    listTemp: function() {
+      var list = this.dceQuestion;
+      var arrTemp = [];
+      var index = 0;
+      for (var i = 0; i < list.length; i++) {
+        index = parseInt(i / 2);
+        if (arrTemp.length <= index) {
+          arrTemp.push([]);
+        }
+        arrTemp[index].push(list[i]);
+      }
+      console.log(arrTemp);
+      return arrTemp;
+    }
   },
   methods: {
     nextBtn() {
-      // this.itemOrder++;
+      this.itemOrder++;
       console.log(this.answer);
 
       // console.log(dataDce[this.itemOrder].Name);
