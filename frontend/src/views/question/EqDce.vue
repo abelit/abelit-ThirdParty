@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container v-show="dceQuestion.length > 1">
     <v-row>
       <v-col>
         <v-alert dense type="info"
@@ -7,34 +7,30 @@
         >
       </v-col>
     </v-row>
-    <v-row v-for="(item, index) in listTemp" :key="item.id">
-      <v-col cols="12" v-if="index == itemOrder">
-        <v-row align="center" justify="center">
-          <v-col cols="4">
-            <v-card
-              style="height:200px"
-              class="pa-3"
-              :class="answer == item.answer ? 'primary' : ''"
-              v-model="answer"
-              @click="chooseAnswer(item.answer)"
-            >
-              <h3>{{ item[0].answer }}{{ item[0].name }}</h3>
-              <p>{{ item[0].source_text }}</p>
-            </v-card>
-          </v-col>
-          <v-col cols="4">
-            <v-card
-              style="height:200px"
-              class="pa-3"
-              :class="answer == item.answer ? 'primary' : ''"
-              v-model="answer"
-              @click="chooseAnswer(item.answer)"
-            >
-              <h3>{{ item[1].answer }}{{ item[1].name }}</h3>
-              <p>{{ item[1].source_text }}</p>
-            </v-card>
-          </v-col>
-        </v-row>
+    <v-row v-for="item in dceQuestion" :key="item.id">
+      <v-col cols="6" v-if="item.name == name">
+        <v-card
+          style="height:200px"
+          class="pa-3"
+          v-model="selectedAnswer"
+          :class="item.answerA == selectedAnswer ? 'primary' : ''"
+          @click="chooseAnswer(item.answerA)"
+        >
+          <h3>{{ item.answerA }}</h3>
+          <p>{{ item.sourceTextA }}</p>
+        </v-card>
+      </v-col>
+      <v-col cols="6" v-if="item.name == name">
+        <v-card
+          style="height:200px"
+          class="pa-3"
+          v-model="selectedAnswer"
+          :class="item.answerB == selectedAnswer ? 'primary' : ''"
+          @click="chooseAnswer(item.answerB)"
+        >
+          <h3>{{ item.answerB }}</h3>
+          <p>{{ item.sourceTextB }}</p>
+        </v-card>
       </v-col>
     </v-row>
     <v-row>
@@ -50,74 +46,74 @@
 //import dataDce from "@/assets/data/dce.json";
 import { mapState } from "vuex";
 export default {
-  // name: "EqDce",
-  // props: ["block1", "startTime"],
   data: () => ({
-    dceQuestion: [{}],
+    dceQuestion: [],
     block: 1,
-    itemOrder: 0,
-    answer: ""
+    itemOrder: [],
+    name: "",
+    selectedAnswer: ""
   }),
   created() {
     this.getdceQuestion();
-
-    //console.log(this.getdceQuestion());
   },
-  mounted() {
-    //console.log(this.dceQuestion);
-  },
+  mounted() {},
   computed: {
-    ...mapState(["userInfo"]),
-    listTemp: function() {
-      var list = this.dceQuestion;
-      var arrTemp = [];
-      var index = 0;
-      for (var i = 0; i < list.length; i++) {
-        index = parseInt(i / 2);
-        if (arrTemp.length <= index) {
-          arrTemp.push([]);
-        }
-        arrTemp[index].push(list[i]);
-      }
-      console.log(arrTemp);
-      return arrTemp;
-    }
+    ...mapState(["userInfo"])
   },
   methods: {
     nextBtn() {
-      this.itemOrder++;
-      console.log(this.answer);
-
-      // console.log(dataDce[this.itemOrder].Name);
-      // if (dataDce[this.itemOrder].Name == undefined) {
-      //   alert("ssss");
-      // } else {
-      //   this.name = dataDce[this.itemOrder].Name;
-      // }
-    },
-    changeCss(item) {
-      item.selected = true;
+      if (this.itemOrder.indexOf(this.name) + 1 >= this.itemOrder.length) {
+        alert("haha");
+        return false;
+      }
+      this.name = this.itemOrder[this.itemOrder.indexOf(this.name) + 1];
+      this.selectedAnswer = "";
     },
     chooseAnswer(item) {
-      this.answer = item;
-      console.log(this.answer);
+      this.selectedAnswer = item;
+      console.log(this.selectedAnswer);
     },
-    getdceQuestion() {
-      // console.log(this.userInfo.blockQuestion);
-      this.$axios
+    async getdceQuestion() {
+      await this.$axios
         .get("/api/question/dce", {
           params: { block: this.userInfo.blockQuestion }
         })
         .then(res => {
-          this.dceQuestion = res.data;
-
-          // this.currentItem = this.eqTtoQuestions[0].id;
-          // console.log(this.dceQuestion);
+          //   this.dceQuestion = res.data;
+          var arrKey = [];
+          var arrTemp = [];
+          for (let i = 0; i < res.data.length; i++) {
+            console.log(arrKey.indexOf(res.data[i].name) == -1);
+            if (arrKey.indexOf(res.data[i].name) == -1) {
+              arrKey.push(res.data[i].name);
+            }
+          }
+          for (let i = 0; i < arrKey.length; i++) {
+            var obj = {};
+            for (let j = 0; j < res.data.length; j++) {
+              if (res.data[j].name == arrKey[i]) {
+                obj.name = arrKey[i];
+                obj.presentation = res.data[j].presentation;
+                if (res.data[j].answer == "A") {
+                  obj.answerA = "A";
+                  obj.sourceTextA = res.data[j].source_text;
+                }
+                if (res.data[j].answer == "B") {
+                  obj.answerB = "B";
+                  obj.sourceTextB = res.data[j].source_text;
+                }
+              }
+            }
+            arrTemp.push(obj);
+          }
+          console.log(arrTemp);
+          this.dceQuestion = arrTemp;
+          this.itemOrder = arrKey;
+          this.name = this.dceQuestion[0].name;
         })
         .catch(error => {
           console.log(error);
         });
-      // console.log(this.eqTtoQuestions);
     }
   }
 };
