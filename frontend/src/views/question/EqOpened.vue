@@ -1,13 +1,13 @@
 <template>
   <v-container>
-    <v-row v-for="item in oeqQuestion" :key="item.Name">
-      <v-col cols="12" v-if="item.Name == name">
+    <v-row v-for="item in oeqQuestion" :key="item.name">
+      <v-col cols="12" v-if="item.name == name">
         <v-row>
           <v-col cols="12">
             <v-card class="mx-auto yellow lighten-4" height="300" dark>
-              <v-card-text class="headline font-weight-bold black--text"
-                >{{ item.Source }}
-              </v-card-text>
+              <v-card-text class="headline font-weight-bold black--text">{{
+                item.source_text
+              }}</v-card-text>
             </v-card>
           </v-col>
         </v-row>
@@ -16,7 +16,6 @@
             <v-textarea
               label="- 请在这里写下你的答案 -"
               outlined
-              v-model="participant"
               height="300"
             ></v-textarea>
           </v-col>
@@ -33,7 +32,7 @@
   </v-container>
 </template>
 <script>
-import dataOeq from "@/assets/data/oeq.json";
+//import dataOeq from "@/assets/data/oeq.json";
 export default {
   data: () => ({
     oeqQuestion: [{}],
@@ -41,16 +40,32 @@ export default {
     name: ""
   }),
   created() {
-    this.oeqQuestion = dataOeq;
+    this.getoeqQuestion();
+    //this.oeqQuestion = dataOeq;
   },
-  mounted() {
-    this.name = this.oeqQuestion[this.step].Name;
-    console.log(this.name);
-  },
+  mounted() {},
   methods: {
     nextBtn() {
-      this.step++;
-      this.name = this.oeqQuestion[this.step].Name;
+      if (this.step + 1 < this.oeqQuestion.length) {
+        this.step++;
+        this.name = this.oeqQuestion[this.step].name;
+      } else {
+        alert("回答完毕");
+      }
+    },
+    getoeqQuestion() {
+      this.$axios
+        .get("/api/question/open", {
+          params: { block: "A" }
+        })
+        .then(res => {
+          //   this.dceQuestion = res.data;
+          this.oeqQuestion = res.data;
+          this.name = this.oeqQuestion[0].name;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };

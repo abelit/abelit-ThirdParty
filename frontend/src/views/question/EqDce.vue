@@ -63,7 +63,7 @@ export default {
   methods: {
     nextBtn() {
       if (this.itemOrder.indexOf(this.name) + 1 >= this.itemOrder.length) {
-        alert("haha");
+        alert("回答完毕");
         return false;
       }
       this.name = this.itemOrder[this.itemOrder.indexOf(this.name) + 1];
@@ -73,8 +73,8 @@ export default {
       this.selectedAnswer = item;
       console.log(this.selectedAnswer);
     },
-    async getdceQuestion() {
-      await this.$axios
+    getdceQuestion() {
+      this.$axios
         .get("/api/question/dce", {
           params: { block: this.userInfo.blockQuestion }
         })

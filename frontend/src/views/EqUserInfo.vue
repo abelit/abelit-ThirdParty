@@ -1,14 +1,23 @@
 <template>
   <v-container>
-    <v-card >
-      <v-card-title class="display-1">To be filled in by interviewer</v-card-title>
+    <v-card>
+      <v-card-title class="display-1"
+        >To be filled in by interviewer</v-card-title
+      >
       <v-card-text>
         <v-row justify="center" class="mt-12">
           <v-col cols="2">
             <v-subheader class="eq-userinfo">Interviewer</v-subheader>
           </v-col>
           <v-col cols="4">
-            <v-select :items="interviewers"  :item-text="itemText" item-value="id" label="- select -" outlined v-model="interviewer"></v-select>
+            <v-select
+              :items="interviewers"
+              :item-text="itemText"
+              item-value="id"
+              label="- select -"
+              outlined
+              v-model="interviewer"
+            ></v-select>
           </v-col>
         </v-row>
         <v-row justify="center" class="mt-12">
@@ -16,15 +25,24 @@
             <v-subheader class="eq-userinfo">Participant ID</v-subheader>
           </v-col>
           <v-col cols="4">
-            <v-text-field label="- participant id -" outlined v-model="participant"></v-text-field>
+            <v-text-field
+              label="- participant id -"
+              outlined
+              v-model="participant"
+            ></v-text-field>
           </v-col>
         </v-row>
-        <v-row justify="center" class="mt-12">
+        <v-row justify="center" class="mt-12" v-if="blocks[0] != 'A'">
           <v-col cols="2">
             <v-subheader class="eq-userinfo">Block of questions</v-subheader>
           </v-col>
           <v-col cols="4">
-            <v-select :items="blockQuestions" label="- select -" outlined v-model="blockQuestion"></v-select>
+            <v-select
+              :items="blocks"
+              label="- select -"
+              outlined
+              v-model="blockQuestion"
+            ></v-select>
           </v-col>
         </v-row>
       </v-card-text>
@@ -49,13 +67,14 @@
 
 <script>
 import dataInterviewer from "@/assets/data/interviewer.json";
+import { mapState } from "vuex";
 
 export default {
   name: "EqUserInfo",
   //   props: ["interviewers", "blockQuestions"],
   data: () => ({
     interviewers: [{}],
-    blockQuestions: ["1", "2", "3", "4", "5", "6"],
+    blockQuestions: [],
     interviewer: "",
     participant: "",
     blockQuestion: "",
@@ -68,6 +87,15 @@ export default {
         participant: this.participant,
         blockQuestion: this.blockQuestion
       };
+
+      if (
+        (!(this.interviewer && this.participant && this.blockQuestion) &&
+          this.blocks[0] != "A") ||
+        (!(this.interviewer && this.participant) && this.blocks[0] == "A")
+      ) {
+        alert("信息填写不完整");
+        return false;
+      }
       this.$store.dispatch("setUserInfo", obj).then(() => {
         console.log(obj);
         this.$router.push({ path: "/eq/tip" });
@@ -76,6 +104,10 @@ export default {
   },
   mounted() {
     this.interviewers = dataInterviewer;
+    console.log(this.blocks);
+  },
+  computed: {
+    ...mapState(["blocks"])
   }
 };
 </script>

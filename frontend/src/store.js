@@ -7,6 +7,7 @@ const state = {
   examType: JSON.parse(localStorage.getItem("examType")) || "",
   examStart: localStorage.getItem("examStart") || false,
   userInfo: JSON.parse(localStorage.getItem("userInfo")) || "",
+  blocks: ""
 };
 
 const actions = {
@@ -19,8 +20,10 @@ const actions = {
   setUserInfo({ commit }, obj) {
     commit("setUserInfo", obj);
   },
+  setBlocks({ commit }, obj) {
+    commit("setBlocks", obj);
+  }
 };
-
 
 const mutations = {
   setExamType: (state, obj) => {
@@ -35,6 +38,10 @@ const mutations = {
     state.userInfo = obj;
     localStorage.setItem("userInfo", JSON.stringify(obj));
   },
+  setBlocks: (state, obj) => {
+    state.blocks = obj;
+    localStorage.setItem("blocks", JSON.stringify(obj));
+  }
 };
 
 export default new Vuex.Store({
