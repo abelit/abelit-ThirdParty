@@ -82,6 +82,9 @@ export default {
   }),
   methods: {
     saveUserInfo() {
+      if (this.blocks[0] == "A") {
+        this.blockQuestion = "A";
+      }
       var obj = {
         interviewer: this.interviewer,
         participant: this.participant,
@@ -97,14 +100,14 @@ export default {
         return false;
       }
       this.$store.dispatch("setUserInfo", obj).then(() => {
-        console.log(obj);
+        // console.log(obj);
         this.$router.push({ path: "/eq/tip" });
       });
     }
   },
   mounted() {
     this.interviewers = dataInterviewer;
-    console.log(this.blocks);
+    // console.log(this.blocks);
   },
   computed: {
     ...mapState(["blocks"])

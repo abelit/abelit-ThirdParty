@@ -38,7 +38,7 @@ def init_db():
         conn.execute("drop table {0}".format(table[0]))
 
     SQL_TEXT = ["create table tto_question(id integer primary key autoincrement, presentation text,type text, name text,block integer,source_text text)",
-                "create table interviewer(id integer, name text)", "create table dce_question(id integer primary key autoincrement,presentation text,name text,block integer,answer text,source_text text)","create table opened_question(id integer primary key autoincrement,presentation text,name text,block text,source_text text)"]
+                "create table interviewer(id integer, name text)", "create table dce_question(id integer primary key autoincrement,presentation text,name integer,block integer,answer text,source_text text)","create table opened_question(id integer primary key autoincrement,presentation text,name text,block text,source_text text)"]
 
     for sql in SQL_TEXT:
         conn.execute(sql)
@@ -137,6 +137,36 @@ def get_open_question():
                      "block": row[3], "source_text": row[4]})
 
     return jsonify(data)
+
+@app.route("/api/question/blocks")
+def get_question_blocks():
+    block_type = str(request.args.get('type'))
+    # 连接数据库
+    conn = sqlite3.connect('question.db', check_same_thread=False)
+    cursor = conn.cursor()
+    table_name = ""
+
+    if block_type == "1":
+        table_name = "dce_question"
+    elif block_type == "2":
+        table_name = "tto_question"
+    elif block_type == "3":
+        table_name = "tto_question"
+    elif block_type == "4":
+        table_name = "opened_question"
+    else: 
+        return "table not exists."
+
+    SQL_TEXT = "select distinct block from {0} where block<>'-'".format(table_name)
+    result = cursor.execute(SQL_TEXT)
+
+    blocks = []
+
+    for row in result:
+        blocks.append(row[0])
+
+    return jsonify(blocks)
+
 
 @app.route("/api/addmoreanswer",methods=['POST'])
 def add_more_answer():
