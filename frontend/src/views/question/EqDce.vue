@@ -63,11 +63,10 @@ export default {
   methods: {
     nextBtn() {
       if (this.itemOrder.indexOf(this.name) + 1 >= this.itemOrder.length) {
-        alert("回答完毕");
+        alert("haha");
         return false;
       }
       this.name = this.itemOrder[this.itemOrder.indexOf(this.name) + 1];
-      this.selectedAnswer = "";
     },
     chooseAnswer(item) {
       this.selectedAnswer = item;
@@ -83,7 +82,6 @@ export default {
           var arrKey = [];
           var arrTemp = [];
           for (let i = 0; i < res.data.length; i++) {
-            console.log(arrKey.indexOf(res.data[i].name) == -1);
             if (arrKey.indexOf(res.data[i].name) == -1) {
               arrKey.push(res.data[i].name);
             }

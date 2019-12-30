@@ -5,16 +5,17 @@
         <v-row>
           <v-col cols="12">
             <v-card class="mx-auto yellow lighten-4" height="300" dark>
-              <v-card-text class="headline font-weight-bold black--text">{{
-                item.source_text
-              }}</v-card-text>
+              <v-card-text class="headline font-weight-bold black--text">
+                {{ item.source_text }}
+              </v-card-text>
             </v-card>
           </v-col>
         </v-row>
         <v-row class="mt-10">
           <v-col cols="12">
             <v-textarea
-              label="- 请在这里写下你的答案 -"
+              v-model="inputAnswer"
+              :label="label"
               outlined
               height="300"
             ></v-textarea>
@@ -32,26 +33,43 @@
   </v-container>
 </template>
 <script>
+import { mapState } from "vuex";
 //import dataOeq from "@/assets/data/oeq.json";
 export default {
   data: () => ({
     oeqQuestion: [{}],
     step: 0,
-    name: ""
+    name: "",
+    inputAnswer: "",
+    label: "- 请在这里写下你的答案 -",
+    openedAnswers: []
   }),
   created() {
     this.getoeqQuestion();
-    //this.oeqQuestion = dataOeq;
   },
   mounted() {},
   methods: {
     nextBtn() {
+      var answerOjb = {
+        participant: this.userInfo.participant,
+        interviewer: this.userInfo.interviewer,
+        item: this.oeqQuestion[this.step].name,
+        type: "4",
+        position_of_item: this.step + 1,
+        participant_answer: this.inputAnswer,
+        block: "A",
+        version: "V17"
+      };
+
+      this.openedAnswers.push(answerOjb);
+
       if (this.step + 1 < this.oeqQuestion.length) {
         this.step++;
         this.name = this.oeqQuestion[this.step].name;
       } else {
         alert("回答完毕");
       }
+      this.inputAnswer = "";
     },
     getoeqQuestion() {
       this.$axios
@@ -59,7 +77,6 @@ export default {
           params: { block: "A" }
         })
         .then(res => {
-          //   this.dceQuestion = res.data;
           this.oeqQuestion = res.data;
           this.name = this.oeqQuestion[0].name;
         })
@@ -67,6 +84,9 @@ export default {
           console.log(error);
         });
     }
+  },
+  computed: {
+    ...mapState(["userInfo"])
   }
 };
 </script>
