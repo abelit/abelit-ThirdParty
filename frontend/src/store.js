@@ -7,7 +7,8 @@ const state = {
   examType: JSON.parse(localStorage.getItem("examType")) || "",
   examStart: localStorage.getItem("examStart") || false,
   userInfo: JSON.parse(localStorage.getItem("userInfo")) || "",
-  blocks: ""
+  blocks: "",
+  allAnswer: JSON.parse(localStorage.getItem("allAnswer")) || ""
 };
 
 const actions = {
@@ -22,6 +23,9 @@ const actions = {
   },
   setBlocks({ commit }, obj) {
     commit("setBlocks", obj);
+  },
+  setAllAnswer({ commit }, obj) {
+    commit("setAllAnswer", obj);
   }
 };
 
@@ -41,6 +45,10 @@ const mutations = {
   setBlocks: (state, obj) => {
     state.blocks = obj;
     localStorage.setItem("blocks", JSON.stringify(obj));
+  },
+  setAllAnswer: (state, obj) => {
+    state.allAnswer = obj;
+    localStorage.setItem("allAnswer", JSON.stringify(obj));
   }
 };
 

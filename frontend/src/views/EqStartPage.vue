@@ -7,19 +7,14 @@
             <v-col class="mb-12" style="color: white">
               <span class="display-1">{{ examType.content }}</span>
               <v-spacer class="pb-2"></v-spacer>
-              <span class="display-1" dark>{{
+              <span class="display-1" dark>
+                {{
                 new Date().toLocaleString()
-              }}</span>
+                }}
+              </span>
             </v-col>
           </v-row>
-          <v-btn
-            color="#0094ff"
-            x-large
-            height="72"
-            dark
-            class="mt-12"
-            @click="startExam()"
-          >
+          <v-btn color="#0094ff" x-large height="72" dark class="mt-12" @click="startExam()">
             <span class="display-1">开始调查</span>
           </v-btn>
         </v-col>
@@ -35,9 +30,7 @@ import { mapState } from "vuex";
 
 export default {
   name: "EqStartPage",
-  data: () => ({
-     
-  }),
+  data: () => ({}),
   components: {
     // EqUserInfo
   },
