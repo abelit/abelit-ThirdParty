@@ -61,5 +61,10 @@ export default new Router({
       name: "end",
       component: () => import("@/views/EqEndPage.vue")
     },
+    {
+      path: "/eq/question/setting",
+      name: "setting",
+      component: () => import("@/views/QuestionSetting.vue")
+    },
   ]
 });

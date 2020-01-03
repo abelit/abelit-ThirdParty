@@ -5,7 +5,7 @@
         v-if="eqTtoQuestions.indexOf(item)===currentItem"
         :block="item"
         :startTime="startTime"
-        v-on:cUpdateItem="pUpdateItem"
+        v-on:cUpdateItem="pUpdateItem($event)"
         :key="item.id"
       ></eq-tto>
     </template>
@@ -24,7 +24,8 @@ export default {
   data: () => ({
     eqTtoQuestions: [{}],
     currentItem: 0,
-    startTime: 0
+    startTime: 0,
+    ttoAnswers: []
   }),
   created() {
     this.getQuestion();
@@ -37,12 +38,15 @@ export default {
     ...mapState(["userInfo"])
   },
   methods: {
-    pUpdateItem() {
+    pUpdateItem(data) {
       // console.log(this.currentItem + "--->" + this.eqTtoQuestions[this.currentItem].source_text)
+      this.ttoAnswers.push(data);
+      console.log(this.ttoAnswers)
       this.currentItem++;
       // console.log(this.currentItem);
       // console.log(this.eqTtoQuestions.length)
       if (this.currentItem > this.eqTtoQuestions.length - 1) {
+        this.$store.dispatch("setAllAnswer", this.ttoAnswers);
         this.$router.push({ path: "/eq/end" });
       }
     },

@@ -12,9 +12,13 @@
       </router-link>
       <!-- <v-toolbar-title>EQ-5D</v-toolbar-title> -->
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
+      <v-btn icon to="/eq/question/setting">
+        <v-icon>settings</v-icon>
       </v-btn>
+
+      <!-- <v-btn icon>
+        <v-icon>mdi-dots-vertical</v-icon>
+      </v-btn> -->
     </v-app-bar>
     <v-content>
       <router-view />

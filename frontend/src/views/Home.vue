@@ -17,7 +17,7 @@
       <v-col cols="12">
         <v-row align="center" justify="center">
           <v-card
-            v-for="item in questionList"
+            v-for="item in questionType"
             :key="item.id"
             class="ma-3 pa-6 text-center display-1"
             color="#036f90"
@@ -35,35 +35,11 @@
 </template>
 
 <script>
+import questiontype from "@/assets/data/questiontype.json";
 export default {
+
   data: () => ({
-    questionList: [
-      {
-        id: 1,
-        name: "DCE",
-        content: "EQ-PVT DCE 问卷",
-        description: ""
-      },
-      {
-        id: 2,
-        name: "TTO",
-        content: "EQ-PVT TTO 问卷",
-        description:
-          "感谢您同意参加本次调查。本次采访的目的是为了改进医疗卫生系统。我们邀请包括您在内的病人帮助我们完成这项研究。这些问题是询问人们对于健康状况和疾病的不同看法。我们感兴趣的是您的看法，这里没有正确或错误的答案。您只需告诉我们您的想法。完成本项调查大约需要30分钟。我们将对您的答案和个人信息严格保密。您准备好了吗？"
-      },
-      {
-        id: 3,
-        name: "TTO Feedback",
-        content: "EQ-PVT TTO Feedback 问卷",
-        description: ""
-      },
-      {
-        id: 4,
-        name: "Open Ended",
-        content: "EQ-PVT Open Ended 问卷",
-        description: ""
-      }
-    ]
+    questionType: questiontype
   }),
   methods: {
     saveExamType(value) {
