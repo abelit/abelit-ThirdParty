@@ -10,28 +10,52 @@
     <v-row v-for="item in dceQuestion" :key="item.id">
       <v-col cols="6" v-if="item.name == name">
         <v-card
-          style="height:200px"
+          style="height:300px;font-size:1.5em"
           class="pa-3"
           v-model="selectedAnswer"
           :class="item.answerA == selectedAnswer ? 'primary' : ''"
           @click="chooseAnswer(item.answerA)"
         >
-          <h3>{{ item.answerA }}</h3>
-          <p v-if="randNum == 1">{{ item.sourceTextA }}</p>
-          <p v-else>{{ item.sourceTextB }}</p>
+          <h2>{{ item.answerA }}</h2>
+          <div v-if="randNum == 1">
+            <div v-for="msg in item.sourceTextA.split('*')" :key="msg.key">
+              <li v-if="msg != ''">
+                <span>{{ msg }}</span>
+              </li>
+            </div>
+          </div>
+          <div v-else>
+            <div v-for="msg in item.sourceTextB.split('*')" :key="msg.key">
+              <li v-if="msg != ''">
+                <span>{{ msg }}</span>
+              </li>
+            </div>
+          </div>
         </v-card>
       </v-col>
       <v-col cols="6" v-if="item.name == name">
         <v-card
-          style="height:200px"
+          style="height:300px;font-size:1.5em"
           class="pa-3"
           v-model="selectedAnswer"
           :class="item.answerB == selectedAnswer ? 'primary' : ''"
           @click="chooseAnswer(item.answerB)"
         >
-          <h3>{{ item.answerB }}</h3>
-          <p v-if="randNum == 1">{{ item.sourceTextB }}</p>
-          <p v-else>{{ item.sourceTextB }}</p>
+          <h2>{{ item.answerB }}</h2>
+          <div v-if="randNum == 1">
+            <div v-for="msg in item.sourceTextB.split('*')" :key="msg.key">
+              <li v-if="msg != ''">
+                <span>{{ msg }}</span>
+              </li>
+            </div>
+          </div>
+          <div v-else>
+            <div v-for="msg in item.sourceTextA.split('*')" :key="msg.key">
+              <li v-if="msg != ''">
+                <span>{{ msg }}</span>
+              </li>
+            </div>
+          </div>
         </v-card>
       </v-col>
     </v-row>
