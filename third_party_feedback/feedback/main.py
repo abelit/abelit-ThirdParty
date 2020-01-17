@@ -483,7 +483,7 @@ def get_tto_answer():
     result = cursor.execute(SQL_TEXT)
     data = []
     for row in result:
-        data.append({"id": row[0], "questionid": row[1], "participant": row[2], "interviewer": row[3], "item": row[4], "position_of_item": row[5], "tto_value": row[6],
+        data.append({"id": row[0], "questionid": row[1], "participant": row[2], "interviewer": row[3], "item": row[4], "position_of_item": row[5], "tto_value": round(row[6],2),
                      "used_time": row[7], "composite_switches": row[8], "resets": row[9], "number_of_moves": row[10], "block": row[11], "version": row[12], "created_timestamp": row[13]})
 
     return jsonify(data)

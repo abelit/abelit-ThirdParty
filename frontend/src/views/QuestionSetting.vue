@@ -3,7 +3,10 @@
     <v-tabs background-color="#036f90" center-active dark>
       <v-tab @click="type = 1" class="title">{{$vuetify.lang.t('$vuetify.tab.uploadQuestion')}}</v-tab>
       <v-tab @click="type = 2" class="title">{{$vuetify.lang.t('$vuetify.tab.manualInput')}}</v-tab>
-      <v-tab @click="type = 0; tablePHeaders=[]; tablePData=[]" class="title">{{$vuetify.lang.t('$vuetify.tab.interviewer')}}</v-tab>
+      <v-tab
+        @click="type = 0; tablePHeaders=[]; tablePData=[]"
+        class="title"
+      >{{$vuetify.lang.t('$vuetify.tab.interviewer')}}</v-tab>
       <v-tab
         @click="type = 3; tableHeaders=[]; tableData=[]; qtype=''"
         class="title"
@@ -406,13 +409,16 @@ export default {
           // console.log(res);
           this.msg = "文件上传成功！";
           this.snackbar = true;
-
-          //   setTimeout(() => {
-          //       this.snackbar = false;
-          //   }, 2000);
+          if (res.status == 200) {
+            setTimeout(() => {
+              this.file = [];
+            }, 2000);
+          }
         })
         .catch(err => {
           console.log(err);
+          this.msg = "文件上传失败，请重新上传！";
+          this.snackbar = true;
           // console.log("failed");
         });
     },
@@ -792,6 +798,8 @@ export default {
         })
         .catch(err => {
           console.log(err);
+          this.msg = "文件下载失败，请重试或联系管理员！";
+          this.snackbar = true;
         });
     }
   },
