@@ -50,7 +50,7 @@ export default {
     this.startTime = new Date();
   },
   mounted() {
-    console.log("EQ tto Exam");
+    // console.log("EQ tto Exam");
     // console.log(this.eqLangLabels);
   },
   computed: {
@@ -76,7 +76,7 @@ export default {
         })
         .then(res => {
           this.eqTtoQuestions = res.data.sort(() => Math.random() - 0.5);
-          console.log(this.eqTtoQuestions)
+          // console.log(this.eqTtoQuestions);
           // this.currentItem = this.eqTtoQuestions[0].id;
           // console.log(this.eqTtoQuestions);
         })

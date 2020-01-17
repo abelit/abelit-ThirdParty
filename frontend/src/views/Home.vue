@@ -36,7 +36,7 @@ export default {
   }),
   methods: {
     saveExamType(value) {
-      console.log(value);
+      // console.log(value);
       this.getLabel(value.id);
       this.$store.dispatch("setExamType", value).then(() => {
         // 跳转到指定页面

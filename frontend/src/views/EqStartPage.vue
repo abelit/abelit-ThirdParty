@@ -61,7 +61,7 @@ export default {
       this.$axios
         .get(url)
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           this.questionVersions = res.data;
           this.qVersion = this.questionVersions[
             this.questionVersions.length - 1
@@ -77,7 +77,7 @@ export default {
           params: { type: t, version: v }
         })
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           this.$store.dispatch("setBlocks", res.data);
         })
         .catch(error => {
@@ -118,7 +118,7 @@ export default {
   },
   mounted() {
     this.getQuestionVerion();
-    console.log(this.eqLangLabels);
+    // console.log(this.eqLangLabels);
   },
   created() {
     // this.getLabel();

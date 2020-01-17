@@ -403,7 +403,7 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.msg = "文件上传成功！";
           this.snackbar = true;
 
@@ -413,7 +413,7 @@ export default {
         })
         .catch(err => {
           console.log(err);
-          console.log("failed");
+          // console.log("failed");
         });
     },
     getQuestion() {
@@ -466,7 +466,7 @@ export default {
       this.tableAData = [];
       this.tableAHeaders = [];
       var url;
-      console.log(type);
+      // console.log(type);
       switch (type) {
         case 1:
           url = "/api/answer/dce";
@@ -504,7 +504,7 @@ export default {
           //   console.log(objHeader)
           this.tableAHeaders = objHeader;
           this.tableAData = objData;
-          console.log("I am getAnswer function.");
+          // console.log("I am getAnswer function.");
         })
         .catch(err => {
           this.tableAData = [];
@@ -590,7 +590,7 @@ export default {
       this.$axios
         .get(url)
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           var objData = res.data;
 
           var objHeader = [];
@@ -618,7 +618,7 @@ export default {
 
       await this.getAnswer(qid, this.aversion, pid);
 
-      console.log("I am downloadAnswer");
+      // console.log("I am downloadAnswer");
       var filename;
       var questionName;
       var answerTime;
@@ -686,7 +686,7 @@ export default {
           smonth.toString() +
           sdate.toString();
       }
-      console.log(filename);
+      // console.log(filename);
 
       var exportData = XLSX.utils.json_to_sheet(this.tableAData);
       var wb = XLSX.utils.book_new();
@@ -700,7 +700,7 @@ export default {
       }
 
       this.dialog = true;
-      console.log({ participant: pid, questionid: qid });
+      // console.log({ participant: pid, questionid: qid });
       this.getAnswer(qid, this.aversion, pid);
     },
     initdb() {
@@ -752,7 +752,7 @@ export default {
           version: this.qversion
         })
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           this.isSuccess = true;
           this.msg = "删除成功！";
           this.snackbar = true;
@@ -781,7 +781,7 @@ export default {
       this.$axios
         .get(url, { responseType: "blob" })
         .then(res => {
-          console.log(res.headers["Content-Disposition"]);
+          // console.log(res.headers["Content-Disposition"]);
           const url = window.URL.createObjectURL(new Blob([res.data]));
           const link = document.createElement("a");
           link.href = url;

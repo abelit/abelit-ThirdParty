@@ -103,7 +103,7 @@ export default {
   created() {
     this.getdceQuestion();
     this.randNum = this.randomNum(1, 2);
-    console.log(this.randNum);
+    // console.log(this.randNum);
   },
   mounted() {},
   computed: {
@@ -142,14 +142,14 @@ export default {
 
       this.dceAnswers.push(answerObj);
 
-      console.log(this.dceAnswers);
+      // console.log(this.dceAnswers);
 
       this.selectedAnswer = "";
       this.name = this.itemOrder[this.itemOrder.indexOf(this.name) + 1];
     },
     chooseAnswer(item) {
       this.selectedAnswer = item;
-      console.log(this.selectedAnswer);
+      // console.log(this.selectedAnswer);
     },
     getdceQuestion() {
       this.$axios
@@ -157,36 +157,38 @@ export default {
           params: { block: this.userInfo.blockQuestion, version: this.qVersion }
         })
         .then(res => {
+          var arrData = res.data.sort(() => Math.random() - 0.5);
+
           var arrKey = [];
           var arrTemp = [];
-          for (let i = 0; i < res.data.length; i++) {
-            if (arrKey.indexOf(res.data[i].name) == -1) {
-              arrKey.push(res.data[i].name);
+          for (let i = 0; i < arrData.length; i++) {
+            if (arrKey.indexOf(arrData[i].name) == -1) {
+              arrKey.push(arrData[i].name);
             }
           }
           for (let i = 0; i < arrKey.length; i++) {
             var obj = {};
-            for (let j = 0; j < res.data.length; j++) {
-              if (res.data[j].name == arrKey[i]) {
+            for (let j = 0; j < arrData.length; j++) {
+              if (arrData[j].name == arrKey[i]) {
                 obj.name = arrKey[i];
-                obj.presentation = res.data[j].presentation;
-                if (res.data[j].answer == "A") {
+                obj.presentation = arrData[j].presentation;
+                if (arrData[j].answer == "A") {
                   obj.answerA = "A";
-                  obj.sourceTextA = res.data[j].source_text;
+                  obj.sourceTextA = arrData[j].source_text;
                 }
-                if (res.data[j].answer == "B") {
+                if (arrData[j].answer == "B") {
                   obj.answerB = "B";
-                  obj.sourceTextB = res.data[j].source_text;
+                  obj.sourceTextB = arrData[j].source_text;
                 }
               }
             }
             arrTemp.push(obj);
           }
           // console.log(arrTemp);
-          this.dceQuestion = arrTemp.sort(() => Math.random() - 0.5);
+          this.dceQuestion = arrTemp;
           this.itemOrder = arrKey;
           this.name = this.dceQuestion[0].name;
-          console.log(this.dceQuestion);
+          // console.log(this.dceQuestion);
           // let marr = [1,2,3,4,5,6,7,8,9]
           // marr.sort(() => Math.random() - 0.5); 
           // console.log(marr)

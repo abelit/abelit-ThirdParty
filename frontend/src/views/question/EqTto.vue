@@ -399,7 +399,7 @@ export default {
         }
       }
       if (type != "A" && type != "B") {
-        console.log("hihihi .....")
+        // console.log("hihihi .....")
         this.popAB = true;
       }
       this.popupDialog = true;
@@ -472,7 +472,7 @@ export default {
               // this.popA_to_B = true;
               // this.popupDialog = true;
               this.genPoppupMsg(type);
-              console.log("here......");
+              // console.log("here......");
               this.slide = 2;
               this.stepDirection++;
             }
@@ -587,7 +587,7 @@ export default {
                 this.currentYearB = this.currentYearB + 0.5;
               } else {
                 this.currentYearB++;
-                console.log("here ...");
+                // console.log("here ...");
               }
             }
           }
@@ -627,7 +627,7 @@ export default {
           );
 
           // console.log(this.cStyle1);
-          console.log("sytle -----------");
+          // console.log("sytle -----------");
 
           this.drawLine(
             "canvas2",

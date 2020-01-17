@@ -41,10 +41,10 @@ export default {
   }),
   methods: {
     saveAnswer() {
-      console.log(this.allAnswer);
+      // console.log(this.allAnswer);
       if (this.isSave) {
         alert("数据已经提交入库！");
-        return fasle;
+        return false;
       }
       var url = "";
       if (this.allAnswer[0].questionid == 1) {

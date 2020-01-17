@@ -63,9 +63,9 @@ export default {
       };
 
       this.openedAnswers.push(answerOjb);
-      console.log(this.openedAnswers);
-      console.log(this.userInfo);
-      console.log(this.examType);
+      // console.log(this.openedAnswers);
+      // console.log(this.userInfo);
+      // console.log(this.examType);
 
       if (this.step + 1 < this.oeqQuestion.length) {
         this.step++;
