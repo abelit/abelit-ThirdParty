@@ -13,11 +13,11 @@
           <v-card
             v-for="item in questionType"
             :key="item.id"
-            class="ma-3 pa-6 text-center display-1"
+            class="ma-3 text-center display-1 app-card"
             color="#036f90"
             outlined
-            width="240"
-            height="120"
+            width="260"
+            height="160"
             dark
             @click="saveExamType(item)"
           >{{ item.name }}</v-card>
@@ -74,3 +74,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.app-card {
+  display: flex;
+  justify-content: center;
+  align-items: Center;
+}
+</style>

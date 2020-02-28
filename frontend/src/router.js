@@ -32,6 +32,11 @@ export default new Router({
       component: () => import("@/views/EqTtoExam.vue")
     },
     {
+      path: "/eq/nstptto",
+      name: "tto",
+      component: () => import("@/views/question/EqNonStpTto.vue")
+    },
+    {
       path: "/eq/ttofeedback",
       name: "ttofeedback",
       component: () => import("@/views/question/EqTtoFeedback.vue")
