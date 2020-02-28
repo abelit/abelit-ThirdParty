@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-row>
+  <v-container fluid fill-height>
+    <!-- <v-row>
       <v-icon color="primary">mdi-arrow-up-bold</v-icon>
       <v-icon color="primary">mdi-arrow-up-bold-outline</v-icon>
       <v-icon color="primary">mdi-arrow-down-bold</v-icon>
@@ -9,17 +9,79 @@
       <v-icon color="primary">mdi-equal</v-icon>
       <v-icon color="primary">mdi-equal-box</v-icon>
       <v-icon color="primary">mdi-view-stream</v-icon>
-      <table border="1" cellspacing="0" cellpadding="0" ref="table1">
-        <tr style="height: 50px">
-          <td
-            v-for="item in range(topYear)"
-            :key="item"
-            style="text-align: center; width: 24px"
-            :class="(item+1) % 5 == 1 ? 'light-green lighten-1' : 'light-green darken-2'"
-          ></td>
-        </tr>
-      </table>
-      {{range(topYear)}}
+    </v-row>-->
+    <v-row class="mx-0">
+      <v-row justify="center" align="center">
+        <v-col :cols="$vuetify.breakpoint.mdAndDown?1:3">
+          <v-row justify="end">偏好A</v-row>
+        </v-col>
+        <v-col :cols="$vuetify.breakpoint.mdAndDown?11:9">
+          <v-row justify="center">
+            <table border="1" cellspacing="0" cellpadding="0" ref="table1">
+              <tr style="height: 50px">
+                <td
+                  v-for="item in range(topYear)"
+                  :key="item"
+                  style="text-align: center; width: 24px"
+                  :class="parseInt((item-1)/4) % 2 == 1? initClass3 : initClass4"
+                ></td>
+              </tr>
+            </table>
+          </v-row>
+        </v-col>
+      </v-row>
+      <v-row justify="center" align="center">
+        <v-col :cols="$vuetify.breakpoint.mdAndDown?1:3">
+          <v-row justify="end">A和B基本一样</v-row>
+        </v-col>
+        <v-col :cols="$vuetify.breakpoint.mdAndDown?11:9">
+          <v-row justify="center" align="center">
+            <table border="0" cellspacing="0" cellpadding="0" ref="table1">
+              <tr style="height: 50px">
+                <td v-for="item in range(topYear+1)" :key="item" style="width: 24px">
+                  <v-icon
+                    v-if="(item % 4 == 1)"
+                    :color="parseInt((item-1)/4) % 2 == 1? 'grey' : 'grey'"
+                    @click="printInfo(item+' up')"
+                    class="pt-5"
+                  >mdi-arrow-up-bold</v-icon>
+                  <v-icon
+                    v-if="(item % 4 == 1)"
+                    :color="parseInt((item-1)/4) % 2 == 1? 'grey' : 'grey'"
+                    @click="printInfo(item+' equal')"
+                    class="pt-5"
+                  >mdi-view-stream</v-icon>
+                  <v-icon
+                    v-if="(item % 4 == 1)"
+                    :color="parseInt((item-1)/4) % 2 == 1? 'grey' : 'grey'"
+                    @click="printInfo(item+'down')"
+                    class="pt-5"
+                  >mdi-arrow-down-bold</v-icon>
+                </td>
+              </tr>
+            </table>
+          </v-row>
+        </v-col>
+      </v-row>
+      <v-row justify="center" align="center">
+        <v-col :cols="$vuetify.breakpoint.mdAndDown?1:3">
+          <v-row justify="end">偏好B</v-row>
+        </v-col>
+        <v-col :cols="$vuetify.breakpoint.mdAndDown?11:9">
+          <v-row justify="center">
+            <table border="1" cellspacing="0" cellpadding="0" ref="table1">
+              <tr style="height: 50px">
+                <td
+                  v-for="item in range(topYear)"
+                  :key="item"
+                  style="text-align: center; width: 24px"
+                  :class="parseInt((item-1)/4) % 2 == 1? initClass1 : initClass2"
+                ></td>
+              </tr>
+            </table>
+          </v-row>
+        </v-col>
+      </v-row>
     </v-row>
   </v-container>
 </template>
@@ -32,22 +94,35 @@
 */
 
 export default {
-    data() {
-        return {
-            topYear: 10
-        }
-    },
-      computed: {
+  data() {
+    return {
+      topYear: 10,
+      initClass1: "blue lighten-3",
+      initClass2: "blue darken-1",
+      initClass3: "green lighten-3",
+      initClass4: "green darken-1"
+    };
+  },
+  computed: {
     range: function() {
       return function(year) {
         var arr = [];
         for (var i = 1; i <= 4 * year; i++) {
-         
           arr.push(i);
         }
         return arr;
       };
-    },
+    }
+  },
+  methods: {
+    printInfo(param) {
+      alert(param);
+    }
   }
-}
+};
 </script>
+
+<style lang="scss">
+.app-td {
+}
+</style>
