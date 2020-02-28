@@ -14,7 +14,6 @@
         <v-card class="pt-5 yellow lighten-4">
           <v-card-text
             class="display-1"
-            style="text-indent:2em;"
           >{{ eqLangLabels[$vuetify.lang.current].popup_window_exmple }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -51,7 +50,7 @@ export default {
     this.startTime = new Date();
   },
   mounted() {
-    console.log("EQ tto Exam");
+    // console.log("EQ tto Exam");
     // console.log(this.eqLangLabels);
   },
   computed: {
@@ -76,7 +75,8 @@ export default {
           params: { block: this.userInfo.blockQuestion, version: this.qVersion }
         })
         .then(res => {
-          this.eqTtoQuestions = res.data;
+          this.eqTtoQuestions = res.data.sort(() => Math.random() - 0.5);
+          // console.log(this.eqTtoQuestions);
           // this.currentItem = this.eqTtoQuestions[0].id;
           // console.log(this.eqTtoQuestions);
         })

@@ -102,7 +102,9 @@ export default {
     },
     // 从后台获取interviewer
     getInterviewer() {
-      this.$axios.get("/api/interviewer").then(res => {
+      this.$axios.get("/api/interviewer",{
+         params: {version: this.qVersion }
+      }).then(res => {
         this.interviewerList = res.data;
         // console.log(this.interviewerList);
       });
@@ -112,7 +114,7 @@ export default {
     this.getInterviewer();
   },
   computed: {
-    ...mapState(["blocks", "eqLangLabels"])
+    ...mapState(["blocks", "eqLangLabels","qVersion"])
   }
 };
 </script>

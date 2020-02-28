@@ -94,6 +94,7 @@ export default {
         deleteQuestion: '删除题库',
         version: '版本',
         init: '初始化',
-        inputAdminPass: '输入管理员密码'
+        inputAdminPass: '输入管理员密码',
+        interviewer: "采访者"
     }
 }

@@ -41,10 +41,10 @@ export default {
   }),
   methods: {
     saveAnswer() {
-      console.log(this.allAnswer);
+      // console.log(this.allAnswer);
       if (this.isSave) {
         alert("数据已经提交入库！");
-        return fasle;
+        return false;
       }
       var url = "";
       if (this.allAnswer[0].questionid == 1) {
@@ -67,6 +67,7 @@ export default {
             setTimeout(() => {
               this.isCircle = false;
               this.snackbar = false;
+              this.$store.dispatch("setAllAnswer", []);
               this.$router.push({ path: "/" });
             }, 5000);
           }
@@ -74,6 +75,8 @@ export default {
         })
         .catch(err => {
           console.log(err);
+          this.isSave = false;
+          alert("保存答案失败，请重试！")
         });
     }
   },

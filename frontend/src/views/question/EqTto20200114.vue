@@ -4,7 +4,9 @@
       <v-card-title v-show="true">
         <v-row>
           <v-col>
-            <v-alert dense type="info">{{ eqLangLabels[$vuetify.lang.current].question }}</v-alert>
+            <v-alert dense type="info">{{
+              eqLangLabels[$vuetify.lang.current].question
+            }}</v-alert>
             <!-- {{newBlock.split("*")}} -->
           </v-col>
         </v-row>
@@ -13,19 +15,31 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <span color="grey">本题用时： {{itemUsedTime}}</span>-->
       </v-card-title>
+      <!-- <v-divider></v-divider> -->
+
       <v-card-text>
         <v-row>
           <v-col cols="3" class="px-8">
             <v-row justify="end">
               <v-col>
                 <v-row justify="center" class="pt-8">
-                  <v-btn class="black" @click="chooseAnswer('A')" fab dark>A</v-btn>
+                  <v-btn class="black" @click="chooseAnswer('A')" fab dark
+                    >A</v-btn
+                  >
                 </v-row>
                 <v-row justify="center" class="my-6">
-                  <v-btn class="black darken-3" @click="chooseAnswer('AB')" large dark>A & B</v-btn>
+                  <v-btn
+                    class="black darken-3"
+                    @click="chooseAnswer('AB')"
+                    large
+                    dark
+                    >A & B</v-btn
+                  >
                 </v-row>
                 <v-row justify="center" class="my-2" style="margin-top:10px">
-                  <v-btn class="black" @click="chooseAnswer('B')" fab dark>B</v-btn>
+                  <v-btn class="black" @click="chooseAnswer('B')" fab dark
+                    >B</v-btn
+                  >
                 </v-row>
                 <v-row justify="center" class="my-2">
                   <v-btn class="black" dark v-if="step > 0" @click="reset">
@@ -63,23 +77,28 @@
             </v-row>-->
             <v-row justify="start" align="center">
               <div style="position: relative;">
-                <div style="position: absolute;right:0px; z-index:99; top:-30px;">
+                <div
+                  style="position: absolute;right:0px; z-index:99; top:-30px;"
+                >
                   <div
                     style="background:#92d050;padding:10px 10px;width:200px;border-radius: 15px"
-                  >完全健康</div>
+                  >
+                    完全健康
+                  </div>
                 </div>
                 <v-icon
                   style="color:#92d050;font-size:5rem; position: absolute;right:120px; z-index:98; top:-25px;"
-                >mdi-menu-down</v-icon>
+                  >mdi-menu-down</v-icon
+                >
                 <div :style="cStyle1" style="text-align: center">
                   {{
-                  Math.floor(currentYear) +
-                  eqLangLabels[$vuetify.lang.current].years +
-                  ((currentYear % 1) * 12 != 0
-                  ? "," +
-                  (currentYear % 1) * 12 +
-                  eqLangLabels[$vuetify.lang.current].months
-                  : "")
+                    Math.floor(currentYear) +
+                      eqLangLabels[$vuetify.lang.current].years +
+                      ((currentYear % 1) * 12 != 0
+                        ? "," +
+                          (currentYear % 1) * 12 +
+                          eqLangLabels[$vuetify.lang.current].months
+                        : "")
                   }}
                 </div>
                 <canvas id="canvas1" ref="canvas1"></canvas>
@@ -118,23 +137,28 @@
           <v-col cols="9" class="px-8" v-if="slide == 2">
             <v-row justify="start">
               <div style="position: relative">
-                <div style="position: absolute;right:0px; z-index:99; top:-30px;">
+                <div
+                  style="position: absolute;right:0px; z-index:99; top:-30px;"
+                >
                   <div
                     style="background:#92d050;padding:10px 10px;width:200px;border-radius: 15px"
-                  >完全健康</div>
+                  >
+                    完全健康
+                  </div>
                 </div>
                 <v-icon
                   style="color:#92d050;font-size:5rem; position: absolute;right:120px; z-index:98; top:-25px;"
-                >mdi-menu-down</v-icon>
+                  >mdi-menu-down</v-icon
+                >
                 <div :style="cStyle3" style="text-align: center">
                   {{
-                  Math.floor(currentYearB) +
-                  eqLangLabels[$vuetify.lang.current].years +
-                  ((currentYearB % 1) * 12 != 0
-                  ? "," +
-                  (currentYearB % 1) * 12 +
-                  eqLangLabels[$vuetify.lang.current].months
-                  : "")
+                    Math.floor(currentYearB) +
+                      eqLangLabels[$vuetify.lang.current].years +
+                      ((currentYearB % 1) * 12 != 0
+                        ? "," +
+                          (currentYearB % 1) * 12 +
+                          eqLangLabels[$vuetify.lang.current].months
+                        : "")
                   }}
                 </div>
                 <canvas id="canvas3" ref="canvas3"></canvas>
@@ -171,24 +195,42 @@
                 <canvas id="canvas5" ref="canvas5"></canvas>
               </div>
               <div style="width:100%" ref="tip_w">
-                <div ref="tenyear4" style="width:50%;text-align: center;float:left">10年完全健康</div>
-                <div ref="tenyear5" style="width:50%;text-align: center;float:right">10年</div>
+                <div
+                  ref="tenyear4"
+                  style="width:50%;text-align: center;float:left"
+                >
+                  10年完全健康
+                </div>
+                <div
+                  ref="tenyear5"
+                  style="width:50%;text-align: center;float:right"
+                >
+                  10年
+                </div>
               </div>
             </v-row>
           </v-col>
         </v-row>
-        <v-row justify="center" align="center" v-if="slide == 1 && block.source_text">
+        <v-row
+          justify="center"
+          align="center"
+          v-if="slide == 1 && block.source_text"
+        >
           <v-col cols="6">
             <v-row>
               <div style="position: relative;height:180px;">
                 <v-icon
                   style="color:#5b9bd5;font-size:5rem; position: absolute;left:250px; z-index:98; top:-45px;"
-                >mdi-menu-up</v-icon>
-                <div style>
+                  >mdi-menu-up</v-icon
+                >
+                <div style="">
                   <div
                     style="background:#5b9bd5;padding:10px 10px;width:400px;border-radius: 15px;height:180px"
                   >
-                    <div v-for="msg in block.source_text.split('*')" :key="msg.key">
+                    <div
+                      v-for="msg in block.source_text.split('*')"
+                      :key="msg.key"
+                    >
                       <li v-if="msg != ''">
                         <span>{{ msg }}</span>
                       </li>
@@ -204,18 +246,22 @@
             <v-row style="position: relative;">
               <v-icon
                 style="color:#92d050;font-size:5rem; position: absolute;left:250px; z-index:98; top:-45px;"
-              >mdi-menu-up</v-icon>
+                >mdi-menu-up</v-icon
+              >
 
               <div
                 style="background:#92d050;padding:10px 10px;width:400px;border-radius: 15px;height:180px"
-              >完全健康</div>
+              >
+                完全健康
+              </div>
             </v-row>
           </div>
           <div style="float:right; position: absolute;right:100px">
-            <v-row style="position: relative;">
+            <v-row style="position: relative;" >
               <v-icon
                 style="color:#5b9bd5;font-size:5rem; position: absolute;left:250px; z-index:98; top:-45px;"
-              >mdi-menu-up</v-icon>
+                >mdi-menu-up</v-icon
+              >
 
               <div
                 style="background:#5b9bd5;padding:10px 10px;width:400px;border-radius: 15px;height:180px"
@@ -229,7 +275,7 @@
             </v-row>
           </div>
         </div>
-        <v-row justify="center" align="center"></v-row>
+        <v-row justify="center" align="center"> </v-row>
       </v-card-text>
 
       <!-- <v-card-text v-if="slide === 2">
@@ -258,24 +304,55 @@
         </v-row>
       </v-card-text>-->
       <v-divider></v-divider>
+      <!-- <v-card-actions>
+        <v-btn class="green" @click="start">Start</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn class="primary" @click="chooseAnswer('A')">A</v-btn>
+        <v-btn class="yellow darken-3" @click="chooseAnswer('AB')">A & B</v-btn>
+        <v-btn class="purple" @click="chooseAnswer('B')">B</v-btn>
+        <v-btn class="teal" v-if="step>0" @click="reset">
+          <v-icon>refresh</v-icon>
+        </v-btn>
+        <v-btn class="yellow" @click="showDetail=!showDetail">
+          <v-icon>mdi-details</v-icon>
+        </v-btn>
+        <v-spacer></v-spacer>
+      </v-card-actions>-->
     </v-card>
     <v-row>
       <v-dialog v-model="popupDialog" persistent max-width="600">
         <v-card class="pt-5 yellow lighten-4">
-          <v-card-text class="display-1">{{ popMsg }}</v-card-text>
-          <v-card-actions v-if="!popAB">
+          <v-card-text class="display-1" style="text-indent:2em;">
+            <span v-if="popA">
+              {{
+                eqLangLabels[$vuetify.lang.current].msg_response_41 +
+                  currentYear +
+                  eqLangLabels[$vuetify.lang.current].msg_response_42
+              }}
+            </span>
+            <span v-if="popA_to_B">{{
+              eqLangLabels[$vuetify.lang.current].popup_window
+            }}</span>
+            <span v-if="popAZero">{{
+              eqLangLabels[$vuetify.lang.current].msg_response_43
+            }}</span>
+            <span v-if="popBFull">{{
+              eqLangLabels[$vuetify.lang.current].msg_response_53
+            }}</span>
+            <span v-if="popB">
+              {{
+                eqLangLabels[$vuetify.lang.current].msg_response_51 +
+                  currentBYear +
+                  eqLangLabels[$vuetify.lang.current].msg_response_52
+              }}
+            </span>
+          </v-card-text>
+          <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-              color="light-green darken-3"
-              @click="closeDialog"
-              large
-            >{{ eqLangLabels[$vuetify.lang.current].btn_ok_exmple }}</v-btn>
+            <v-btn color="light-green darken-3" @click="closeDialog" large>{{
+              eqLangLabels[$vuetify.lang.current].btn_ok_exmple
+            }}</v-btn>
             <v-spacer></v-spacer>
-          </v-card-actions>
-          <v-card-actions v-else>
-            <v-spacer></v-spacer>
-            <v-btn color="light-green darken-3" @click="submitAnswer('Y')" large>是</v-btn>
-            <v-btn color="light-green darken-3" @click="submitAnswer('N')" large>否</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -291,7 +368,7 @@ export default {
   data: () => ({
     cStyle1: "",
     cStyle3: "",
-    showDetail: true,
+    showDetail: false,
     currentYear: 10,
     topYear: 10,
     step: 0,
@@ -313,97 +390,15 @@ export default {
     bAlertText: "",
     ttoAnswer: "",
     popupDialog: false,
-    // popA: false,
-    // popB: false,
-    // popA_to_B: false,
-    // popAZero: false,
-    // popBFull: false,
-    popAB: false,
-    popMsg: ""
+    popA: false,
+    popB: false,
+    popA_to_B: false,
+    popAZero: false,
+    popBFull: false
     // newBlock: ""
   }),
 
   methods: {
-    submitAnswer(value) {
-      if (value == "Y") {
-        var ttoValue = 0;
-        if (this.stepDirection % 2 == 0) {
-          ttoValue = this.currentYear * 0.1;
-        } else {
-          ttoValue = (this.currentYearB - 10) * 0.1;
-        }
-        var answerObj = {
-          questionid: this.examType.id,
-          participant: this.userInfo.participant,
-          interviewer: this.userInfo.interviewer,
-          item: this.block.name,
-          position_of_item: this.block.id,
-          tto_value: ttoValue,
-          used_time: this.itemUsedTime,
-          composite_switches: this.stepDirection,
-          resets: this.resets,
-          number_of_moves: this.step,
-          block: this.block.block,
-          version: this.qVersion
-        };
-        this.ttoAnswer = answerObj;
-
-        // console.log("本题用时：" + this.itemUsedTime);
-        this.itemStartTime = new Date();
-        this.itemEndTime = 0;
-        this.itemUsedTime = "00:00:00";
-        this.getUsedTime();
-        // this.reset();
-        // //通过改变父组件的值
-        this.updateItem();
-        this.popupDialog = false;
-      } else {
-        this.popupDialog = false;
-      }
-      this.popAB = false;
-    },
-    genPoppupMsg(type) {
-      if (this.stepDirection % 2 == 0) {
-        if (this.currentYear == 0) {
-          if (type == "A") {
-            this.popMsg = this.eqLangLabels[
-              this.$vuetify.lang.current
-            ].popup_window;
-          } else {
-            this.popMsg = this.eqLangLabels[
-              this.$vuetify.lang.current
-            ].msg_response_43;
-          }
-        } else {
-          if (type == "A" && this.currentYear == 0.5) {
-            this.popMsg = this.eqLangLabels[
-              this.$vuetify.lang.current
-            ].popup_window;
-          } else {
-            this.popMsg =
-              this.eqLangLabels[this.$vuetify.lang.current].msg_response_41 +
-              (10 - this.currentYear) +
-              this.eqLangLabels[this.$vuetify.lang.current].msg_response_42;
-          }
-        }
-      } else {
-        if (this.currentYearB == 0) {
-          this.popMsg = this.eqLangLabels[
-            this.$vuetify.lang.current
-          ].msg_response_53;
-        } else {
-          this.popMsg =
-            this.eqLangLabels[this.$vuetify.lang.current].msg_response_51 +
-            (20 - this.currentYearB) +
-            this.eqLangLabels[this.$vuetify.lang.current].msg_response_52;
-        }
-      }
-      if (type != "A" && type != "B") {
-        // console.log("hihihi .....")
-        this.popAB = true;
-      }
-      this.popupDialog = true;
-    },
     reset() {
       this.resets++;
       this.slide = 1;
@@ -456,23 +451,25 @@ export default {
     },
     chooseAnswer(type) {
       if (type === "A") {
+        // alert("A");
+        // this.popA = true;
+        // this.popupDialog = true;
         if (this.slide === 1) {
           if (this.step === 0) {
             this.currentYear = this.currentYear - 10;
           } else if (this.step === 1) {
-            this.genPoppupMsg(type);
-            // this.popA_to_B = true;
-            // this.popupDialog = true;
+            // alert(this.bAlertText);
+            this.popA_to_B = true;
+            this.popupDialog = true;
             this.slide = 2;
             this.stepDirection++;
           } else if (this.step === 2) {
             this.currentYear--;
           } else if (this.step >= 3) {
             if (this.stepDirection >= 1 && this.currentYear === 0.5) {
-              // this.popA_to_B = true;
-              // this.popupDialog = true;
-              this.genPoppupMsg(type);
-              // console.log("here......");
+              // alert(this.bAlertText);
+              this.popA_to_B = true;
+              this.popupDialog = true;
               this.slide = 2;
               this.stepDirection++;
             }
@@ -484,9 +481,9 @@ export default {
             ) {
               this.currentYear = this.currentYear - 0.5;
             } else if (this.currentYear === 0) {
-              // this.popA_to_B = true;
-              // this.popupDialog = true;
-              this.genPoppupMsg(type);
+              // alert(this.bAlertText);
+              this.popA_to_B = true;
+              this.popupDialog = true;
               this.slide = 2;
               this.stepDirection++;
             } else {
@@ -534,6 +531,9 @@ export default {
           }
         }
       } else if (type === "B") {
+        // alert("B");
+        // this.popB = true;
+        // this.popupDialog = true;
         if (this.slide === 1) {
           if (this.step === 0) {
             return;
@@ -587,28 +587,80 @@ export default {
                 this.currentYearB = this.currentYearB + 0.5;
               } else {
                 this.currentYearB++;
-                // console.log("here ...");
+                console.log("here ...");
               }
             }
           }
         }
       } else {
-        this.genPoppupMsg(type);
-        // this.popupDialog = true;
-      }
+        if (this.stepDirection % 2 == 0) {
+          if (this.currentYear == 0) {
+            alert(
+              this.eqLangLabels[this.$vuetify.lang.current].msg_response_43
+            );
+          } else {
+            alert(
+              this.eqLangLabels[this.$vuetify.lang.current].msg_response_41 +
+                (10 - this.currentYear) +
+                this.eqLangLabels[this.$vuetify.lang.current].msg_response_42
+            );
+          }
+        } else {
+          if (this.currentYearB == 0) {
+            alert(
+              this.eqLangLabels[this.$vuetify.lang.current].msg_response_53
+            );
+          } else {
+            alert(
+              this.eqLangLabels[this.$vuetify.lang.current].msg_response_51 +
+                (20 - this.currentYearB) +
+                this.eqLangLabels[this.$vuetify.lang.current].msg_response_52
+            );
+          }
+        }
 
-      // this.clearCanvas('canvas1')
-      if (type != "A" && type != "B") {
-        // console.log("type: "+type)
-        // console.log("hi--------")
-        return false;
+        var ttoValue = 0;
+        if (this.stepDirection % 2 == 0) {
+          ttoValue = this.currentYear * 0.1;
+        } else {
+          ttoValue = (this.currentYearB - 10) * 0.1;
+        }
+        var answerObj = {
+          questionid: this.examType.id,
+          participant: this.userInfo.participant,
+          interviewer: this.userInfo.interviewer,
+          item: this.block.name,
+          position_of_item: this.block.id,
+          tto_value: ttoValue,
+          used_time: this.itemUsedTime,
+          composite_switches: this.stepDirection,
+          resets: this.resets,
+          number_of_moves: this.step,
+          block: this.block.block,
+          version: this.qVersion
+        };
+        this.ttoAnswer = answerObj;
+
+        // console.log("本题用时：" + this.itemUsedTime);
+        this.itemStartTime = new Date();
+        this.itemEndTime = 0;
+        this.itemUsedTime = "00:00:00";
+        this.getUsedTime();
+        // this.reset();
+        //通过改变父组件的值
+        this.updateItem();
       }
       this.selected.push(type);
       this.step++;
       if (this.slide === 2) {
         this.stepB++;
       }
-      // console.log("AB not executed ...")
+
+      // this.clearCanvas('canvas1')
+      if (type != "A" && type != "B") {
+        // console.log("type: "+type)
+        return false;
+      }
       if (this.currentYear >= 0 && this.slide === 1) {
         this.$nextTick(() => {
           this.drawLine(
@@ -626,8 +678,7 @@ export default {
             this.currentYear
           );
 
-          // console.log(this.cStyle1);
-          // console.log("sytle -----------");
+          console.log(this.cStyle1);
 
           this.drawLine(
             "canvas2",
@@ -775,6 +826,7 @@ export default {
       if (width == paddingRight) {
         paddingRight = paddingRight - 30;
       }
+      console.log;
       return (
         "width: " + width + "px; " + "padding-right: " + paddingRight + "px;"
       );
@@ -825,6 +877,22 @@ export default {
       0
     );
     this.$refs.tenyear.style.width = this.$refs.table2.offsetWidth + "px";
+   // this.$refs.infotip.style.width = this.$refs.tip_w.offsetWidth + "px";
+    
+
+    //document.getElementById("tenyear").style.width="500px";
+
+    // console.log(this.$refs.table2.offsetWidth);
+    // console.log(this.$refs.table1.getBoundingClientRect());
+    // console.log("EqTto ....");
+
+    // console.log("-----------------------");
+    // var mystr = "apple";
+    // console.log(this.block);
+
+    // if (this.block.source_text) {
+    //   this.newBlock = this.block.source_text;
+    // }
   },
   computed: {
     allContent: function() {

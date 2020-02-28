@@ -3,19 +3,45 @@
     <v-tabs background-color="#036f90" center-active dark>
       <v-tab @click="type = 1" class="title">{{$vuetify.lang.t('$vuetify.tab.uploadQuestion')}}</v-tab>
       <v-tab @click="type = 2" class="title">{{$vuetify.lang.t('$vuetify.tab.manualInput')}}</v-tab>
-      <v-tab @click="type = 3; tableHeaders=[]; tabledata=[]; qtype=''" class="title">{{$vuetify.lang.t('$vuetify.tab.question')}}</v-tab>
-      <v-tab @click="type = 4; tableHeaders=[]; tabledata=[]; qtype=''" class="title">{{$vuetify.lang.t('$vuetify.tab.answer')}}</v-tab>
+      <v-tab
+        @click="type = 0; tablePHeaders=[]; tablePData=[]"
+        class="title"
+      >{{$vuetify.lang.t('$vuetify.tab.interviewer')}}</v-tab>
+      <v-tab
+        @click="type = 3; tableHeaders=[]; tableData=[]; qtype=''"
+        class="title"
+      >{{$vuetify.lang.t('$vuetify.tab.question')}}</v-tab>
+      <v-tab
+        @click="type = 4; tablePHeaders=[]; tablePData=[]; qtype=''"
+        class="title"
+      >{{$vuetify.lang.t('$vuetify.tab.answer')}}</v-tab>
       <v-tab @click="type = 5" class="title">{{$vuetify.lang.t('$vuetify.tab.versionSetting')}}</v-tab>
       <v-tab @click="type = 6" class="title">{{$vuetify.lang.t('$vuetify.tab.dataInit')}}</v-tab>
     </v-tabs>
     <div v-if="type==1" style="margin-top: 15%">
       <v-row justify="center">
-        <v-col cols="12" sm="6">
+        <v-col cols="12">
           <v-row class="px-10">
             <v-subheader>{{$vuetify.lang.t('$vuetify.tab.uploadQuestion')}}</v-subheader>
-            <v-file-input v-model="file" :label="$vuetify.lang.t('$vuetify.tab.selectFile')" :show-size="1000" outlined dense></v-file-input>
-            <v-btn color="#036f90" dark @click="uploadFile" class="ml-3">{{$vuetify.lang.t('$vuetify.tab.upload')}}</v-btn>
-            <v-btn color="#036f90" dark @click="downloadExampleFile" class="ml-3">{{$vuetify.lang.t('$vuetify.tab.downloadExampleQuestion')}}</v-btn>
+            <v-file-input
+              v-model="file"
+              :label="$vuetify.lang.t('$vuetify.tab.selectFile')"
+              :show-size="1000"
+              outlined
+              dense
+            ></v-file-input>
+            <v-btn
+              color="#036f90"
+              dark
+              @click="uploadFile"
+              class="ml-3"
+            >{{$vuetify.lang.t('$vuetify.tab.upload')}}</v-btn>
+            <v-btn
+              color="#036f90"
+              dark
+              @click="downloadExampleFile"
+              class="ml-3"
+            >{{$vuetify.lang.t('$vuetify.tab.downloadExampleQuestion')}}</v-btn>
           </v-row>
         </v-col>
       </v-row>
@@ -25,10 +51,10 @@
     </div>
 
     <div v-if="type==3">
-      <v-row>
-        <v-col cols="4" sm="3">
+      <v-row class="mx-1">
+        <v-col cols="12">
           <v-row>
-            <v-subheader>{{$vuetify.lang.t('$vuetify.tab.questionType')}}</v-subheader>
+            <!-- <v-subheader>{{$vuetify.lang.t('$vuetify.tab.questionType')}}</v-subheader> -->
             <v-select
               :items="questionTypes"
               v-model="qtype"
@@ -39,11 +65,8 @@
               dense
               @change="getQuestionVersion"
             ></v-select>
-          </v-row>
-        </v-col>
-        <v-col cols="6" sm="4">
-          <v-row>
-            <v-subheader>{{$vuetify.lang.t('$vuetify.tab.version')}}</v-subheader>
+
+            <!-- <v-subheader>{{$vuetify.lang.t('$vuetify.tab.version')}}</v-subheader> -->
             <v-select
               :items="questionVersions"
               v-model="qversion"
@@ -53,15 +76,33 @@
               outlined
               dense
             ></v-select>
-            <v-btn color="#036f90" dark @click="getQuestion" class="ml-3">{{$vuetify.lang.t('$vuetify.tab.query')}}</v-btn>
-            <v-btn color="error" dark @click="deleteDialog = true" class="ml-3">{{$vuetify.lang.t('$vuetify.tab.deleteQuestion')}}</v-btn>
+            <v-btn
+              color="#036f90"
+              dark
+              @click="getQuestion"
+              class="ml-3"
+            >{{$vuetify.lang.t('$vuetify.tab.query')}}</v-btn>
+            <v-btn
+              color="error"
+              dark
+              @click="deleteDialog = true"
+              class="ml-3"
+            >{{$vuetify.lang.t('$vuetify.tab.deleteQuestion')}}</v-btn>
             <v-dialog v-model="deleteDialog" max-width="500">
               <v-card justify="center" align="center">
                 <v-card-text class="pt-8 title">你确定删除吗</v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="green darken-1" text @click="deleteDialog = false">{{$vuetify.lang.t('$vuetify.button.cancel')}}</v-btn>
-                  <v-btn color="green darken-1" text @click="deleteQuestion">{{$vuetify.lang.t('$vuetify.button.confirm')}}</v-btn>
+                  <v-btn
+                    color="green darken-1"
+                    text
+                    @click="deleteDialog = false"
+                  >{{$vuetify.lang.t('$vuetify.button.cancel')}}</v-btn>
+                  <v-btn
+                    color="green darken-1"
+                    text
+                    @click="deleteQuestion"
+                  >{{$vuetify.lang.t('$vuetify.button.confirm')}}</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -81,10 +122,9 @@
     </div>
 
     <div v-if="type==4">
-      <v-row>
-        <v-col cols="12" sm="6">
+      <v-row class="mx-1">
+        <v-col cols="12">
           <v-row>
-            <v-subheader>{{$vuetify.lang.t('$vuetify.tab.version')}}</v-subheader>
             <v-select
               :items="answerVersions"
               v-model="aversion"
@@ -94,7 +134,29 @@
               outlined
               dense
             ></v-select>
-            <v-btn class="ml-3" color="#036f90" dark @click="getParticipant">{{$vuetify.lang.t('$vuetify.tab.query')}}</v-btn>
+            <v-btn
+              class="ml-3"
+              color="#036f90"
+              dark
+              @click="getParticipant"
+            >{{$vuetify.lang.t('$vuetify.tab.query')}}</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn class="ml-3" color="#036f90" dark @click="downloadAnswer('all',1)">
+              DCE
+              <v-icon small dark>file_download</v-icon>
+            </v-btn>
+            <v-btn class="ml-3" color="#036f90" dark @click="downloadAnswer('all',2)">
+              TTO
+              <v-icon small dark>file_download</v-icon>
+            </v-btn>
+            <v-btn class="ml-3" color="#036f90" dark @click="downloadAnswer('all',3)">
+              TTOFeedback
+              <v-icon small dark>file_download</v-icon>
+            </v-btn>
+            <v-btn class="ml-3" color="#036f90" dark @click="downloadAnswer('all',4)">
+              Opened
+              <v-icon small dark>file_download</v-icon>
+            </v-btn>
           </v-row>
         </v-col>
       </v-row>
@@ -207,28 +269,14 @@
         </v-dialog>
       </v-row>
     </div>
-    <div v-if="type==0">
+    <div v-if="type==5">
       <v-row justify="center" align="center" style="height: 500px;">
-        <v-col cols="4">
-          <v-row>
-            <v-subheader>设置题库版本</v-subheader>
-            <v-select
-              :items="questionTypes"
-              v-model="qtype"
-              item-value="id"
-              item-text="name"
-              label="选择版本"
-              outlined
-              dense
-            ></v-select>
-            <v-btn class="primary" large>设置</v-btn>
-          </v-row>
-        </v-col>
+        <v-col cols="4">为开放此模块</v-col>
       </v-row>
     </div>
     <div v-if="type == 6">
       <v-row justify="center" class="mt-12">
-        <v-col cols="12" sm="4">
+        <v-col cols="12" sm="6">
           <v-text-field
             v-model="adminpwd"
             :label="$vuetify.lang.t('$vuetify.tab.inputAdminPass')"
@@ -255,9 +303,15 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
 
-                    <v-btn color="green darken-1"  @click="initdbDialog = false">{{$vuetify.lang.t('$vuetify.button.cancel')}}</v-btn>
+                    <v-btn
+                      color="green darken-1"
+                      @click="initdbDialog = false"
+                    >{{$vuetify.lang.t('$vuetify.button.cancel')}}</v-btn>
 
-                    <v-btn color="green darken-1"  @click="initdb">{{$vuetify.lang.t('$vuetify.button.confirm')}}</v-btn>
+                    <v-btn
+                      color="green darken-1"
+                      @click="initdb"
+                    >{{$vuetify.lang.t('$vuetify.button.confirm')}}</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -266,7 +320,40 @@
         </v-col>
       </v-row>
     </div>
-    <v-snackbar v-model="snackbar" :color="isSuccess?primary:'#EF5350'" :timeout="2000">{{msg}}</v-snackbar>
+    <div v-if="type==0">
+      <v-row class="ml-1">
+        <v-col cols="12" sm="6">
+          <v-row>
+            <!-- <v-select
+              :items="answerVersions"
+              v-model="aversion"
+              item-value="version"
+              item-text="version"
+              :label="$vuetify.lang.t('$vuetify.tab.version')"
+              outlined
+              dense
+            ></v-select>-->
+            <v-btn
+              class="ml-3"
+              color="#036f90"
+              dark
+              @click="getInterviewer"
+            >{{$vuetify.lang.t('$vuetify.tab.query')}}</v-btn>
+          </v-row>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <v-data-table
+            :headers="tablePHeaders"
+            :items="tablePData"
+            :items-per-page="10"
+            class="elevation-1"
+          ></v-data-table>
+        </v-col>
+      </v-row>
+    </div>
+    <v-snackbar v-model="snackbar" :color="isSuccess?'primary':'#EF5350'" :timeout="3000">{{msg}}</v-snackbar>
   </v-container>
 </template>
 
@@ -319,17 +406,20 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.msg = "文件上传成功！";
           this.snackbar = true;
-
-          //   setTimeout(() => {
-          //       this.snackbar = false;
-          //   }, 2000);
+          if (res.status == 200) {
+            setTimeout(() => {
+              this.file = [];
+            }, 2000);
+          }
         })
         .catch(err => {
           console.log(err);
-          console.log("failed");
+          this.msg = "文件上传失败，请重新上传！";
+          this.snackbar = true;
+          // console.log("failed");
         });
     },
     getQuestion() {
@@ -379,8 +469,10 @@ export default {
         });
     },
     async getAnswer(type, version, participant) {
+      this.tableAData = [];
+      this.tableAHeaders = [];
       var url;
-      console.log(type);
+      // console.log(type);
       switch (type) {
         case 1:
           url = "/api/answer/dce";
@@ -418,9 +510,11 @@ export default {
           //   console.log(objHeader)
           this.tableAHeaders = objHeader;
           this.tableAData = objData;
-          console.log("I am getAnswer function.");
+          // console.log("I am getAnswer function.");
         })
         .catch(err => {
+          this.tableAData = [];
+          this.tableAHeaders = [];
           console.log(err);
         });
       // console.log(this.qtype);
@@ -495,6 +589,33 @@ export default {
           console.log(err);
         });
     },
+    getInterviewer() {
+      this.tablePHeaders = [];
+      this.tablePData = [];
+      let url = "/api/interviewer";
+      this.$axios
+        .get(url)
+        .then(res => {
+          // console.log(res.data);
+          var objData = res.data;
+
+          var objHeader = [];
+          var objKey = Object.keys(objData[0]);
+
+          for (let i = 0; i < objKey.length; i++) {
+            objHeader.push({
+              text: objKey[i],
+              value: objKey[i]
+            });
+          }
+          //   console.log(objHeader)
+          this.tablePHeaders = objHeader;
+          this.tablePData = objData;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     async downloadAnswer(pid, qid) {
       if (this.aversion == "") {
         alert("请选择版本号！");
@@ -503,7 +624,7 @@ export default {
 
       await this.getAnswer(qid, this.aversion, pid);
 
-      console.log("I am downloadAnswer");
+      // console.log("I am downloadAnswer");
       var filename;
       var questionName;
       var answerTime;
@@ -525,6 +646,10 @@ export default {
           questionName = "unkonwn";
       }
 
+      if (this.tableAData.length < 1) {
+        alert(questionName + "题型还没有人答题！");
+        return;
+      }
       answerTime = this.tableAData[0].created_timestamp;
 
       let syear = new Date(answerTime).getFullYear();
@@ -545,18 +670,30 @@ export default {
         shour = "0" + shour.toString();
       }
 
-      filename =
-        questionName +
-        "_" +
-        this.aversion +
-        "_" +
-        pid +
-        "_" +
-        syear.toString() +
-        smonth.toString() +
-        sdate.toString() +
-        shour.toString();
-      console.log(filename);
+      if (pid) {
+        filename =
+          questionName +
+          "_" +
+          this.aversion +
+          "_" +
+          pid +
+          "_" +
+          syear.toString() +
+          smonth.toString() +
+          sdate.toString() +
+          shour.toString();
+      } else {
+        filename =
+          questionName +
+          "_" +
+          this.aversion +
+          "_" +
+          syear.toString() +
+          smonth.toString() +
+          sdate.toString();
+      }
+      // console.log(filename);
+
       var exportData = XLSX.utils.json_to_sheet(this.tableAData);
       var wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, exportData, questionName + " Answer");
@@ -569,7 +706,7 @@ export default {
       }
 
       this.dialog = true;
-      console.log({ participant: pid, questionid: qid });
+      // console.log({ participant: pid, questionid: qid });
       this.getAnswer(qid, this.aversion, pid);
     },
     initdb() {
@@ -580,16 +717,24 @@ export default {
           adminpwd: this.adminpwd
         })
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           this.isSuccess = true;
           this.msg = "数据初始化成功！";
           this.snackbar = true;
+          this.initdbDialog = false;
+          this.adminpwd = "";
         })
         .catch(err => {
           this.isSuccess = false;
-          this.msg = "管理员密码不正确！";
+          if (err.response) {
+            this.msg = "管理员密码不正确！";
+          } else {
+            this.msg = "内部错误！";
+          }
+
           this.snackbar = true;
-          console.log(err);
+          this.initdbDialog = false;
+          this.adminpwd = "";
         });
     },
     deleteQuestion() {
@@ -613,7 +758,7 @@ export default {
           version: this.qversion
         })
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           this.isSuccess = true;
           this.msg = "删除成功！";
           this.snackbar = true;
@@ -642,7 +787,7 @@ export default {
       this.$axios
         .get(url, { responseType: "blob" })
         .then(res => {
-          console.log(res.headers["Content-Disposition"]);
+          // console.log(res.headers["Content-Disposition"]);
           const url = window.URL.createObjectURL(new Blob([res.data]));
           const link = document.createElement("a");
           link.href = url;
@@ -653,6 +798,8 @@ export default {
         })
         .catch(err => {
           console.log(err);
+          this.msg = "文件下载失败，请重试或联系管理员！";
+          this.snackbar = true;
         });
     }
   },

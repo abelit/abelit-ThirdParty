@@ -94,7 +94,8 @@ export default {
         deleteQuestion: 'Delete Question',
         version: 'Version',
         init: 'Init',
-        inputAdminPass: 'input admin password'
+        inputAdminPass: 'input admin password',
+        interviewer: "Interviewers"
     }
 
 }
