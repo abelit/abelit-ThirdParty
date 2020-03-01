@@ -26,11 +26,7 @@
                     v-for="item in 4 * topYear"
                     :key="item"
                     style="text-align: center; width: 24px"
-                    :class="
-                      parseInt((item - 1) / 4) % 2 == 1
-                        ? 'green lighten-3'
-                        : 'green darken-1'
-                    "
+                    :class="((item<=itemIndex[itemIndex.length-1]-1) || itemIndex.length == 0)?(parseInt((item - 1) / 4) % 2 == 1 ? 'green lighten-3' : 'green darken-1'):''"
                   ></td>
                 </tr>
               </table>
@@ -135,6 +131,16 @@
           </v-col>
         </v-row>
       </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" @click="reSelect">
+          <v-icon large>refresh</v-icon>
+        </v-btn>
+        <v-btn color="primary">
+          <v-icon large>mdi-arrow-right-circle-outline</v-icon>
+        </v-btn>
+        <v-spacer></v-spacer>
+      </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -147,15 +153,31 @@ export default {
     uLarge: false,
     eLarge: false,
     dLarge: false,
-    itemList: []
+    itemList: [],
+    itemIndex: []
   }),
   methods: {
     selectItem(k, v) {
-      this.itemList.push({
-        index: k,
-        type: v
-      });
+      if (
+        !(
+          (this.itemIndex.length == 0 && k == this.topYear * 4 + 1) ||
+          (this.itemIndex.length > 0 &&
+            k == this.itemIndex[this.itemIndex.length - 1] - 4)
+        )
+      ) {
+        alert("请从右至左依次按顺序回答！");
+        return;
+      }
+      // 当选项已经选择，单击选项不会再次记录答案
+      if (this.isSelected(k, v) == -1) {
+        this.itemList.push({
+          index: k,
+          type: v
+        });
+        this.itemIndex.push(k);
+      }
       console.log(this.itemList);
+      console.log(this.isSelected(k, v));
     },
     mouseOver(item) {
       // if (item % 4 == 1) {
@@ -178,9 +200,19 @@ export default {
       //   }
       // }
       this.isMouseOverItem = -1;
+    },
+    reSelect() {
+      this.topYear = 10;
+      this.isMouseOverItem = -1;
+      this.uLarge = false;
+      this.eLarge = false;
+      this.dLarge = false;
+      this.itemList = [];
+      this.itemIndex = [];
     }
   },
   computed: {
+    // 判断选项是否选择，选项已选择且为当前答案，返回记录1；选项已选择且非当前单击答案，返回0；选择未选择返回-1.
     isSelected: function() {
       return function(item, type) {
         for (var i = 0; i < this.itemList.length; i++) {
