@@ -33,7 +33,7 @@ export default new Router({
     },
     {
       path: "/eq/nstptto",
-      name: "tto",
+      name: "nstptto",
       component: () => import("@/views/question/EqNonStpTto.vue")
     },
     {
