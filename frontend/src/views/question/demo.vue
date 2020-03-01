@@ -26,11 +26,7 @@
                     v-for="item in 4 * topYear"
                     :key="item"
                     style="text-align: center; width: 24px"
-                    :class="
-                      parseInt((item - 1) / 4) % 2 == 1
-                        ? 'green lighten-3'
-                        : 'green darken-1'
-                    "
+                    :class="((item<=itemIndex[itemIndex.length-1]-1) || itemIndex.length == 0)?(parseInt((item - 1) / 4) % 2 == 1 ? 'green lighten-3' : 'green darken-1'):''"
                   ></td>
                 </tr>
               </table>
@@ -67,53 +63,38 @@
                     @mouseleave="mouseLeave(item)"
                   >
                     <v-icon
-                      v-if="(item % 4 == 1)?(isSelected(item,'A')):false"
+                      v-if="(item % 4 == 1)"
                       @click="selectItem(item,'A')"
                       class="py-5"
-                      :color="
-                        uLarge && item == isMouseOverItem
-                          ? 'blue darken-4'
-                          : item == isMouseOverItem
-                          ? 'blue'
-                          : 'grey lighten-1'
-                      "
+                      :color="uLarge && item == isMouseOverItem? 'blue darken-4':(isSelected(item,'A')==1?'green':(item == isMouseOverItem? 'blue': 'grey lighten-1'))"
                       ref="upIcon"
                       @mouseover="uLarge = true"
                       @mouseleave="uLarge = false"
                       :large="item == isMouseOverItem && uLarge ? true : false"
-                    >mdi-arrow-up-bold</v-icon>
+                      :disabled="!(isSelected(item,'A')!= 0)"
+                    >{{ isSelected(item,'A')!= 0?'mdi-arrow-up-bold':'t'}}</v-icon>
                     <v-icon
-                      v-if="(item % 4 == 1)?(isSelected(item,'AB')):false"
+                      v-if="(item % 4 == 1)"
                       @click="selectItem(item,'AB')"
                       ref="eqIcon"
                       class="py-5"
-                      :color="
-                        eLarge && item == isMouseOverItem
-                          ? 'blue darken-4'
-                          : item == isMouseOverItem
-                          ? 'blue'
-                          : 'grey lighten-1'
-                      "
+                      :color="eLarge && item == isMouseOverItem ? 'blue darken-4' : (isSelected(item,'AB')==1?'green':(item == isMouseOverItem? 'blue' : 'grey lighten-1'))"
+                      :disabled="!(isSelected(item,'AB')!= 0)"
                       @mouseover="eLarge = true"
                       @mouseleave="eLarge = false"
                       :large="item == isMouseOverItem && eLarge ? true : false"
-                    >mdi-view-stream</v-icon>
+                    >{{ isSelected(item,'AB')!= 0?'mdi-view-stream':'t'}}</v-icon>
                     <v-icon
-                      v-if="(item % 4 == 1)?(isSelected(item,'B')):false"
+                      v-if="(item % 4 == 1)"
                       @click="selectItem(item,'B')"
                       class="py-5"
                       ref="dwIcon"
-                      :color="
-                        dLarge && item == isMouseOverItem
-                          ? 'blue darken-4'
-                          : item == isMouseOverItem
-                          ? 'blue'
-                          : 'grey lighten-1'
-                      "
+                      :color="dLarge && item == isMouseOverItem? 'blue darken-4':(isSelected(item,'B')==1?'green':(item == isMouseOverItem? 'blue': 'grey lighten-1'))"
+                      :disabled="!(isSelected(item,'B')!= 0)"
                       @mouseover="dLarge = true"
                       @mouseleave="dLarge = false"
                       :large="item == isMouseOverItem && dLarge ? true : false"
-                    >mdi-arrow-down-bold</v-icon>
+                    >{{ isSelected(item,'B') != 0 ?'mdi-arrow-down-bold':'t'}}</v-icon>
                   </td>
                 </tr>
               </table>
@@ -150,6 +131,16 @@
           </v-col>
         </v-row>
       </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" @click="reSelect">
+          <v-icon large>refresh</v-icon>
+        </v-btn>
+        <v-btn color="primary">
+          <v-icon large>mdi-arrow-right-circle-outline</v-icon>
+        </v-btn>
+        <v-spacer></v-spacer>
+      </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -162,15 +153,31 @@ export default {
     uLarge: false,
     eLarge: false,
     dLarge: false,
-    itemList: []
+    itemList: [],
+    itemIndex: []
   }),
   methods: {
     selectItem(k, v) {
-      this.itemList.push({
-        index: k,
-        type: v
-      });
+      if (
+        !(
+          (this.itemIndex.length == 0 && k == this.topYear * 4 + 1) ||
+          (this.itemIndex.length > 0 &&
+            k == this.itemIndex[this.itemIndex.length - 1] - 4)
+        )
+      ) {
+        alert("请从右至左依次按顺序回答！");
+        return;
+      }
+      // 当选项已经选择，单击选项不会再次记录答案
+      if (this.isSelected(k, v) == -1) {
+        this.itemList.push({
+          index: k,
+          type: v
+        });
+        this.itemIndex.push(k);
+      }
       console.log(this.itemList);
+      console.log(this.isSelected(k, v));
     },
     mouseOver(item) {
       // if (item % 4 == 1) {
@@ -193,17 +200,30 @@ export default {
       //   }
       // }
       this.isMouseOverItem = -1;
+    },
+    reSelect() {
+      this.topYear = 10;
+      this.isMouseOverItem = -1;
+      this.uLarge = false;
+      this.eLarge = false;
+      this.dLarge = false;
+      this.itemList = [];
+      this.itemIndex = [];
     }
   },
   computed: {
+    // 判断选项是否选择，选项已选择且为当前答案，返回记录1；选项已选择且非当前单击答案，返回0；选择未选择返回-1.
     isSelected: function() {
       return function(item, type) {
         for (var i = 0; i < this.itemList.length; i++) {
           if (this.itemList[i].index == item && this.itemList[i].type != type) {
-            return false;
+            return 0;
+          }
+          if (this.itemList[i].index == item && this.itemList[i].type == type) {
+            return 1;
           }
         }
-        return true;
+        return -1;
       };
     }
   }

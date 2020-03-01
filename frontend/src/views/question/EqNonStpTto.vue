@@ -1,5 +1,5 @@
 <template>
-  <div class="grey lighten-5" style="width:1440px; margin:auto">
+  <div class="grey lighten-5" style="width:1600px; margin:auto">
     <v-card justify="center" align="start">
       <v-card-title v-show="true">
         <v-row>
@@ -25,8 +25,8 @@
                   <td
                     v-for="item in 4 * topYear"
                     :key="item"
-                    style="text-align: center; width: 24px"
-                    :class="((item<=itemIndex[itemIndex.length-1]-1) || itemIndex.length == 0)?(parseInt((item - 1) / 4) % 2 == 1 ? 'green lighten-3' : 'green darken-1'):''"
+                    style="text-align: center; width: 16px"
+                    :class="((item<=itemIndex[itemIndex.length-1]-1) || itemIndex.length == 0)?(item<topYear*4/2+1?(parseInt((item - 1) / 4) % 2 == 1 ? 'green lighten-3' : 'green darken-1'):''):''"
                   ></td>
                 </tr>
               </table>
@@ -58,12 +58,12 @@
                     v-for="item in 4 * topYear + 1"
                     :key="item"
                     ref="iconList"
-                    style="text-align: center; width: 24px;"
+                    style="text-align: center; width: 16px;"
                     @mouseover="mouseOver(item)"
                     @mouseleave="mouseLeave(item)"
                   >
                     <v-icon
-                      v-if="(item % 4 == 1)"
+                      v-if="(item % 4 == 1 && item<=topYear*4/2+1)"
                       @click="selectItem(item,'A')"
                       class="py-5"
                       :color="uLarge && item == isMouseOverItem? 'blue darken-4':(isSelected(item,'A')==1?'green':(item == isMouseOverItem? 'blue': 'grey lighten-1'))"
@@ -72,9 +72,10 @@
                       @mouseleave="uLarge = false"
                       :large="item == isMouseOverItem && uLarge ? true : false"
                       :disabled="!(isSelected(item,'A')!= 0)"
+                      :small="true"
                     >{{ isSelected(item,'A')!= 0?'mdi-arrow-up-bold':'t'}}</v-icon>
                     <v-icon
-                      v-if="(item % 4 == 1)"
+                      v-if="(item % 4 == 1 && item<=topYear*4/2+1)"
                       @click="selectItem(item,'AB')"
                       ref="eqIcon"
                       class="py-5"
@@ -83,9 +84,10 @@
                       @mouseover="eLarge = true"
                       @mouseleave="eLarge = false"
                       :large="item == isMouseOverItem && eLarge ? true : false"
+                      :small="true"
                     >{{ isSelected(item,'AB')!= 0?'mdi-view-stream':'t'}}</v-icon>
                     <v-icon
-                      v-if="(item % 4 == 1)"
+                      v-if="(item % 4 == 1 && item<=topYear*4/2+1)"
                       @click="selectItem(item,'B')"
                       class="py-5"
                       ref="dwIcon"
@@ -94,6 +96,7 @@
                       @mouseover="dLarge = true"
                       @mouseleave="dLarge = false"
                       :large="item == isMouseOverItem && dLarge ? true : false"
+                      :small="true"
                     >{{ isSelected(item,'B') != 0 ?'mdi-arrow-down-bold':'t'}}</v-icon>
                   </td>
                 </tr>
@@ -118,12 +121,8 @@
                   <td
                     v-for="item in 4 * topYear"
                     :key="item"
-                    style="text-align: center; width: 24px"
-                    :class="
-                      parseInt((item - 1) / 4) % 2 == 1
-                        ? 'blue lighten-3'
-                        : 'blue darken-1'
-                    "
+                    style="text-align: center; width: 16px"
+                    :class="item<topYear*4/2+1?(parseInt((item - 1) / 4) % 2 == 1 ? 'blue lighten-3' : 'blue darken-1'):(parseInt((item - 1) / 4) % 2 == 1 ? 'green lighten-3' : 'green darken-1')"
                   ></td>
                 </tr>
               </table>
@@ -148,7 +147,7 @@
 <script>
 export default {
   data: () => ({
-    topYear: 10,
+    topYear: 20,
     isMouseOverItem: -1,
     uLarge: false,
     eLarge: false,
@@ -202,7 +201,7 @@ export default {
       this.isMouseOverItem = -1;
     },
     reSelect() {
-      this.topYear = 10;
+      this.topYear = 20;
       this.isMouseOverItem = -1;
       this.uLarge = false;
       this.eLarge = false;
