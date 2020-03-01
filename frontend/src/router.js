@@ -34,7 +34,7 @@ export default new Router({
     {
       path: "/eq/nstptto",
       name: "nstptto",
-      component: () => import("@/views/question/EqNonStpTto.vue")
+      component: () => import("@/views/question/EqNstpTto.vue")
     },
     {
       path: "/eq/ttofeedback",

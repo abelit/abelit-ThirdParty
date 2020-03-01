@@ -37,7 +37,7 @@ export default {
   methods: {
     saveExamType(value) {
       console.log(value);
-      this.getLabel(value.id);
+      this.getLabel(value.type);
       this.$store.dispatch("setExamType", value).then(() => {
         // 跳转到指定页面
         this.$router.push({ path: "/eq" });

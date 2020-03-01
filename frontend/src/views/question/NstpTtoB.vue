@@ -205,6 +205,7 @@ export default {
       this.dLarge = false;
       this.itemList = [];
       this.itemIndex = [];
+      this.$store.dispatch("setNstpPage", 1);
     }
   },
   computed: {

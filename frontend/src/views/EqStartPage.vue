@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     startExam() {
-      this.getQuestionBlock(this.examType.id, this.qVersion);
+      this.getQuestionBlock(this.examType.type, this.qVersion);
       this.$store.dispatch("setQuestionVersion", this.qVersion);
       this.$store.dispatch("setExamStart", true).then(() => {
         this.$router.push({ path: "/eq/user" });

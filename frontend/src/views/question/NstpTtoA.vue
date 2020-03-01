@@ -178,6 +178,18 @@ export default {
       }
       console.log(this.itemList);
       console.log(this.isSelected(k, v));
+
+      // 判断A页面是否回答完成，如果最后一次回答且本次与前面所有都选择A，选择答案后跳转到B页面继续回答持续的11道问题
+      var aCount = 0;
+      for (var i = 0; i < this.itemList.length; i++) {
+        if (this.itemList[i].type == "A") {
+          aCount++;
+        }
+      }
+
+      if (aCount == 11 && this.itemList.length == 11) {
+        this.$store.dispatch("setNstpPage", 2);
+      }
     },
     mouseOver(item) {
       // if (item % 4 == 1) {
@@ -209,6 +221,7 @@ export default {
       this.dLarge = false;
       this.itemList = [];
       this.itemIndex = [];
+      this.$store.dispatch("setNstpPage", 1);
     }
   },
   computed: {
