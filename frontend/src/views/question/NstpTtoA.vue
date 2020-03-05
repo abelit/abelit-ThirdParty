@@ -72,7 +72,7 @@
                       @mouseleave="uLarge = false"
                       :large="item == isMouseOverItem && uLarge ? true : false"
                       :disabled="!(isSelected(item,'A')!= 0)"
-                    >{{ isSelected(item,'A')!= 0?'mdi-arrow-up-bold':'t'}}</v-icon>
+                    >{{ isSelected(item,'A')!= 0?(isSelected(item,'A') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1))?'t':'mdi-arrow-up-bold'):'t'}}</v-icon>
                     <v-icon
                       v-if="(item % 4 == 1)"
                       @click="selectItem(item,'AB')"
@@ -83,7 +83,7 @@
                       @mouseover="eLarge = true"
                       @mouseleave="eLarge = false"
                       :large="item == isMouseOverItem && eLarge ? true : false"
-                    >{{ isSelected(item,'AB')!= 0?'mdi-view-stream':'t'}}</v-icon>
+                    >{{ isSelected(item,'AB')!= 0?(isSelected(item,'AB') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1))?'t':'mdi-view-stream'):'t'}}</v-icon>
                     <v-icon
                       v-if="(item % 4 == 1)"
                       @click="selectItem(item,'B')"
@@ -94,7 +94,7 @@
                       @mouseover="dLarge = true"
                       @mouseleave="dLarge = false"
                       :large="item == isMouseOverItem && dLarge ? true : false"
-                    >{{ isSelected(item,'B') != 0 ?'mdi-arrow-down-bold':'t'}}</v-icon>
+                    >{{ isSelected(item,'B') != 0 ?(isSelected(item,'B') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1))?'t':'mdi-arrow-down-bold'):'t'}}</v-icon>
                   </td>
                 </tr>
               </table>
@@ -177,6 +177,7 @@ export default {
         this.itemIndex.push(k);
       }
       console.log(this.itemList);
+      console.log(this.itemIndex);
       console.log(this.isSelected(k, v));
 
       // 判断A页面是否回答完成，如果最后一次回答且本次与前面所有都选择A，选择答案后跳转到B页面继续回答持续的11道问题
