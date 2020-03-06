@@ -26,7 +26,7 @@
                     v-for="item in 8 * topYear"
                     :key="item"
                     style="text-align: center; width: 16px"
-                    :class="((item<=itemIndex[itemIndex.length-1]-1) || itemIndex.length == 0)?(item<topYear*8/2+1?(parseInt((item - 1) / 4) % 2 == 1 ? 'green lighten-3' : 'green darken-1'):''):''"
+                    :class="((item<=itemIndex[itemIndex.length-1]-5) || itemIndex.length == 0)?(item<topYear*8/2+1?(parseInt((item - 1) / 4) % 2 == 1 ? 'green lighten-3' : 'green darken-1'):''):''"
                   ></td>
                 </tr>
               </table>
@@ -72,7 +72,7 @@
                       @mouseleave="uLarge = false"
                       :disabled="!(isSelected(item,'A')!= 0)"
                       :small="item == isMouseOverItem && uLarge ? false : true"
-                    >{{ isSelected(item,'A')!= 0?'mdi-arrow-up-bold':'t'}}</v-icon>
+                    >{{ isSelected(item,'A')!= 0?(isSelected(item,'A') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1))?'t':'mdi-arrow-up-bold'):'t'}}</v-icon>
                     <v-icon
                       v-if="(item % 4 == 1 && item<=topYear*4+1)"
                       @click="selectItem(item,'AB')"
@@ -83,7 +83,7 @@
                       @mouseover="eLarge = true"
                       @mouseleave="eLarge = false"
                       :small="item == isMouseOverItem && eLarge ? false : true"
-                    >{{ isSelected(item,'AB')!= 0?'mdi-view-stream':'t'}}</v-icon>
+                    >{{ isSelected(item,'AB')!= 0?(isSelected(item,'AB') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1))?'t':'mdi-view-stream'):'t'}}</v-icon>
                     <v-icon
                       v-if="(item % 4 == 1 && item<=topYear*4+1)"
                       @click="selectItem(item,'B')"
@@ -94,7 +94,7 @@
                       @mouseover="dLarge = true"
                       @mouseleave="dLarge = false"
                       :small="item == isMouseOverItem && dLarge ? false : true"
-                    >{{ isSelected(item,'B') != 0 ?'mdi-arrow-down-bold':'t'}}</v-icon>
+                    >{{ isSelected(item,'B') != 0 ?(isSelected(item,'B') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1))?'t':'mdi-arrow-down-bold'):'t'}}</v-icon>
                   </td>
                 </tr>
               </table>

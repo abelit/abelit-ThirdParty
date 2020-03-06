@@ -63,7 +63,7 @@
                     @mouseleave="mouseLeave(item)"
                   >
                     <v-icon
-                      v-if="(item % 4 == 1)"
+                      v-if="(item % 4 == 1 || (item == 4*topYear-1 && isAppend))"
                       @click="selectItem(item,'A')"
                       class="py-5"
                       :color="uLarge && item == isMouseOverItem? 'blue darken-4':(isSelected(item,'A')==1?'green':(item == isMouseOverItem? 'blue': 'grey lighten-1'))"
@@ -72,9 +72,9 @@
                       @mouseleave="uLarge = false"
                       :large="item == isMouseOverItem && uLarge ? true : false"
                       :disabled="!(isSelected(item,'A')!= 0)"
-                    >{{ isSelected(item,'A')!= 0?(isSelected(item,'A') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1))?'t':'mdi-arrow-up-bold'):'t'}}</v-icon>
+                    >{{ isSelected(item,'A') != 0 ?(isSelected(item,'A') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1)) && !(item == 4*topYear-1 && isAppend)?'t':'mdi-arrow-up-bold'):'t'}}</v-icon>
                     <v-icon
-                      v-if="(item % 4 == 1)"
+                      v-if="(item % 4 == 1) || (item == 4*topYear-1 && isAppend)"
                       @click="selectItem(item,'AB')"
                       ref="eqIcon"
                       class="py-5"
@@ -83,9 +83,9 @@
                       @mouseover="eLarge = true"
                       @mouseleave="eLarge = false"
                       :large="item == isMouseOverItem && eLarge ? true : false"
-                    >{{ isSelected(item,'AB')!= 0?(isSelected(item,'AB') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1))?'t':'mdi-view-stream'):'t'}}</v-icon>
+                    >{{ isSelected(item,'AB')!= 0?(isSelected(item,'AB') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1)) && !(item == 4*topYear-1 && isAppend)?'t':'mdi-view-stream'):'t'}}</v-icon>
                     <v-icon
-                      v-if="(item % 4 == 1)"
+                      v-if="(item % 4 == 1) || (item == 4*topYear-1 && isAppend)"
                       @click="selectItem(item,'B')"
                       class="py-5"
                       ref="dwIcon"
@@ -94,7 +94,7 @@
                       @mouseover="dLarge = true"
                       @mouseleave="dLarge = false"
                       :large="item == isMouseOverItem && dLarge ? true : false"
-                    >{{ isSelected(item,'B') != 0 ?(isSelected(item,'B') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1))?'t':'mdi-arrow-down-bold'):'t'}}</v-icon>
+                    >{{ isSelected(item,'B') != 0 ?(isSelected(item,'B') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1)) && !(item == 4*topYear-1 && isAppend)?'t':'mdi-arrow-down-bold'):'t'}}</v-icon>
                   </td>
                 </tr>
               </table>
@@ -150,6 +150,7 @@ export default {
   data: () => ({
     topYear: 10,
     isMouseOverItem: -1,
+    isAppend: false,
     uLarge: false,
     eLarge: false,
     dLarge: false,
@@ -163,7 +164,7 @@ export default {
           (this.itemIndex.length == 0 && k == this.topYear * 4 + 1) ||
           (this.itemIndex.length > 0 &&
             k == this.itemIndex[this.itemIndex.length - 1] - 4)
-        )
+        ) && !(k == 4*this.topYear-1 && this.isAppend)
       ) {
         alert("请从右至左依次按顺序回答！");
         return;
@@ -177,8 +178,8 @@ export default {
         this.itemIndex.push(k);
       }
       console.log(this.itemList);
-      console.log(this.itemIndex);
-      console.log(this.isSelected(k, v));
+      // console.log(this.itemIndex);
+      // console.log(this.isSelected(k, v));
 
       // 判断A页面是否回答完成，如果最后一次回答且本次与前面所有都选择A，选择答案后跳转到B页面继续回答持续的11道问题
       var aCount = 0;
@@ -186,6 +187,14 @@ export default {
         if (this.itemList[i].type == "A") {
           aCount++;
         }
+      }
+
+      // 逻辑2，如果第一次选A，第二次到第11次都选择B或AB，那么问到第11题之后追加一道是否为9.5年的问题
+      console.log(aCount);
+      
+      if (aCount == 1 && this.itemList[0].type == 'A' && this.itemList.length == 11) {
+        this.isAppend = true;
+        console.log(this.itemList)
       }
 
       if (aCount == 11 && this.itemList.length == 11) {
@@ -217,6 +226,7 @@ export default {
     reSelect() {
       this.topYear = 10;
       this.isMouseOverItem = -1;
+      this.isAppend = false;
       this.uLarge = false;
       this.eLarge = false;
       this.dLarge = false;
