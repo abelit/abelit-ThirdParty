@@ -26,7 +26,7 @@
                     v-for="item in 4 * topYear"
                     :key="item"
                     style="text-align: center; width: 24px"
-                    :class="((item<=itemIndex[itemIndex.length-1]-1) || itemIndex.length == 0)?(parseInt((item - 1) / 4) % 2 == 1 ? 'green lighten-3' : 'green darken-1'):''"
+                    :class="((item<=itemIndex[itemIndex.length-1]-5) || itemIndex.length == 0)?(parseInt((item - 1) / 4) % 2 == 1 ? 'green lighten-3' : 'green darken-1'):''"
                   ></td>
                 </tr>
               </table>
