@@ -57,11 +57,13 @@ def init_db():
                 "create table eq_question_version(id integer primary key autoincrement, version text, created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table eq_label(id integer primary key autoincrement,questionid integer, reference_id text,slide text,presentation text,en_source_text text,zh_source_text text,version text,created_timestamp timestamp default  current_timestamp)",
                 "create table tto_question(id integer primary key autoincrement,questionid integer, presentation text,type text, name text,block integer,source_text text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+                "create table nstptto_question(id integer primary key autoincrement,questionid integer, presentation text,type text, name text,block integer,source_text text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table ttofeedback_question(id integer primary key autoincrement,questionid integer, presentation text,type text, name text,block integer,source_text text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table dce_question(id integer primary key autoincrement,questionid integer,presentation text,name integer,block integer,answer text,source_text text, version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table opened_question(id integer primary key autoincrement,questionid integer,presentation text,name text,block text,source_text text, version text, created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table dce_answer(id integer primary key autoincrement,questionid integer,participant text,interviewer text,item integer, position_of_item integer,selected_state text,dce_reversal text,block integer, version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table tto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,tto_value real,used_time text,composite_switches interger,resets integer,number_of_moves integer,block text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+                "create table nstptto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,select_order interger,select_value text,page integer,block text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table ttofeedback_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,tto_value real,used_time text,composite_switches interger,resets integer,number_of_moves integer,block text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table opened_answer(id integer primary key autoincrement,questionid integer, participant text,interviewer text,item text,position_of_item integer,participant_answer text,block text, version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))"]
 
@@ -76,7 +78,7 @@ def init_db():
     # conn.commit()
 
     # EQ Label
-    for item in ["TTO", "TTO-Feedback", "DCE", "Open ended questions"]:
+    for item in ["TTO", "TTO-Feedback", "DCE", "Open ended questions","Non-Stopping TTO"]:
         for data in readexcel.read('./data/eqlabels.xlsx', item, True):
             cursor.execute(
                 "insert into eq_label(questionid,reference_id,slide,presentation,en_source_text,zh_source_text,version) values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')".format(data[5], data[0], data[1], data[2], data[3], data[4], data[6]))
@@ -116,7 +118,7 @@ def get_question_version():
     conn = sqlite3.connect('question.db', check_same_thread=False)
     cursor = conn.cursor()
 
-    SQL_TEXT = "select distinct version from dce_question union select distinct version from tto_question union select distinct version from opened_question"
+    SQL_TEXT = "select distinct version from dce_question union select distinct version from tto_question union select distinct version from opened_question union select distinct version from nstptto_question"
 
     result = cursor.execute(SQL_TEXT)
 
@@ -138,7 +140,8 @@ def get_answer_version():
     SQL_TEXT = """select distinct version from dce_answer 
     union select distinct version from tto_answer 
     union select distinct version from opened_answer 
-    union select distinct version from ttofeedback_answer"""
+    union select distinct version from ttofeedback_answer
+    union select distinct version from nstptto_answer"""
 
     result = cursor.execute(SQL_TEXT)
 
@@ -253,6 +256,43 @@ def get_tto_question():
     cursor = conn.cursor()
 
     SQL_TEXT = "select id,presentation,type,name,block,source_text,version,created_timestamp,questionid from tto_question"
+
+    if block is not None:
+        if block != "all":
+            if re.search(r'select (.*) from (.*) where (.*)', SQL_TEXT.lower()) is None:
+                SQL_TEXT = SQL_TEXT + " " + \
+                    "where (block='-' or block='{0}')".format(block)
+            else:
+                SQL_TEXT = SQL_TEXT + " " + \
+                    "and (block='-' or block='{0}')".format(block)
+    if version is not None:
+        if version != "all":
+            if re.search(r'select (.*) from (.*) where (.*)', SQL_TEXT.lower()) is None:
+                SQL_TEXT = SQL_TEXT + " " + \
+                    "where version='{0}'".format(version)
+            else:
+                SQL_TEXT = SQL_TEXT + " " + "and version='{0}'".format(version)
+
+    result = cursor.execute(SQL_TEXT)
+
+    data = []
+
+    for row in result:
+        data.append({"id": row[0], "presentation": row[1], "type": row[2],
+                     "name": row[3], "block": row[4], "source_text": row[5], "version": row[6], "created_timestamp": row[7], "questionid": row[8]})
+
+    return jsonify(data)
+
+
+@app.route("/api/question/nstptto")
+def get_nstptto_question():
+    block = request.args.get('block')
+    version = request.args.get('version')
+    # 连接数据库
+    conn = sqlite3.connect('question.db', check_same_thread=False)
+    cursor = conn.cursor()
+
+    SQL_TEXT = "select id,presentation,type,name,block,source_text,version,created_timestamp,questionid from nstptto_question"
 
     if block is not None:
         if block != "all":
@@ -409,6 +449,8 @@ def get_question_blocks():
         table_name = "tto_question"
     elif block_type == "4":
         table_name = "opened_question"
+    elif block_type == "5":
+        table_name = "nstptto_question"
     else:
         return "table not exists."
 
@@ -457,6 +499,35 @@ def add_tto_answer():
     # return jsonify(request.get_json())
 
 
+@app.route("/api/answer/nstptto/addall", methods=['POST'])
+def add_nstptto_answer():
+    # 连接数据库
+    conn = sqlite3.connect('question.db', check_same_thread=False)
+    cursor = conn.cursor()
+
+    content = request.get_json()
+
+    status = None
+    msg = None
+
+    try:
+        cursor = conn.cursor()
+        for row in content:
+            SQL_TEXT = "insert into nstptto_answer(questionid,participant,interviewer,item,position_of_item,select_order,select_value,page,block,version) values('{0}', '{1}', '{2}', '{3}', {4}, {5}, '{6}', '{7}', '{8}', '{9}')".format(
+                row['questionid'], row['participant'], row['interviewer'], row['item'], row['position_of_item'], row['select_order'], row['select_value'], row['page'], row['block'], row['version'])
+            cursor.execute(SQL_TEXT)
+        conn.commit()
+        conn.close()
+        status = 200
+        msg = "成功"
+    except Exception as err:
+        msg = err
+        status = 600
+
+    return jsonify({"msg": msg, "status": status})
+    # return jsonify(request.get_json())
+
+
 @app.route("/api/answer/tto")
 def get_tto_answer():
     version = request.args.get('version')
@@ -488,6 +559,37 @@ def get_tto_answer():
 
     return jsonify(data)
 
+
+@app.route("/api/answer/nstptto")
+def get_nstptto_answer():
+    version = request.args.get('version')
+    participant = request.args.get('participant')
+    # 连接数据库
+    conn = sqlite3.connect('question.db', check_same_thread=False)
+    cursor = conn.cursor()
+
+    SQL_TEXT = "select * from nstptto_answer"
+    print(SQL_TEXT)
+
+    if version is not None and version != "all":
+        SQL_TEXT = SQL_TEXT + " " + "where version='{0}'".format(version)
+
+    if participant is not None:
+        if participant != "all":
+            if re.search(r'select (.*) from (.*) where (.*)', SQL_TEXT.lower()) is None:
+                SQL_TEXT = SQL_TEXT + " " + \
+                    "where  participant='{0}'".format(participant)
+            else:
+                SQL_TEXT = SQL_TEXT + " " + \
+                    "and  participant='{0}'".format(participant)
+
+    result = cursor.execute(SQL_TEXT)
+    data = []
+    for row in result:
+        data.append({"id": row[0], "questionid": row[1], "participant": row[2], "interviewer": row[3], "item": row[4], "position_of_item": row[5], "select_order": row[6],
+                     "select_value": row[7], "page": row[8], "block": row[9], "version": row[10], "created_timestamp": row[11]})
+
+    return jsonify(data)
 
 @app.route("/api/answer/dce/addall", methods=['POST'])
 def add_dce_answer():
@@ -621,14 +723,15 @@ def get_all_participant():
     conn = sqlite3.connect('question.db', check_same_thread=False)
     cursor = conn.cursor()
 
-    SQL_TEXT = """select t1.participant,t2.questionid,t3.questionid,t4.questionid,t5.questionid from (select distinct participant from dce_answer where version='{0}' 
+    SQL_TEXT = """select t1.participant,t2.questionid,t3.questionid,t4.questionid,t5.questionid,t6.questionid from (select distinct participant from dce_answer where version='{0}' 
                 union select distinct participant from tto_answer where version='{0}' 
                 union select distinct participant from ttofeedback_answer where version='{0}'
                 union select distinct participant from opened_answer where version='{0}') t1 
                 left join (select distinct questionid,participant from dce_answer where version='{0}') t2 on t1.participant=t2.participant 
                 left join (select distinct questionid,participant from tto_answer where version='{0}') t3 on t1.participant=t3.participant 
                 left join (select distinct questionid,participant from ttofeedback_answer where version='{0}') t4 on t1.participant=t4.participant
-                left join (select distinct questionid,participant from opened_answer where version='{0}') t5 on t1.participant=t5.participant""".format(version)
+                left join (select distinct questionid,participant from opened_answer where version='{0}') t5 on t1.participant=t5.participant
+                left join (select distinct questionid,participant from nstptto_answer where version='{0}') t6 on t1.participant=t6.participant""".format(version)
 
     result = cursor.execute(SQL_TEXT)
     data = []
@@ -666,6 +769,8 @@ def delete_question():
         TABLE_NAME = "ttofeedback_question"
     elif questionid == 4:
         TABLE_NAME = "opened_question"
+    elif questionid == 5:
+        TABLE_NAME = "nstptto_question"
 
     SQL_TEXT = SQL_TEXT.format(TABLE_NAME, version)
 
@@ -718,6 +823,11 @@ def upload_file():
                 # TTO
                 for data in readexcel.read(filepath, 'TTO & TTO-Feedback', True):
                     cursor.execute("insert into tto_question(questionid,presentation,type,name,block,source_text,version) values({0},'{1}','{2}','{3}','{4}','{5}','{6}')".format(
+                        data[6], data[0], data[1], data[2], data[3], data[4], data[5]))
+                
+                # Non-Stopping TTO
+                for data in readexcel.read(filepath, 'Non-Stopping TTO', True):
+                    cursor.execute("insert into nstptto_question(questionid,presentation,type,name,block,source_text,version) values({0},'{1}','{2}','{3}','{4}','{5}','{6}')".format(
                         data[6], data[0], data[1], data[2], data[3], data[4], data[5]))
 
                 # TTO-Feedback Question

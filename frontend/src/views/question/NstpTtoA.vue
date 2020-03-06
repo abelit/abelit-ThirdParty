@@ -4,7 +4,9 @@
       <v-card-title v-show="true">
         <v-row>
           <v-col>
-            <v-alert dense type="info">哪一个选择比较好，生命A、生命B，还是它们大致相同？</v-alert>
+            <v-alert dense type="info"
+              >哪一个选择比较好，生命A、生命B，还是它们大致相同？</v-alert
+            >
           </v-col>
         </v-row>
       </v-card-title>
@@ -15,10 +17,28 @@
               justify="center"
               align="center"
               class="font-weight-bold"
-              :class="uLarge?'headline blue--text text--darken-4':'title'"
-            >偏好A</v-row>
+              :class="uLarge ? 'headline blue--text text--darken-4' : 'title'"
+              >偏好A</v-row
+            >
           </v-col>
           <v-col cols="10">
+            <v-row>
+              <!-- 调整这里 -->
+           <div
+              style="background:green;padding:10px 10px;width:400px;border-radius: 15px;height:180px"
+            >
+             完全健康
+            </div>
+            </v-row>
+            <v-row justify="center" align="center">
+              <div
+                ref="div1"
+                :style="style1"
+                style="width: 1002.22px;text-align: right"
+              >
+                {{ currentYear }}年
+              </div>
+            </v-row>
             <v-row justify="center" align="center">
               <table border="1" cellspacing="0" cellpadding="0" ref="table1">
                 <tr style="height: 50px">
@@ -26,7 +46,14 @@
                     v-for="item in 4 * topYear"
                     :key="item"
                     style="text-align: center; width: 24px"
-                    :class="((item<=itemIndex[itemIndex.length-1]-5) || itemIndex.length == 0)?(parseInt((item - 1) / 4) % 2 == 1 ? 'green lighten-3' : 'green darken-1'):''"
+                    :class="
+                      item <= itemIndex[itemIndex.length - 1] - 5 ||
+                      itemIndex.length == 0
+                        ? parseInt((item - 1) / 4) % 2 == 1
+                          ? 'green lighten-3'
+                          : 'green darken-1'
+                        : ''
+                    "
                   ></td>
                 </tr>
               </table>
@@ -40,8 +67,9 @@
               justify="center"
               align="center"
               class="font-weight-bold"
-              :class="eLarge?'headline blue--text text--darken-4':'title'"
-            >A和B大致相同</v-row>
+              :class="eLarge ? 'headline blue--text text--darken-4' : 'title'"
+              >A和B大致相同</v-row
+            >
           </v-col>
           <v-col cols="10">
             <v-row justify="center" align="center">
@@ -63,38 +91,110 @@
                     @mouseleave="mouseLeave(item)"
                   >
                     <v-icon
-                      v-if="(item % 4 == 1 || (item == 4*topYear-1 && isAppend))"
-                      @click="selectItem(item,'A')"
+                      v-if="
+                        item % 4 == 1 || (item == 4 * topYear - 1 && isAppend)
+                      "
+                      @click="selectItem(item, 'A')"
                       class="py-5"
-                      :color="uLarge && item == isMouseOverItem? 'blue darken-4':(isSelected(item,'A')==1?'green':(item == isMouseOverItem? 'blue': 'grey lighten-1'))"
+                      :color="
+                        uLarge && item == isMouseOverItem
+                          ? 'blue darken-4'
+                          : isSelected(item, 'A') == 1
+                          ? 'green'
+                          : item == isMouseOverItem
+                          ? 'blue'
+                          : 'grey lighten-1'
+                      "
                       ref="upIcon"
                       @mouseover="uLarge = true"
                       @mouseleave="uLarge = false"
                       :large="item == isMouseOverItem && uLarge ? true : false"
-                      :disabled="!(isSelected(item,'A')!= 0)"
-                    >{{ isSelected(item,'A') != 0 ?(isSelected(item,'A') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1)) && !(item == 4*topYear-1 && isAppend)?'t':'mdi-arrow-up-bold'):'t'}}</v-icon>
+                      :disabled="!(isSelected(item, 'A') != 0)"
+                      >{{
+                        isSelected(item, "A") != 0
+                          ? isSelected(item, "A") == -1 &&
+                            !(
+                              (itemIndex[itemIndex.length - 1] - 4 == item &&
+                                itemIndex.length != 0) ||
+                              (itemIndex.length == 0) &
+                                (item == topYear * 4 + 1)
+                            ) &&
+                            !(item == 4 * topYear - 1 && isAppend)
+                            ? "t"
+                            : "mdi-arrow-up-bold"
+                          : "t"
+                      }}</v-icon
+                    >
                     <v-icon
-                      v-if="(item % 4 == 1) || (item == 4*topYear-1 && isAppend)"
-                      @click="selectItem(item,'AB')"
+                      v-if="
+                        item % 4 == 1 || (item == 4 * topYear - 1 && isAppend)
+                      "
+                      @click="selectItem(item, 'AB')"
                       ref="eqIcon"
                       class="py-5"
-                      :color="eLarge && item == isMouseOverItem ? 'blue darken-4' : (isSelected(item,'AB')==1?'green':(item == isMouseOverItem? 'blue' : 'grey lighten-1'))"
-                      :disabled="!(isSelected(item,'AB')!= 0)"
+                      :color="
+                        eLarge && item == isMouseOverItem
+                          ? 'blue darken-4'
+                          : isSelected(item, 'AB') == 1
+                          ? 'green'
+                          : item == isMouseOverItem
+                          ? 'blue'
+                          : 'grey lighten-1'
+                      "
+                      :disabled="!(isSelected(item, 'AB') != 0)"
                       @mouseover="eLarge = true"
                       @mouseleave="eLarge = false"
                       :large="item == isMouseOverItem && eLarge ? true : false"
-                    >{{ isSelected(item,'AB')!= 0?(isSelected(item,'AB') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1)) && !(item == 4*topYear-1 && isAppend)?'t':'mdi-view-stream'):'t'}}</v-icon>
+                      >{{
+                        isSelected(item, "AB") != 0
+                          ? isSelected(item, "AB") == -1 &&
+                            !(
+                              (itemIndex[itemIndex.length - 1] - 4 == item &&
+                                itemIndex.length != 0) ||
+                              (itemIndex.length == 0) &
+                                (item == topYear * 4 + 1)
+                            ) &&
+                            !(item == 4 * topYear - 1 && isAppend)
+                            ? "t"
+                            : "mdi-view-stream"
+                          : "t"
+                      }}</v-icon
+                    >
                     <v-icon
-                      v-if="(item % 4 == 1) || (item == 4*topYear-1 && isAppend)"
-                      @click="selectItem(item,'B')"
+                      v-if="
+                        item % 4 == 1 || (item == 4 * topYear - 1 && isAppend)
+                      "
+                      @click="selectItem(item, 'B')"
                       class="py-5"
                       ref="dwIcon"
-                      :color="dLarge && item == isMouseOverItem? 'blue darken-4':(isSelected(item,'B')==1?'green':(item == isMouseOverItem? 'blue': 'grey lighten-1'))"
-                      :disabled="!(isSelected(item,'B')!= 0)"
+                      :color="
+                        dLarge && item == isMouseOverItem
+                          ? 'blue darken-4'
+                          : isSelected(item, 'B') == 1
+                          ? 'green'
+                          : item == isMouseOverItem
+                          ? 'blue'
+                          : 'grey lighten-1'
+                      "
+                      :disabled="!(isSelected(item, 'B') != 0)"
                       @mouseover="dLarge = true"
                       @mouseleave="dLarge = false"
                       :large="item == isMouseOverItem && dLarge ? true : false"
-                    >{{ isSelected(item,'B') != 0 ?(isSelected(item,'B') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1)) && !(item == 4*topYear-1 && isAppend)?'t':'mdi-arrow-down-bold'):'t'}}</v-icon>
+                      >{{
+                        isSelected(item, "B") != 0
+                          ? isSelected(item, "B") == -1 &&
+                            !(
+                              (itemIndex[itemIndex.length - 1] - 4 == item &&
+                                itemIndex.length != 0) ||
+                              (itemIndex.length == 0) &
+                                (item == topYear * 4 + 1)
+                            ) &&
+                            !(item == 4 * topYear - 1 && isAppend)
+                            ? "t"
+                            : "mdi-arrow-down-bold"
+                          : "t"
+                      }}</v-icon
+                    >
                   </td>
                 </tr>
               </table>
@@ -107,8 +207,9 @@
             <v-row justify="center" align="center">
               <span
                 class="font-weight-bold"
-                :class="dLarge?'headline blue--text text--darken-4':'title'"
-              >偏好B</span>
+                :class="dLarge ? 'headline blue--text text--darken-4' : 'title'"
+                >偏好B</span
+              >
             </v-row>
           </v-col>
           <v-col cols="10">
@@ -128,6 +229,22 @@
                 </tr>
               </table>
             </v-row>
+            <v-row justify="center" align="center">
+              <div ref="div2" style="width: 1002.22px;text-align: right">
+                {{ topYear }}年
+              </div>
+            </v-row>
+            <!-- 调整这里 -->
+            <div
+              style="background:#5b9bd5;padding:10px 10px;width:400px;border-radius: 15px;height:180px"
+              v-if="block.source_text"
+            >
+              <div v-for="msg in block.source_text.split('*')" :key="msg.key">
+                <li v-if="msg != ''">
+                  <span>{{ msg }}</span>
+                </li>
+              </div>
+            </div>
           </v-col>
         </v-row>
       </v-card-text>
@@ -136,7 +253,7 @@
         <v-btn color="primary" @click="reSelect">
           <v-icon large>refresh</v-icon>
         </v-btn>
-        <v-btn color="primary">
+        <v-btn color="primary" @click="nextQuestion">
           <v-icon large>mdi-arrow-right-circle-outline</v-icon>
         </v-btn>
         <v-spacer></v-spacer>
@@ -146,6 +263,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data: () => ({
     topYear: 10,
@@ -155,8 +273,12 @@ export default {
     eLarge: false,
     dLarge: false,
     itemList: [],
-    itemIndex: []
+    itemIndex: [],
+    style1: "",
+    currentYear: 10,
+    nstpttoAnswer: "",
   }),
+  props: ["block"],
   methods: {
     selectItem(k, v) {
       if (
@@ -164,7 +286,8 @@ export default {
           (this.itemIndex.length == 0 && k == this.topYear * 4 + 1) ||
           (this.itemIndex.length > 0 &&
             k == this.itemIndex[this.itemIndex.length - 1] - 4)
-        ) && !(k == 4*this.topYear-1 && this.isAppend)
+        ) &&
+        !(k == 4 * this.topYear - 1 && this.isAppend)
       ) {
         alert("请从右至左依次按顺序回答！");
         return;
@@ -173,10 +296,19 @@ export default {
       if (this.isSelected(k, v) == -1) {
         this.itemList.push({
           index: k,
-          type: v
+          answer: v,
+          page: this.nstpPage
         });
         this.itemIndex.push(k);
+        if (this.currentYear > 0) {
+          this.currentYear = this.currentYear - 1;
+        }
       }
+
+      this.style1 = this.getStyle(
+        24.44 * (this.topYear - this.currentYear) * 4
+      );
+
       console.log(this.itemList);
       // console.log(this.itemIndex);
       // console.log(this.isSelected(k, v));
@@ -184,17 +316,25 @@ export default {
       // 判断A页面是否回答完成，如果最后一次回答且本次与前面所有都选择A，选择答案后跳转到B页面继续回答持续的11道问题
       var aCount = 0;
       for (var i = 0; i < this.itemList.length; i++) {
-        if (this.itemList[i].type == "A") {
+        if (this.itemList[i].answer == "A") {
           aCount++;
         }
       }
 
       // 逻辑2，如果第一次选A，第二次到第11次都选择B或AB，那么问到第11题之后追加一道是否为9.5年的问题
       console.log(aCount);
-      
-      if (aCount == 1 && this.itemList[0].type == 'A' && this.itemList.length == 11) {
+
+      if (
+        aCount == 1 &&
+        this.itemList[0].answer == "A" &&
+        this.itemList.length == 11
+      ) {
         this.isAppend = true;
-        console.log(this.itemList)
+        this.currentYear = 9.5;
+        this.style1 = this.getStyle(
+          24.44 * (this.topYear - this.currentYear) * 4
+        );
+        console.log(this.itemList);
       }
 
       if (aCount == 11 && this.itemList.length == 11) {
@@ -225,6 +365,8 @@ export default {
     },
     reSelect() {
       this.topYear = 10;
+      this.currentYear = 10;
+      this.style1 = "";
       this.isMouseOverItem = -1;
       this.isAppend = false;
       this.uLarge = false;
@@ -233,23 +375,53 @@ export default {
       this.itemList = [];
       this.itemIndex = [];
       this.$store.dispatch("setNstpPage", 1);
+    },
+    getStyle(w) {
+      return "padding-right: " + w + "px;";
+    },
+    updateItem() {
+      this.$emit("cUpdateItem", this.nstpttoAnswer);
+    },
+    nextQuestion() {
+       var answerObj = {
+          questionid: this.examType.id,
+          participant: this.userInfo.participant,
+          interviewer: this.userInfo.interviewer,
+          item: this.block.name,
+          position_of_item: this.block.id,
+          select_order: '',
+          select_value: '',
+          page: 1,
+          block: this.block.block,
+          version: this.qVersion
+        };
+        this.nstpttoAnswer = answerObj
+        console.log(this.nstpttoAnswer)
+        this.updateItem();
     }
   },
   computed: {
     // 判断选项是否选择，选项已选择且为当前答案，返回记录1；选项已选择且非当前单击答案，返回0；选择未选择返回-1.
     isSelected: function() {
-      return function(item, type) {
+      return function(item, answer) {
         for (var i = 0; i < this.itemList.length; i++) {
-          if (this.itemList[i].index == item && this.itemList[i].type != type) {
+          if (
+            this.itemList[i].index == item &&
+            this.itemList[i].answer != answer
+          ) {
             return 0;
           }
-          if (this.itemList[i].index == item && this.itemList[i].type == type) {
+          if (
+            this.itemList[i].index == item &&
+            this.itemList[i].answer == answer
+          ) {
             return 1;
           }
         }
         return -1;
       };
-    }
+    },
+    ...mapState(["userInfo", "examType", "qVersion", "eqLangLabels","nstpPage"])
   }
 };
 </script>

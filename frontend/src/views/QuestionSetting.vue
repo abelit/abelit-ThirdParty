@@ -154,6 +154,10 @@
               Opened
               <v-icon small dark>file_download</v-icon>
             </v-btn>
+            <v-btn class="ml-3" color="#036f90" dark @click="downloadAnswer('all',5)">
+              Non-Stopping TTO
+              <v-icon small dark>file_download</v-icon>
+            </v-btn>
           </v-row>
         </v-col>
       </v-row>
@@ -433,6 +437,9 @@ export default {
         case 4:
           url = "/api/question/open";
           break;
+        case 5:
+          url = "/api/question/nstptto";
+          break;
         default:
           alert("请选择题库类型");
       }
@@ -479,6 +486,9 @@ export default {
           break;
         case 4:
           url = "/api/answer/open";
+          break;
+        case 5:
+          url = "/api/answer/nstptto";
           break;
         default:
           alert("请选择题库类型！");
@@ -528,6 +538,9 @@ export default {
           break;
         case 4:
           url = "/api/question/open";
+          break;
+        case 5:
+          url = "/api/question/nstptto";
           break;
         default:
           alert("题型不存在");
@@ -635,6 +648,9 @@ export default {
           break;
         case 4:
           questionName = "Open end questions";
+          break;
+         case 5:
+          questionName = "Non-Stopping TTO";
           break;
         default:
           questionName = "unkonwn";

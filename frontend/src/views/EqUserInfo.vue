@@ -112,6 +112,7 @@ export default {
   },
   mounted() {
     this.getInterviewer();
+    console.log(this.eqLangLabels);
   },
   computed: {
     ...mapState(["blocks", "eqLangLabels","qVersion"])

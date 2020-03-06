@@ -19,6 +19,20 @@
             >偏好A</v-row>
           </v-col>
           <v-col cols="10">
+            <v-row>
+                     <!-- 调正这里 -->
+            <div
+              style="background:green;padding:10px 10px;width:400px;border-radius: 15px;height:180px"
+            >
+             完全健康
+            </div>
+            </v-row>
+            <v-row justify="center" align="center">
+              <div ref="div2" style="width: 1326.67px;text-align: right" :style="style3">
+                {{currentYear}}年
+              </div>
+            </v-row>
+     
             <v-row justify="center" align="center">
               <table border="1" cellspacing="0" cellpadding="0" ref="table1">
                 <tr style="height: 50px">
@@ -26,6 +40,7 @@
                     v-for="item in 8 * topYear"
                     :key="item"
                     style="text-align: center; width: 16px"
+                    
                     :class="((item<=itemIndex[itemIndex.length-1]-5) || itemIndex.length == 0)?(item<topYear*8/2+1?(parseInt((item - 1) / 4) % 2 == 1 ? 'green lighten-3' : 'green darken-1'):''):''"
                   ></td>
                 </tr>
@@ -124,6 +139,27 @@
                 </tr>
               </table>
             </v-row>
+             <v-row justify="center" align="center">
+              <div ref="div2" style="width: 1326.67px;text-align: right" >
+                {{topYear*2}}年
+              </div>
+            </v-row>
+          <v-row>
+              <div
+              style="background:#5b9bd5;padding:10px 10px;width:400px;border-radius: 15px;height:180px" v-if="block.source_text"
+            >
+              <div v-for="msg in block.source_text.split('*')" :key="msg.key">
+                <li v-if="msg != ''">
+                  <span>{{ msg }}</span>
+                </li>
+              </div>
+            </div>
+            <div
+              style="background:green;padding:10px 10px;width:400px;border-radius: 15px;height:180px"
+            >
+              完全健康
+            </div>
+          </v-row>
           </v-col>
         </v-row>
       </v-card-text>
@@ -142,16 +178,21 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   data: () => ({
     topYear: 10,
+    currentYear: 10,
     isMouseOverItem: -1,
     uLarge: false,
     eLarge: false,
     dLarge: false,
     itemList: [],
-    itemIndex: []
+    itemIndex: [],
+    style3: "padding-right: 650px",
+    nstpttoAnswer: "",
   }),
+  props: ["block"],
   methods: {
     selectItem(k, v) {
       if (
@@ -168,10 +209,16 @@ export default {
       if (this.isSelected(k, v) == -1) {
         this.itemList.push({
           index: k,
-          type: v
+          answer: v,
+          page: this.nstpPage
         });
         this.itemIndex.push(k);
+         if (this.currentYear>0) {
+          this.currentYear = this.currentYear - 1;
+        }
       }
+
+      this.style3 = this.getStyle(16.67*(this.topYear-this.currentYear)*4+650)
       console.log(this.itemList);
       console.log(this.isSelected(k, v));
     },
@@ -199,30 +246,41 @@ export default {
     },
     reSelect() {
       this.topYear = 10;
+      this.currentYear = 10;
       this.isMouseOverItem = -1;
       this.uLarge = false;
       this.eLarge = false;
       this.dLarge = false;
       this.itemList = [];
       this.itemIndex = [];
+      this.style3="padding-right: 650px"
       this.$store.dispatch("setNstpPage", 1);
-    }
+    },
+     getStyle(w) {
+      return (
+        "padding-right: " + w + "px;"
+      );
+    },
+    updateItem() {
+      this.$emit("cUpdateItem", this.nstpttoAnswer);
+    },
   },
   computed: {
     // 判断选项是否选择，选项已选择且为当前答案，返回记录1；选项已选择且非当前单击答案，返回0；选择未选择返回-1.
     isSelected: function() {
-      return function(item, type) {
+      return function(item, answer) {
         for (var i = 0; i < this.itemList.length; i++) {
-          if (this.itemList[i].index == item && this.itemList[i].type != type) {
+          if (this.itemList[i].index == item && this.itemList[i].answer != answer) {
             return 0;
           }
-          if (this.itemList[i].index == item && this.itemList[i].type == type) {
+          if (this.itemList[i].index == item && this.itemList[i].answer == answer) {
             return 1;
           }
         }
         return -1;
       };
-    }
+    },
+    ...mapState(["nstpPage"])
   }
 };
 </script>
