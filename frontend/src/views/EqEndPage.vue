@@ -55,6 +55,8 @@ export default {
         url = "/api/answer/ttofeedback/addall";
       } else if (this.allAnswer[0].questionid == 4) {
         url = "/api/answer/open/addall";
+      } else if (this.allAnswer[0].questionid == 5) {
+        url = "/api/answer/nstptto/addall";
       } else {
         alert("后台地址不对");
       }

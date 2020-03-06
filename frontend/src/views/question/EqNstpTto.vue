@@ -1,10 +1,18 @@
 <template>
   <div>
     <div v-for="item in eqTtoQuestions" :key="item.id">
-    <nstp-tto-a v-if="nstpPage == 1 && eqTtoQuestions.indexOf(item)===currentItem" :block="item"  v-on:cUpdateItem="pUpdateItem($event)"></nstp-tto-a>
-    <nstp-tto-b v-if="nstpPage == 2 && eqTtoQuestions.indexOf(item)===currentItem" :block="item" v-on:cUpdateItem="pUpdateItem($event)"></nstp-tto-b>
-        </div>
-      <v-row>
+      <nstp-tto-a
+        v-if="nstpPage == 1 && eqTtoQuestions.indexOf(item)===currentItem"
+        :block="item"
+        v-on:cUpdateItem="pUpdateItem($event)"
+      ></nstp-tto-a>
+      <nstp-tto-b
+        v-if="nstpPage == 2 && eqTtoQuestions.indexOf(item)===currentItem"
+        :block="item"
+        v-on:cUpdateItem="pUpdateItem($event)"
+      ></nstp-tto-b>
+    </div>
+    <v-row>
       <v-dialog v-model="popupDialog" persistent max-width="600">
         <v-card class="pt-5 yellow lighten-4">
           <v-card-text
@@ -23,7 +31,6 @@
       </v-dialog>
     </v-row>
   </div>
-  
 </template>
 
 
@@ -48,8 +55,8 @@ export default {
   },
   methods: {
     pUpdateItem(data) {
-      this.nstpttoAnswers.push(data);
-      // console.log(this.nstpttoAnswers);
+      this.nstpttoAnswers = this.nstpttoAnswers.concat(data);
+      console.log(this.nstpttoAnswers);
       this.currentItem++;
       // console.log(this.currentItem);
       // console.log(this.eqTtoQuestions.length)
