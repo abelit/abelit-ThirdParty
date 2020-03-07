@@ -55,14 +55,17 @@ export default {
   },
   methods: {
     pUpdateItem(data) {
-      this.nstpttoAnswers = this.nstpttoAnswers.concat(data);
+      this.nstpttoAnswers = this.nstpttoAnswers.concat(data.arr);
       console.log(this.nstpttoAnswers);
-      this.currentItem++;
-      // console.log(this.currentItem);
-      // console.log(this.eqTtoQuestions.length)
-      if (this.currentItem > this.eqTtoQuestions.length - 1) {
-        this.$store.dispatch("setAllAnswer", this.nstpttoAnswers);
-        this.$router.push({ path: "/eq/end" });
+      if (data.next) {
+        this.currentItem++;
+        // console.log(this.currentItem);
+        // console.log(this.eqTtoQuestions.length)
+        this.$store.dispatch("setNstpPage", 1);
+        if (this.currentItem > this.eqTtoQuestions.length - 1) {
+          this.$store.dispatch("setAllAnswer", this.nstpttoAnswers);
+          this.$router.push({ path: "/eq/end" });
+        }
       }
     },
     getQuestion() {

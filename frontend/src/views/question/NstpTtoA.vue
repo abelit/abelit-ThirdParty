@@ -330,6 +330,29 @@ export default {
       }
 
       if (aCount == 11 && this.itemList.length == 11) {
+        var arr = [];
+        for (var i = 0; i < this.itemList.length; i++) {
+          var answerObj = {
+            questionid: this.examType.id,
+            participant: this.userInfo.participant,
+            interviewer: this.userInfo.interviewer,
+            item: this.block.name,
+            position_of_item: this.block.id,
+            select_order: i,
+            select_value: this.itemList[i].answer,
+            page: 1,
+            block: this.block.block,
+            version: this.qVersion
+          };
+
+          arr.push(answerObj);
+        }
+        this.nstpttoAnswer = arr;
+
+        // 把第一个页面的答案保存起来
+        this.updateItem(this.nstpttoAnswer, false);
+
+        // 切换到第二个页面继续答题
         this.$store.dispatch("setNstpPage", 2);
       }
     },
@@ -371,12 +394,12 @@ export default {
     getStyle(w) {
       return "padding-right: " + w + "px;";
     },
-    updateItem(arr) {
-      this.$emit("cUpdateItem", arr);
+    updateItem(arr, next) {
+      this.$emit("cUpdateItem", { arr: arr, next: next });
     },
     nextQuestion() {
       var aCount = 0;
-      for (var i = 0; i < this.itemList.length; i++) {
+      for (var i = 1; i < this.itemList.length - 1; i++) {
         if (this.itemList[i].answer == "A") {
           aCount++;
         }
@@ -408,7 +431,7 @@ export default {
         }
         this.nstpttoAnswer = arr;
         // console.log(this.nstpttoAnswer);
-        this.updateItem(this.nstpttoAnswer);
+        this.updateItem(this.nstpttoAnswer, true);
       } else {
         alert("请完成答题步骤才能进行下一步！");
       }

@@ -26,6 +26,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 def index():
     return render_template('index.html')
 
+
 @app.route('/admin/initdb', methods=['POST', 'GET'])
 def init_db():
     if request.method == 'GET':
@@ -78,7 +79,7 @@ def init_db():
     # conn.commit()
 
     # EQ Label
-    for item in ["TTO", "TTO-Feedback", "DCE", "Open ended questions","Non-Stopping TTO"]:
+    for item in ["TTO", "TTO-Feedback", "DCE", "Open ended questions", "Non-Stopping TTO"]:
         for data in readexcel.read('./data/eqlabels.xlsx', item, True):
             cursor.execute(
                 "insert into eq_label(questionid,reference_id,slide,presentation,en_source_text,zh_source_text,version) values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')".format(data[5], data[0], data[1], data[2], data[3], data[4], data[6]))
@@ -591,6 +592,7 @@ def get_nstptto_answer():
 
     return jsonify(data)
 
+
 @app.route("/api/answer/dce/addall", methods=['POST'])
 def add_dce_answer():
     # 连接数据库
@@ -726,7 +728,8 @@ def get_all_participant():
     SQL_TEXT = """select t1.participant,t2.questionid,t3.questionid,t4.questionid,t5.questionid,t6.questionid from (select distinct participant from dce_answer where version='{0}' 
                 union select distinct participant from tto_answer where version='{0}' 
                 union select distinct participant from ttofeedback_answer where version='{0}'
-                union select distinct participant from opened_answer where version='{0}') t1 
+                union select distinct participant from opened_answer where version='{0}'
+                union select distinct participant from nstptto_answer where version='{0}') t1 
                 left join (select distinct questionid,participant from dce_answer where version='{0}') t2 on t1.participant=t2.participant 
                 left join (select distinct questionid,participant from tto_answer where version='{0}') t3 on t1.participant=t3.participant 
                 left join (select distinct questionid,participant from ttofeedback_answer where version='{0}') t4 on t1.participant=t4.participant
@@ -738,7 +741,7 @@ def get_all_participant():
 
     for row in result:
         data.append({"participant": row[0], "DCE": row[1],
-                     "TTO": row[2], "TTO_Feedback": row[3], "Opened": row[4]})
+                     "TTO": row[2], "TTO_Feedback": row[3], "Opened": row[4], "NonStopping_TTO": row[5]})
 
     return jsonify(data)
 
@@ -818,13 +821,14 @@ def upload_file():
             try:
                 # Interviewers
                 for data in readexcel.read(filepath, 'interviewers', True):
-                    cursor.execute("insert into interviewer(id, name,version) values({0},'{1}','{2}')".format(data[0], data[1],data[2]))
+                    cursor.execute("insert into interviewer(id, name,version) values({0},'{1}','{2}')".format(
+                        data[0], data[1], data[2]))
 
                 # TTO
                 for data in readexcel.read(filepath, 'TTO & TTO-Feedback', True):
                     cursor.execute("insert into tto_question(questionid,presentation,type,name,block,source_text,version) values({0},'{1}','{2}','{3}','{4}','{5}','{6}')".format(
                         data[6], data[0], data[1], data[2], data[3], data[4], data[5]))
-                
+
                 # Non-Stopping TTO
                 for data in readexcel.read(filepath, 'Non-Stopping TTO', True):
                     cursor.execute("insert into nstptto_question(questionid,presentation,type,name,block,source_text,version) values({0},'{1}','{2}','{3}','{4}','{5}','{6}')".format(

@@ -3,7 +3,10 @@
     <v-tabs background-color="#036f90" center-active dark>
       <v-tab @click="type = 1" class="title">{{$vuetify.lang.t('$vuetify.tab.uploadQuestion')}}</v-tab>
       <v-tab @click="type = 2" class="title">{{$vuetify.lang.t('$vuetify.tab.manualInput')}}</v-tab>
-      <v-tab @click="type = 0; tablePHeaders=[]; tablePData=[]" class="title">{{$vuetify.lang.t('$vuetify.tab.interviewer')}}</v-tab>
+      <v-tab
+        @click="type = 0; tablePHeaders=[]; tablePData=[]"
+        class="title"
+      >{{$vuetify.lang.t('$vuetify.tab.interviewer')}}</v-tab>
       <v-tab
         @click="type = 3; tableHeaders=[]; tableData=[]; qtype=''"
         class="title"
@@ -227,6 +230,21 @@
                 v-if="item.Opened > 0"
                 color="primary"
                 @click="downloadAnswer(item.participant,item.Opened)"
+              >file_download</v-icon>
+            </template>
+            <template v-slot:item.NonStopping_TTO="{ item }">
+              <v-icon
+                small
+                class="mr-2"
+                color="#036f90"
+                v-if="item.NonStopping_TTO > 0"
+                @click="viewDetailAnswer(item.participant,item.NonStopping_TTO)"
+              >remove_red_eye</v-icon>
+              <v-icon
+                small
+                v-if="item.NonStopping_TTO > 0"
+                color="primary"
+                @click="downloadAnswer(item.participant,item.NonStopping_TTO)"
               >file_download</v-icon>
             </template>
           </v-data-table>
@@ -588,7 +606,8 @@ export default {
               value: objKey[i]
             });
           }
-          //   console.log(objHeader)
+          console.log(objHeader);
+          console.log(objData);
           this.tablePHeaders = objHeader;
           this.tablePData = objData;
         })
@@ -649,7 +668,7 @@ export default {
         case 4:
           questionName = "Open end questions";
           break;
-         case 5:
+        case 5:
           questionName = "Non-Stopping TTO";
           break;
         default:
