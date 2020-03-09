@@ -4,33 +4,47 @@
       <v-card-title v-show="true">
         <v-row>
           <v-col>
-            <v-alert dense type="info">哪一个选择比较好，生命A、生命B，还是它们大致相同？</v-alert>
+            <v-alert dense type="info"
+              >哪一个选择比较好，生命A、生命B，还是它们大致相同？</v-alert
+            >
           </v-col>
         </v-row>
       </v-card-title>
       <v-card-text>
         <v-row justify="center" align="center">
+          <!-- 调整这里 -->
+          <div
+            style="position: relative;width:100%;height:40px;background:#ffffff"
+          >
+            <div
+              style="background:#92d050;padding:10px 10px;width:200px;border-radius: 15px;position:absolute;right:150px;"
+            >
+              完全健康
+              <v-icon
+                style="color:#92d050;font-size:5rem; position: absolute;right:120px; z-index:98; top:5px;"
+                >mdi-menu-down</v-icon
+              >
+            </div>
+          </div>
           <v-col cols="2">
             <v-row
               justify="center"
               align="center"
               class="font-weight-bold"
-              :class="uLarge?'headline blue--text text--darken-4':'title'"
-            >偏好A</v-row>
+              :class="uLarge ? 'headline blue--text text--darken-4' : 'title'"
+              >偏好A</v-row
+            >
           </v-col>
           <v-col cols="10">
-            <v-row>
-              <!-- 调正这里 -->
-              <div
-                style="background:green;padding:10px 10px;width:400px;border-radius: 15px;height:180px"
-              >完全健康</div>
-            </v-row>
+            <v-row> </v-row>
             <v-row justify="center" align="center">
               <div
                 ref="div2"
                 style="width: 1326.67px;text-align: right"
                 :style="style3"
-              >{{currentYear}}年</div>
+              >
+                {{ currentYear }}年
+              </div>
             </v-row>
 
             <v-row justify="center" align="center">
@@ -40,7 +54,16 @@
                     v-for="item in 8 * topYear"
                     :key="item"
                     style="text-align: center; width: 16px"
-                    :class="((item<=itemIndex[itemIndex.length-1]-5) || itemIndex.length == 0)?(item<topYear*8/2+1?(parseInt((item - 1) / 4) % 2 == 1 ? 'green lighten-3' : 'green darken-1'):''):''"
+                    :class="
+                      item <= itemIndex[itemIndex.length - 1] - 5 ||
+                      itemIndex.length == 0
+                        ? item < (topYear * 8) / 2 + 1
+                          ? parseInt((item - 1) / 4) % 2 == 1
+                            ? 'green lighten-3'
+                            : 'green darken-1'
+                          : ''
+                        : ''
+                    "
                   ></td>
                 </tr>
               </table>
@@ -54,8 +77,9 @@
               justify="center"
               align="center"
               class="font-weight-bold"
-              :class="eLarge?'headline blue--text text--darken-4':'title'"
-            >A和B大致相同</v-row>
+              :class="eLarge ? 'headline blue--text text--darken-4' : 'title'"
+              >A和B大致相同</v-row
+            >
           </v-col>
           <v-col cols="10">
             <v-row justify="center" align="center">
@@ -77,38 +101,101 @@
                     @mouseleave="mouseLeave(item)"
                   >
                     <v-icon
-                      v-if="(item % 4 == 1 && item<=topYear*4+1)"
-                      @click="selectItem(item,'A')"
+                      v-if="item % 4 == 1 && item <= topYear * 4 + 1"
+                      @click="selectItem(item, 'A')"
                       class="py-5"
-                      :color="uLarge && item == isMouseOverItem? 'blue darken-4':(isSelected(item,'A')==1?'green':(item == isMouseOverItem? 'blue': 'grey lighten-1'))"
+                      :color="
+                        uLarge && item == isMouseOverItem
+                          ? 'blue darken-4'
+                          : isSelected(item, 'A') == 1
+                          ? 'green'
+                          : item == isMouseOverItem
+                          ? 'blue'
+                          : 'grey lighten-1'
+                      "
                       ref="upIcon"
                       @mouseover="uLarge = true"
                       @mouseleave="uLarge = false"
-                      :disabled="!(isSelected(item,'A')!= 0)"
+                      :disabled="!(isSelected(item, 'A') != 0)"
                       :small="item == isMouseOverItem && uLarge ? false : true"
-                    >{{ isSelected(item,'A')!= 0?(isSelected(item,'A') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1))?'t':'mdi-arrow-up-bold'):'t'}}</v-icon>
+                      >{{
+                        isSelected(item, "A") != 0
+                          ? isSelected(item, "A") == -1 &&
+                            !(
+                              (itemIndex[itemIndex.length - 1] - 4 == item &&
+                                itemIndex.length != 0) ||
+                              (itemIndex.length == 0) &
+                                (item == topYear * 4 + 1)
+                            )
+                            ? "t"
+                            : "mdi-arrow-up-bold"
+                          : "t"
+                      }}</v-icon
+                    >
                     <v-icon
-                      v-if="(item % 4 == 1 && item<=topYear*4+1)"
-                      @click="selectItem(item,'AB')"
+                      v-if="item % 4 == 1 && item <= topYear * 4 + 1"
+                      @click="selectItem(item, 'AB')"
                       ref="eqIcon"
                       class="py-5"
-                      :color="eLarge && item == isMouseOverItem ? 'blue darken-4' : (isSelected(item,'AB')==1?'green':(item == isMouseOverItem? 'blue' : 'grey lighten-1'))"
-                      :disabled="!(isSelected(item,'AB')!= 0)"
+                      :color="
+                        eLarge && item == isMouseOverItem
+                          ? 'blue darken-4'
+                          : isSelected(item, 'AB') == 1
+                          ? 'green'
+                          : item == isMouseOverItem
+                          ? 'blue'
+                          : 'grey lighten-1'
+                      "
+                      :disabled="!(isSelected(item, 'AB') != 0)"
                       @mouseover="eLarge = true"
                       @mouseleave="eLarge = false"
                       :small="item == isMouseOverItem && eLarge ? false : true"
-                    >{{ isSelected(item,'AB')!= 0?(isSelected(item,'AB') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1))?'t':'mdi-view-stream'):'t'}}</v-icon>
+                      >{{
+                        isSelected(item, "AB") != 0
+                          ? isSelected(item, "AB") == -1 &&
+                            !(
+                              (itemIndex[itemIndex.length - 1] - 4 == item &&
+                                itemIndex.length != 0) ||
+                              (itemIndex.length == 0) &
+                                (item == topYear * 4 + 1)
+                            )
+                            ? "t"
+                            : "mdi-view-stream"
+                          : "t"
+                      }}</v-icon
+                    >
                     <v-icon
-                      v-if="(item % 4 == 1 && item<=topYear*4+1)"
-                      @click="selectItem(item,'B')"
+                      v-if="item % 4 == 1 && item <= topYear * 4 + 1"
+                      @click="selectItem(item, 'B')"
                       class="py-5"
                       ref="dwIcon"
-                      :color="dLarge && item == isMouseOverItem? 'blue darken-4':(isSelected(item,'B')==1?'green':(item == isMouseOverItem? 'blue': 'grey lighten-1'))"
-                      :disabled="!(isSelected(item,'B')!= 0)"
+                      :color="
+                        dLarge && item == isMouseOverItem
+                          ? 'blue darken-4'
+                          : isSelected(item, 'B') == 1
+                          ? 'green'
+                          : item == isMouseOverItem
+                          ? 'blue'
+                          : 'grey lighten-1'
+                      "
+                      :disabled="!(isSelected(item, 'B') != 0)"
                       @mouseover="dLarge = true"
                       @mouseleave="dLarge = false"
                       :small="item == isMouseOverItem && dLarge ? false : true"
-                    >{{ isSelected(item,'B') != 0 ?(isSelected(item,'B') == -1 && ! ((itemIndex[itemIndex.length-1] - 4 == item && itemIndex.length != 0) || (itemIndex.length == 0 & item == topYear*4 +1))?'t':'mdi-arrow-down-bold'):'t'}}</v-icon>
+                      >{{
+                        isSelected(item, "B") != 0
+                          ? isSelected(item, "B") == -1 &&
+                            !(
+                              (itemIndex[itemIndex.length - 1] - 4 == item &&
+                                itemIndex.length != 0) ||
+                              (itemIndex.length == 0) &
+                                (item == topYear * 4 + 1)
+                            )
+                            ? "t"
+                            : "mdi-arrow-down-bold"
+                          : "t"
+                      }}</v-icon
+                    >
                   </td>
                 </tr>
               </table>
@@ -121,8 +208,9 @@
             <v-row justify="center" align="center">
               <span
                 class="font-weight-bold"
-                :class="dLarge?'headline blue--text text--darken-4':'title'"
-              >偏好B</span>
+                :class="dLarge ? 'headline blue--text text--darken-4' : 'title'"
+                >偏好B</span
+              >
             </v-row>
           </v-col>
           <v-col cols="10">
@@ -133,19 +221,37 @@
                     v-for="item in 8 * topYear"
                     :key="item"
                     style="text-align: center; width: 16px"
-                    :class="item<topYear*4+1?(parseInt((item - 1) / 4) % 2 == 1 ? 'blue lighten-3' : 'blue darken-1'):(parseInt((item - 1) / 4) % 2 == 1 ? 'green lighten-3' : 'green darken-1')"
+                    :class="
+                      item < topYear * 4 + 1
+                        ? parseInt((item - 1) / 4) % 2 == 1
+                          ? 'blue lighten-3'
+                          : 'blue darken-1'
+                        : parseInt((item - 1) / 4) % 2 == 1
+                        ? 'green lighten-3'
+                        : 'green darken-1'
+                    "
                   ></td>
                 </tr>
               </table>
             </v-row>
             <v-row justify="center" align="center">
-              <div ref="div2" style="width: 1326.67px;text-align: right">{{topYear*2}}年</div>
+              <div ref="div2" style="width: 1326.67px;text-align: right">
+                {{ topYear * 2 }}年
+              </div>
             </v-row>
-            <v-row>
+
+            <!-- 调整这里 -->
+            <div
+              style="position: relative;width:100%;height:140px;background:#ffffff"
+            >
               <div
-                style="background:#5b9bd5;padding:10px 10px;width:400px;border-radius: 15px;height:180px"
+                style="background:#5b9bd5;padding:10px 10px;width:300px;border-radius: 25px;position:absolute;left:80px;"
                 v-if="block.source_text"
               >
+                <v-icon
+                  style="color:#5b9bd5;font-size:5rem; position: absolute;left:150px; z-index:98; top:-45px;"
+                  >mdi-menu-up</v-icon
+                >
                 <div v-for="msg in block.source_text.split('*')" :key="msg.key">
                   <li v-if="msg != ''">
                     <span>{{ msg }}</span>
@@ -153,9 +259,15 @@
                 </div>
               </div>
               <div
-                style="background:green;padding:10px 10px;width:400px;border-radius: 15px;height:180px"
-              >完全健康</div>
-            </v-row>
+                style="background:#92d050;padding:10px 10px;width:200px;border-radius: 15px;position:absolute;right:150px;"
+              >
+                完全健康
+                <v-icon
+                  style="color:#92d050;font-size:5rem; position: absolute;right:120px; z-index:98; top:-45px;"
+                  >mdi-menu-up</v-icon
+                >
+              </div>
+            </div>
           </v-col>
         </v-row>
       </v-card-text>
