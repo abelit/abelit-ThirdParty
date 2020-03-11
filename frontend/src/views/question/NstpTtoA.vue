@@ -432,10 +432,9 @@ export default {
       }
 
       if (
-        (aCount == 1 &&
-          this.itemList[0].answer == "A" &&
+        (this.isAppend &&
           this.itemList.length == 12) ||
-        (!(aCount == 1 && this.itemList[0].answer == "A") &&
+        (!(this.isAppend) &&
           this.itemList.length == 11)
       ) {
         var arr = [];
