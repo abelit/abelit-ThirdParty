@@ -20,140 +20,6 @@
                 style="color:#92d050;font-size:5rem; position: absolute;right:120px; z-index:98; top:5px;"
               >mdi-menu-down</v-icon>
             </div>
-
-            <!--新增弹窗-->
-
-            <div
-              id="alertbox"
-              style="position: absolute;width:320px;height:240px;top:140px;right:180px; z-index:99"
-              v-if="isAppend"
-            >
-              <div
-                style="width:100px;height:52px;background:#000000;position:absolute;top:-66px;right:1px;border:none;opacity: 0.5;"
-              ></div>
-              <div
-                style="position:relative;width:320px;height:240px;background:#000000;padding:10px;border-radius: 30px; border:none;opacity: 0.5;"
-              >
-                <v-icon
-                  style="color:#000000;font-size:5rem; position: absolute;right:20px;top:-50px;"
-                >mdi-menu-up</v-icon>
-              </div>
-              <div
-                style="text-align: center;width:280px;position:absolute;top:10px;right:20px;background:#ffffff"
-              >
-                <table border="1" cellspacing="0" cellpadding="0" style="width:100%">
-                  <tr style="height: 50px;">
-                    <td class="green lighten-3" style="text-align: center; width: 24px;">9年6个月</td>
-                    <td class="green lighten-3" style="text-align: center; width: 24px;">9年9个月</td>
-                    <td class="green lighten-3" style="text-align: center; width: 24px;">9年10个月</td>
-                    <td class="green lighten-3" style="text-align: center; width: 24px;">9年11个月</td>
-                  </tr>
-                </table>
-
-                <table border="1" cellspacing="0" cellpadding="0" style="width:100%">
-                  <tr style="height: 100px;">
-                    <td style="text-align: center;">
-                      <button
-                        type="button"
-                        @click="selectItem(906, 'A')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="isSelected(906, 'A') == -1? 'mdi-arrow-up-bold blue--text': (isSelected(906, 'A') == 1 ?'mdi-arrow-up-bold green--text' : 't')"
-                        style="width:100%"
-                      ></button>
-                      <button
-                        @click="selectItem(906, 'AB')"
-                        type="button"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="isSelected(906, 'AB') == -1? 'mdi-view-stream blue--text': (isSelected(906, 'AB') == 1 ?'mdi-view-stream green--text' : 't')"
-                        style="font-size: 36px;width:100% "
-                      ></button>
-                      <button
-                        @click="selectItem(906, 'B')"
-                        type="button"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="isSelected(906, 'B') == -1? 'mdi-arrow-down-bold  blue--text': (isSelected(906, 'B') == 1 ?'mdi-arrow-down-bold green--text' : 't')"
-                        style="width:100%"
-                      ></button>
-                    </td>
-                    <td style="text-align: center; ">
-                      <button
-                        type="button"
-                        @click="selectItem(909, 'A')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="isSelected(909, 'A') == -1? 'mdi-arrow-up-bold blue--text': (isSelected(909, 'A') == 1 ?'mdi-arrow-up-bold green--text' : 't')"
-                        style="width:100%"
-                      ></button>
-                      <button
-                        type="button"
-                        @click="selectItem(909, 'AB')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="isSelected(909, 'AB') == -1? 'mdi-view-stream blue--text': (isSelected(909, 'AB') == 1 ?'mdi-view-stream green--text' : 't')"
-                        style="font-size: 36px;width:100%"
-                      ></button>
-                      <button
-                        type="button"
-                        @click="selectItem(909, 'B')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="isSelected(909, 'B') == -1? 'mdi-arrow-down-bold  blue--text': (isSelected(909, 'B') == 1 ?'mdi-arrow-down-bold green--text' : 't')"
-                        style="width:100%"
-                      ></button>
-                    </td>
-                    <td style="text-align: center; ">
-                      <button
-                        type="button"
-                        @click="selectItem(910, 'A')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="isSelected(910, 'A') == -1? 'mdi-arrow-up-bold blue--text': (isSelected(910, 'A') == 1 ?'mdi-arrow-up-bold green--text' : 't')"
-                        style="width:100%"
-                      ></button>
-                      <button
-                        type="button"
-                        @click="selectItem(910, 'AB')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="isSelected(910, 'AB') == -1? 'mdi-view-stream blue--text': (isSelected(910, 'AB') == 1 ?'mdi-view-stream green--text' : 't')"
-                        style="font-size: 36px;width:100%"
-                      ></button>
-                      <button
-                        type="button"
-                        @click="selectItem(910, 'B')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="isSelected(910, 'B') == -1? 'mdi-arrow-down-bold  blue--text': (isSelected(910, 'B') == 1 ?'mdi-arrow-down-bold green--text' : 't')"
-                        style="width:100%"
-                      ></button>
-                    </td>
-                    <td style="text-align: center;">
-                      <button
-                        type="button"
-                        @click="selectItem(911, 'A')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light blue--text"
-                        :class="isSelected(911, 'A') == -1? 'mdi-arrow-up-bold blue--text': (isSelected(911, 'A') == 1 ?'mdi-arrow-up-bold green--text' : 't')"
-                        style="width:100%"
-                      ></button>
-                      <button
-                        type="button"
-                        @click="selectItem(911, 'AB')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light blue--text"
-                        :class="isSelected(911, 'AB') == -1? 'mdi-view-stream blue--text': (isSelected(911, 'AB') == 1 ?'mdi-view-stream green--text' : 't')"
-                        style="font-size: 36px;width:100%"
-                      ></button>
-                      <button
-                        type="button"
-                        @click="selectItem(911, 'B')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="isSelected(911, 'B') == -1? 'mdi-arrow-down-bold  blue--text': (isSelected(911, 'B') == 1 ?'mdi-arrow-down-bold green--text' : 't')"
-                        style="width:100%"
-                      ></button>
-                    </td>
-                  </tr>
-                </table>
-
-                <table border="1" cellspacing="0" cellpadding="0" style="width:100%">
-                  <tr style="height: 50px;">
-                    <td class="blue lighten-3" style="text-align: center; width: 24px;">10年</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
           </div>
           <v-col cols="2">
             <v-row
@@ -224,7 +90,7 @@
                   >
                     <v-icon
                       v-if="
-                        item % 4 == 1
+                        item % 4 == 1 || (item == 4 * topYear - 1 && isAppend)
                       "
                       @click="selectItem(item, 'A')"
                       class="py-5"
@@ -260,7 +126,7 @@
                     </v-icon>
                     <v-icon
                       v-if="
-                        item % 4 == 1
+                        item % 4 == 1 || (item == 4 * topYear - 1 && isAppend)
                       "
                       @click="selectItem(item, 'AB')"
                       ref="eqIcon"
@@ -296,7 +162,7 @@
                     </v-icon>
                     <v-icon
                       v-if="
-                        item % 4 == 1
+                        item % 4 == 1 || (item == 4 * topYear - 1 && isAppend)
                       "
                       @click="selectItem(item, 'B')"
                       class="py-5"
@@ -418,14 +284,13 @@ export default {
   props: ["block"],
   methods: {
     selectItem(k, v) {
-      console.log(k);
       if (
         !(
           (this.itemIndex.length == 0 && k == this.topYear * 4 + 1) ||
           (this.itemIndex.length > 0 &&
             k == this.itemIndex[this.itemIndex.length - 1] - 4)
         ) &&
-        !((k == 906 || k == 909 || k == 910 || k == 911) && this.isAppend)
+        !(k == 4 * this.topYear - 1 && this.isAppend)
       ) {
         alert("请从右至左依次按顺序回答！");
         return;
@@ -442,12 +307,15 @@ export default {
           this.currentYear = this.currentYear - 1;
         }
       }
+
       this.style1 = this.getStyle(
         24.44 * (this.topYear - this.currentYear) * 4
       );
+
       console.log(this.itemList);
       // console.log(this.itemIndex);
       // console.log(this.isSelected(k, v));
+
       // 判断A页面是否回答完成，如果最后一次回答且本次与前面所有都选择A，选择答案后跳转到B页面继续回答持续的11道问题
       var aCount = 0;
       for (var i = 0; i < this.itemList.length; i++) {
@@ -455,20 +323,23 @@ export default {
           aCount++;
         }
       }
+
       // 逻辑2，如果第一次选A，第二次到第11次都选择B或AB，那么问到第11题之后追加一道是否为9.5年的问题
       console.log(aCount);
+
       if (
         aCount == 1 &&
         this.itemList[0].answer == "A" &&
         this.itemList.length == 11
       ) {
         this.isAppend = true;
-        // this.currentYear = 9.5;
-        // this.style1 = this.getStyle(
-        //   24.44 * (this.topYear - this.currentYear) * 4
-        // );
+        this.currentYear = 9.5;
+        this.style1 = this.getStyle(
+          24.44 * (this.topYear - this.currentYear) * 4
+        );
         console.log(this.itemList);
       }
+
       if (aCount == 11 && this.itemList.length == 11) {
         var arr = [];
         for (var i = 0; i < this.itemList.length; i++) {
@@ -484,11 +355,14 @@ export default {
             block: this.block.block,
             version: this.qVersion
           };
+
           arr.push(answerObj);
         }
         this.nstpttoAnswer = arr;
+
         // 把第一个页面的答案保存起来
         this.updateItem(this.nstpttoAnswer, false);
+
         // 切换到第二个页面继续答题
         this.$store.dispatch("setNstpPage", 2);
       }
@@ -504,6 +378,7 @@ export default {
       // }
       this.isMouseOverItem = item;
     },
+
     mouseLeave() {
       // if (item % 4 == 1) {
       //   // console.log(this.$refs.iconList[item - 1].children.length);
@@ -540,8 +415,9 @@ export default {
           aCount++;
         }
       }
+
       if (
-        (this.isAppend && this.itemList.length == 15) ||
+        (this.isAppend && this.itemList.length == 12) ||
         (!this.isAppend && this.itemList.length == 11)
       ) {
         var arr = [];
@@ -558,6 +434,7 @@ export default {
             block: this.block.block,
             version: this.qVersion
           };
+
           arr.push(answerObj);
         }
         this.nstpttoAnswer = arr;
