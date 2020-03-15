@@ -18,6 +18,8 @@ app.config['UPLOAD_PATH'] = UPLOAD_PATH
 
 app.config['adminpwd'] = "Passw0rd123!"
 
+app.config['JSON_SORT_KEYS'] = False
+
 # 跨域设置
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
