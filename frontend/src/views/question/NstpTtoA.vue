@@ -233,7 +233,14 @@
               align="center"
               class="font-weight-bold"
               :class="uLarge ? 'headline blue--text text--darken-4' : 'title'"
-            >偏好A</v-row>
+            >
+              <v-btn text @click="selectItem(indexList[itemList.length], 'A')">
+                <span
+                  class="font-weight-bold"
+                  :class="uLarge ? 'headline blue--text text--darken-4' : 'title'"
+                >偏好A</span>
+              </v-btn>
+            </v-row>
           </v-col>
           <v-col cols="10">
             <v-row></v-row>
@@ -273,7 +280,14 @@
               align="center"
               class="font-weight-bold"
               :class="eLarge ? 'headline blue--text text--darken-4' : 'title'"
-            >A和B大致相同</v-row>
+            >
+              <v-btn text @click="selectItem(indexList[itemList.length], 'AB')">
+                <span
+                  class="font-weight-bold"
+                  :class="eLarge ? 'headline blue--text text--darken-4' : 'title'"
+                >A和B大致相同</span>
+              </v-btn>
+            </v-row>
           </v-col>
           <v-col cols="10">
             <v-row justify="center" align="center">
@@ -406,10 +420,24 @@
         <v-row justify="center" align="center">
           <v-col cols="2">
             <v-row justify="center" align="center">
-              <span
-                class="font-weight-bold"
-                :class="dLarge ? 'headline blue--text text--darken-4' : 'title'"
-              >偏好B</span>
+              <!-- <div v-for="item in 4 * topYear + 1" :key="item">
+                <v-btn
+                  text
+                  @click="selectItem(item, 'B')"
+                  v-if="(itemIndex.length != 0 && item == itemIndex[itemIndex.length-1]-4) || (itemIndex.length == 0 && item == 41)"
+                >
+                  <span
+                    class="font-weight-bold"
+                    :class="dLarge ? 'headline blue--text text--darken-4' : 'title'"
+                  >偏好B</span>
+                </v-btn>
+              </div>-->
+              <v-btn text @click="selectItem(indexList[itemList.length], 'B')">
+                <span
+                  class="font-weight-bold"
+                  :class="dLarge ? 'headline blue--text text--darken-4' : 'title'"
+                >偏好B</span>
+              </v-btn>
             </v-row>
           </v-col>
           <v-col cols="10">
@@ -479,7 +507,8 @@ export default {
     itemIndex: [],
     style1: "",
     currentYear: 10,
-    nstpttoAnswer: ""
+    nstpttoAnswer: "",
+    indexList: [41, 37, 33, 29, 25, 21, 17, 13, 9, 5, 1, 906, 909, 910, 911]
   }),
   props: ["block"],
   methods: {
@@ -558,6 +587,7 @@ export default {
         // 切换到第二个页面继续答题
         this.$store.dispatch("setNstpPage", 2);
       }
+      console.log(this.itemIndex);
     },
     mouseOver(item) {
       // if (item % 4 == 1) {

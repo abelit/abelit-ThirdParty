@@ -27,7 +27,14 @@
               align="center"
               class="font-weight-bold"
               :class="uLarge ? 'headline blue--text text--darken-4' : 'title'"
-            >偏好A</v-row>
+            >
+              <v-btn text @click="selectItem(indexList[itemList.length], 'A')">
+                <span
+                  class="font-weight-bold"
+                  :class="uLarge ? 'headline blue--text text--darken-4' : 'title'"
+                >偏好A</span>
+              </v-btn>
+            </v-row>
           </v-col>
           <v-col cols="10">
             <v-row></v-row>
@@ -70,7 +77,14 @@
               align="center"
               class="font-weight-bold"
               :class="eLarge ? 'headline blue--text text--darken-4' : 'title'"
-            >A和B大致相同</v-row>
+            >
+              <v-btn text @click="selectItem(indexList[itemList.length], 'AB')">
+                <span
+                  class="font-weight-bold"
+                  :class="eLarge ? 'headline blue--text text--darken-4' : 'title'"
+                >A和B大致相同</span>
+              </v-btn>
+            </v-row>
           </v-col>
           <v-col cols="10">
             <v-row justify="center" align="center">
@@ -200,10 +214,12 @@
         <v-row justify="center" align="center">
           <v-col cols="2">
             <v-row justify="center" align="center">
-              <span
-                class="font-weight-bold"
-                :class="dLarge ? 'headline blue--text text--darken-4' : 'title'"
-              >偏好B</span>
+              <v-btn text @click="selectItem(indexList[itemList.length], 'B')">
+                <span
+                  class="font-weight-bold"
+                  :class="dLarge ? 'headline blue--text text--darken-4' : 'title'"
+                >偏好B</span>
+              </v-btn>
             </v-row>
           </v-col>
           <v-col cols="10">
@@ -285,7 +301,8 @@ export default {
     itemList: [],
     itemIndex: [],
     style3: "padding-right: 650px",
-    nstpttoAnswer: ""
+    nstpttoAnswer: "",
+    indexList: [41, 37, 33, 29, 25, 21, 17, 13, 9, 5, 1]
   }),
   props: ["block"],
   methods: {
