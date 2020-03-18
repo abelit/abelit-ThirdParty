@@ -60,17 +60,18 @@ export default {
       } else {
         alert("后台地址不对");
       }
+      this.isCircle = true;
       this.$axios
         .post(url, this.allAnswer)
         .then(res => {
           if (res.status == 200) {
-            this.isCircle = true;
-            this.snackbar = true;
             setTimeout(() => {
               this.isCircle = false;
-              this.snackbar = false;
-              this.$router.push({ path: "/" });
-            }, 5000);
+              this.snackbar = true;
+              setTimeout(() => {
+                this.$router.push({ path: "/" });
+              },2000)
+            }, 1000);
           }
           this.isSave = true;
         })

@@ -1,5 +1,5 @@
 <template>
-  <v-container v-show="dceQuestion.length > 1">
+  <v-container v-show="dceQuestion.length > 1" style="width: 1200px">
     <v-row>
       <v-col>
         <v-alert dense type="info">{{ eqLangLabels[$vuetify.lang.current].question }}</v-alert>
