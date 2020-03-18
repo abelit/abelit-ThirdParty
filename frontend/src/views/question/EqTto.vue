@@ -91,7 +91,7 @@
                     :key="item"
                     style="text-align: center; width: 24px"
                     :class="
-                      item <= 4 * currentYear ? 'light-green lighten-1' : ''
+                      item <= 4 * currentYear ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3') : ''
                     "
                   ></td>
                 </tr>
@@ -104,7 +104,7 @@
                     v-for="item in allContent(topYear)"
                     :key="item"
                     style="text-align: center; width: 24px"
-                    class="blue lighten-2"
+                    :class="(parseInt((item - 1) / 4) % 2 == 1?'blue':'blue darken-3')"
                   ></td>
                 </tr>
               </table>
@@ -146,7 +146,7 @@
                     :key="item"
                     style="text-align: center; width: 16px"
                     :class="
-                      item <= 4 * currentYearB ? 'light-green lighten-1' : ''
+                      item <= 4 * currentYearB ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3') : ''
                     "
                   ></td>
                 </tr>
@@ -160,7 +160,7 @@
                     :key="item"
                     style="text-align: center; width: 16px"
                     :class="
-                      item <= 40 ? 'light-green lighten-1' : 'blue lighten-2'
+                      item <= 40 ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3') : (parseInt((item - 1) / 4) % 2 == 1?'blue lighten-1':'blue darken-3')
                     "
                   ></td>
                 </tr>
@@ -399,7 +399,7 @@ export default {
         }
       }
       if (type != "A" && type != "B") {
-        console.log("hihihi .....")
+        console.log("hihihi .....");
         this.popAB = true;
       }
       this.popupDialog = true;
