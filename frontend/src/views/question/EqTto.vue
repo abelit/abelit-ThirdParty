@@ -14,7 +14,7 @@
         <span color="grey">本题用时： {{itemUsedTime}}</span>-->
       </v-card-title>
       <v-card-text>
-        <v-row>
+        <v-row style="height: 300px !important;">
           <v-col cols="3" class="px-8">
             <v-row justify="end">
               <v-col>
@@ -35,7 +35,7 @@
               </v-col>
             </v-row>
           </v-col>
-          <v-col cols="9" class="px-8" v-if="slide == 1">
+          <v-col cols="9" class="px-8" v-if="slide == 1" >
             <!-- <v-row v-if="showDetail" justify="start">
               <span class="display-0">当前SLIDE： {{ slide }}</span>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -199,7 +199,7 @@
             </v-row>
           </v-col>
         </v-row>
-        <div v-if="slide == 2" ref="infotip" style="height:180px">
+        <div v-if="slide == 2" ref="infotip" style="height:180px" class="mt-5">
           <div style="float:left;position: absolute;left:450px">
             <v-row style="position: relative;">
               <v-icon
@@ -426,7 +426,7 @@ export default {
           this.cStyle1 = this.getStyle(
             this.$refs.table1.offsetWidth,
             this.topYear,
-            this.currentYear
+            this.currentYear == 0 ? 0.5 : this.currentYear
           );
           this.drawLine(
             "canvas2",
@@ -449,7 +449,7 @@ export default {
           this.cStyle3 = this.getStyle(
             this.$refs.table3.offsetWidth,
             this.topYearB,
-            this.currentYearB
+            this.currentYearB == 0 ? 1 : (this.currentYearB == 0.5 ? 1.5 : this.currentYearB)
           );
         }
       });
@@ -623,7 +623,7 @@ export default {
           this.cStyle1 = this.getStyle(
             this.$refs.table1.offsetWidth,
             this.topYear,
-            this.currentYear
+            this.currentYear == 0 ? 0.5: this.currentYear
           );
 
           // console.log(this.cStyle1);
@@ -660,7 +660,7 @@ export default {
           this.cStyle3 = this.getStyle(
             this.$refs.table3.offsetWidth,
             this.topYearB,
-            this.currentYearB
+              this.currentYearB == 0 ? 1 : (this.currentYearB == 0.5 ? 1.5 : this.currentYearB)
           );
           this.drawLine(
             "canvas5",

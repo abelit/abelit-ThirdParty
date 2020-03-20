@@ -331,7 +331,7 @@ export default {
       }
 
       this.style3 = this.getStyle(
-        16.67 * (this.topYear - this.currentYear) * 4 + 650
+        this.currentYear == 0 ?16.67 * (this.topYear - 0.5) * 4 + 650 :16.67 * (this.topYear - this.currentYear) * 4 + 650
       );
       console.log(this.itemList);
       console.log(this.isSelected(k, v));

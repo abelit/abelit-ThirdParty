@@ -261,12 +261,14 @@
                     :key="item"
                     style="text-align: center; width: 24px"
                     :class="
-                      item <= itemIndex[itemIndex.length - 1] - 5 ||
-                      itemIndex.length == 0
-                        ? parseInt((item - 1) / 4) % 2 == 1
+                      isAppend?(parseInt((item - 1) / 4) % 2 == 1
                           ? 'green lighten-3'
-                          : 'green darken-1'
-                        : ''
+                          : 'green darken-1'):((item <= itemIndex[itemIndex.length - 1] - 5 ||
+                      itemIndex.length == 0)
+                        ? (parseInt((item - 1) / 4) % 2 == 1
+                          ? 'green lighten-3'
+                          : 'green darken-1')
+                        : '')
                     "
                   ></td>
                 </tr>
