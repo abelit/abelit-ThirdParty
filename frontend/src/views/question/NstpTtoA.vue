@@ -22,31 +22,31 @@
             </div>
 
             <!--新增弹窗-->
-
+              <v-expand-transition>
             <div
               id="alertbox"
-              style="position: absolute;width:320px;height:240px;top:140px;right:180px; z-index:99"
-              v-if="isAppend"
+              style="position: absolute;width:300px;height:240px;top:140px;right:180px; z-index:99"
+              v-show="isAppend"
             >
               <div
-                style="width:100px;height:52px;background:#000000;position:absolute;top:-66px;right:1px;border:none;opacity: 0.5;"
+                style="width:100px;height:52px;background: #2E7D32;position:absolute;top:-66px;right:1px;border:3px solid red;opacity: 0.7;"
               ></div>
               <div
-                style="position:relative;width:320px;height:240px;background:#000000;padding:10px;border-radius: 30px; border:none;opacity: 0.5;"
+                style="position:relative;width:300px;height:240px;background: grey;padding:10px;border-radius: 15px; border:3px solid red;;opacity: 0.4;"
               >
                 <v-icon
-                  style="color:#000000;font-size:5rem; position: absolute;right:20px;top:-50px;"
+                  style="color: red;font-size:5rem; position: absolute;right:20px;top:-50px;"
                 >mdi-menu-up</v-icon>
               </div>
               <div
-                style="text-align: center;width:280px;position:absolute;top:10px;right:20px;background:#ffffff"
+                style="text-align: center;width:280px;position:absolute;top:10px;right:10px;background:#ffffff"
               >
                 <table border="1" cellspacing="0" cellpadding="0" style="width:100%">
                   <tr style="height: 50px;">
-                    <td class="green lighten-3" style="text-align: center; width: 25%;">9年6个月</td>
-                    <td class="green lighten-3" style="text-align: center; width: 25%;">9年9个月</td>
-                    <td class="green lighten-3" style="text-align: center; width: 25%;">9年10个月</td>
-                    <td class="green lighten-3" style="text-align: center; width: 25%;">9年11个月</td>
+                    <td class="green darken-1" style="text-align: center; width: 25%;"><span  v-if="indexList[itemIndex.length] >= 906 || itemIndex.length == 15">9年6个月</span></td>
+                    <td class="green darken-1" style="text-align: center; width: 25%;"><span v-if="indexList[itemIndex.length] >= 909 || itemIndex.length == 15">9年9个月</span></td>
+                    <td class="green darken-1" style="text-align: center; width: 25%;" ><span v-if="indexList[itemIndex.length] >= 910 || itemIndex.length == 15"> 9年10个月</span></td>
+                    <td class="green darken-1" style="text-align: center; width: 25%;" ><span v-if="indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911">9年11个月</span></td>
                   </tr>
                 </table>
 
@@ -59,10 +59,10 @@
                         class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                         :class="
                           isSelected(906, 'A') == -1
-                            ? 'mdi-arrow-up-bold blue--text'
-                            : isSelected(906, 'A') == 1
+                            ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'mdi-arrow-up-bold grey--text':'')
+                            : (isSelected(906, 'A') == 1
                             ? 'mdi-arrow-up-bold green--text'
-                            : 't'
+                            : 't')
                         "
                         style="width:100%"
                       ></button>
@@ -72,10 +72,10 @@
                         class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                         :class="
                           isSelected(906, 'AB') == -1
-                            ? 'mdi-view-stream blue--text'
-                            : isSelected(906, 'AB') == 1
+                            ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'mdi-view-stream grey--text':'')
+                            : (isSelected(906, 'AB') == 1
                             ? 'mdi-view-stream green--text'
-                            : 't'
+                            : 't')
                         "
                         style="font-size: 36px;width:100% "
                       ></button>
@@ -85,10 +85,10 @@
                         class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                         :class="
                           isSelected(906, 'B') == -1
-                            ? 'mdi-arrow-down-bold  blue--text'
-                            : isSelected(906, 'B') == 1
+                            ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'mdi-arrow-down-bold  grey--text':'')
+                            : (isSelected(906, 'B') == 1
                             ? 'mdi-arrow-down-bold green--text'
-                            : 't'
+                            : 't')
                         "
                         style="width:100%"
                       ></button>
@@ -100,10 +100,10 @@
                         class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                         :class="
                           isSelected(909, 'A') == -1
-                            ? 'mdi-arrow-up-bold blue--text'
-                            : isSelected(909, 'A') == 1
+                            ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'mdi-arrow-up-bold grey--text':'')
+                            : (isSelected(909, 'A') == 1
                             ? 'mdi-arrow-up-bold green--text'
-                            : 't'
+                            : 't')
                         "
                         style="width:100%"
                       ></button>
@@ -112,11 +112,11 @@
                         @click="selectItem(909, 'AB')"
                         class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                         :class="
-                          isSelected(909, 'AB') == -1
-                            ? 'mdi-view-stream blue--text'
-                            : isSelected(909, 'AB') == 1
+                           isSelected(909, 'AB') == -1
+                            ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'mdi-view-stream grey--text':'')
+                            : (isSelected(909, 'AB') == 1
                             ? 'mdi-view-stream green--text'
-                            : 't'
+                            : 't')
                         "
                         style="font-size: 36px;width:100%"
                       ></button>
@@ -126,10 +126,10 @@
                         class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                         :class="
                           isSelected(909, 'B') == -1
-                            ? 'mdi-arrow-down-bold  blue--text'
-                            : isSelected(909, 'B') == 1
+                            ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'mdi-arrow-down-bold  grey--text':'')
+                            : (isSelected(909, 'B') == 1
                             ? 'mdi-arrow-down-bold green--text'
-                            : 't'
+                            : 't')
                         "
                         style="width:100%"
                       ></button>
@@ -141,10 +141,10 @@
                         class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                         :class="
                           isSelected(910, 'A') == -1
-                            ? 'mdi-arrow-up-bold blue--text'
-                            : isSelected(910, 'A') == 1
+                            ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'mdi-arrow-up-bold grey--text':'')
+                            : (isSelected(910, 'A') == 1
                             ? 'mdi-arrow-up-bold green--text'
-                            : 't'
+                            : 't')
                         "
                         style="width:100%"
                       ></button>
@@ -154,10 +154,10 @@
                         class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                         :class="
                           isSelected(910, 'AB') == -1
-                            ? 'mdi-view-stream blue--text'
-                            : isSelected(910, 'AB') == 1
+                            ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'mdi-view-stream grey--text':'')
+                            : (isSelected(910, 'AB') == 1
                             ? 'mdi-view-stream green--text'
-                            : 't'
+                            : 't')
                         "
                         style="font-size: 36px;width:100%"
                       ></button>
@@ -166,15 +166,16 @@
                         @click="selectItem(910, 'B')"
                         class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                         :class="
-                          isSelected(910, 'B') == -1
-                            ? 'mdi-arrow-down-bold  blue--text'
-                            : isSelected(910, 'B') == 1
+                         isSelected(910, 'B') == -1
+                            ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'mdi-arrow-down-bold  grey--text':'')
+                            : (isSelected(910, 'B') == 1
                             ? 'mdi-arrow-down-bold green--text'
-                            : 't'
+                            : 't')
                         "
                         style="width:100%"
                       ></button>
                     </td>
+                    
                     <td style="text-align: center;width:25%">
                       <button
                         type="button"
@@ -182,10 +183,10 @@
                         class="v-icon notranslate py-1 v-icon--link mdi theme--light blue--text"
                         :class="
                           isSelected(911, 'A') == -1
-                            ? 'mdi-arrow-up-bold blue--text'
-                            : isSelected(911, 'A') == 1
+                            ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'mdi-arrow-up-bold grey--text':'')
+                            : (isSelected(911, 'A') == 1
                             ? 'mdi-arrow-up-bold green--text'
-                            : 't'
+                            : 't')
                         "
                         style="width:100%"
                       ></button>
@@ -195,10 +196,10 @@
                         class="v-icon notranslate py-1 v-icon--link mdi theme--light blue--text"
                         :class="
                           isSelected(911, 'AB') == -1
-                            ? 'mdi-view-stream blue--text'
-                            : isSelected(911, 'AB') == 1
+                            ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'mdi-view-stream grey--text':'')
+                            : (isSelected(911, 'AB') == 1
                             ? 'mdi-view-stream green--text'
-                            : 't'
+                            : 't')
                         "
                         style="font-size: 36px;width:100%"
                       ></button>
@@ -207,11 +208,11 @@
                         @click="selectItem(911, 'B')"
                         class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                         :class="
-                          isSelected(911, 'B') == -1
-                            ? 'mdi-arrow-down-bold  blue--text'
-                            : isSelected(911, 'B') == 1
+                           isSelected(911, 'B') == -1
+                            ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'mdi-arrow-down-bold  grey--text':'')
+                            : (isSelected(911, 'B') == 1
                             ? 'mdi-arrow-down-bold green--text'
-                            : 't'
+                            : 't')
                         "
                         style="width:100%"
                       ></button>
@@ -226,18 +227,19 @@
                 </table>
               </div>
             </div>
+              </v-expand-transition>
           </div>
           <v-col cols="2">
             <v-row
               justify="center"
               align="center"
               class="font-weight-bold"
-              :class="uLarge ? 'headline blue--text text--darken-4' : 'title'"
+              :class="uLarge ? 'headline grey--text text--darken-4' : 'title'"
             >
               <v-btn text @click="selectItem(indexList[itemList.length], 'A')">
                 <span
                   class="font-weight-bold"
-                  :class="uLarge ? 'headline blue--text text--darken-4' : 'title'"
+                  :class="uLarge ? 'headline grey--text text--darken-4' : 'title'"
                 >偏好A</span>
               </v-btn>
             </v-row>
@@ -279,12 +281,12 @@
               justify="center"
               align="center"
               class="font-weight-bold"
-              :class="eLarge ? 'headline blue--text text--darken-4' : 'title'"
+              :class="eLarge ? 'headline grey--text text--darken-4' : 'title'"
             >
               <v-btn text @click="selectItem(indexList[itemList.length], 'AB')">
                 <span
                   class="font-weight-bold"
-                  :class="eLarge ? 'headline blue--text text--darken-4' : 'title'"
+                  :class="eLarge ? 'headline grey--text text--darken-4' : 'title'"
                 >A和B大致相同</span>
               </v-btn>
             </v-row>
@@ -428,14 +430,14 @@
                 >
                   <span
                     class="font-weight-bold"
-                    :class="dLarge ? 'headline blue--text text--darken-4' : 'title'"
+                    :class="dLarge ? 'headline grey--text text--darken-4' : 'title'"
                   >偏好B</span>
                 </v-btn>
               </div>-->
               <v-btn text @click="selectItem(indexList[itemList.length], 'B')">
                 <span
                   class="font-weight-bold"
-                  :class="dLarge ? 'headline blue--text text--darken-4' : 'title'"
+                  :class="dLarge ? 'headline grey--text text--darken-4' : 'title'"
                 >偏好B</span>
               </v-btn>
             </v-row>

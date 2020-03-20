@@ -71,6 +71,9 @@ export default {
           console.log(err);
         });
     }
+  },
+  created() {
+    this.$store.dispatch("setNstpPage", 1);
   }
 };
 </script>
