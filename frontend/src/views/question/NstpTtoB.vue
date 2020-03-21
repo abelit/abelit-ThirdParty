@@ -103,6 +103,7 @@
                     :key="item"
                     ref="iconList"
                     style="text-align: center; width: 16px;"
+                    :class="isSelected(item,'A') == -1?'dynamic-icon':''"
                     @mouseover="mouseOver(item)"
                     @mouseleave="mouseLeave(item)"
                   >
@@ -535,3 +536,35 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fade {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.dynamic-icon {
+  color: #fff;
+  // font-size: 15px;
+  animation: fade 600ms infinite;
+  -webkit-animation: fade 600ms infinite;
+}
+</style>
