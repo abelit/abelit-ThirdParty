@@ -30,6 +30,7 @@
               >
                 <div
                   style="width:100px;height:52px;background: #2E7D32;position:absolute;top:-66px;right:1px;border:3px solid red;opacity: 0.7;"
+                  class="dynamic-icon"
                 ></div>
                 <div
                   style="position:relative;width:300px;height:240px;background: grey;padding:10px;border-radius: 15px; border:3px solid red;;opacity: 0.7;"
