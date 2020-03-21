@@ -22,212 +22,228 @@
             </div>
 
             <!--新增弹窗-->
-              <v-expand-transition>
-            <div
-              id="alertbox"
-              style="position: absolute;width:300px;height:240px;top:140px;right:180px; z-index:99"
-              v-show="isAppend"
-            >
+            <v-expand-transition>
               <div
-                style="width:100px;height:52px;background: #2E7D32;position:absolute;top:-66px;right:1px;border:3px solid red;opacity: 0.7;"
-              ></div>
-              <div
-                style="position:relative;width:300px;height:240px;background: grey;padding:10px;border-radius: 15px; border:3px solid red;;opacity: 0.4;"
+                id="alertbox"
+                style="position: absolute;width:300px;height:240px;top:140px;right:180px; z-index:99"
+                v-show="isAppend"
               >
-                <v-icon
-                  style="color: red;font-size:5rem; position: absolute;right:20px;top:-50px;"
-                >mdi-menu-up</v-icon>
-              </div>
-              <div
-                style="text-align: center;width:280px;position:absolute;top:10px;right:10px;background:#ffffff"
-              >
-                <table border="1" cellspacing="0" cellpadding="0" style="width:100%">
-                  <tr style="height: 50px;">
-                    <td class="green darken-1" style="text-align: center; width: 25%;"><span  v-if="indexList[itemIndex.length] >= 906 || itemIndex.length == 15">9年6个月</span></td>
-                    <td class="green darken-1" style="text-align: center; width: 25%;"><span v-if="indexList[itemIndex.length] >= 909 || itemIndex.length == 15">9年9个月</span></td>
-                    <td class="green darken-1" style="text-align: center; width: 25%;" ><span v-if="indexList[itemIndex.length] >= 910 || itemIndex.length == 15"> 9年10个月</span></td>
-                    <td class="green darken-1" style="text-align: center; width: 25%;" ><span v-if="indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911">9年11个月</span></td>
-                  </tr>
-                </table>
+                <div
+                  style="width:100px;height:52px;background: #2E7D32;position:absolute;top:-66px;right:1px;border:3px solid red;opacity: 0.7;"
+                ></div>
+                <div
+                  style="position:relative;width:300px;height:240px;background: grey;padding:10px;border-radius: 15px; border:3px solid red;;opacity: 0.7;"
+                >
+                  <v-icon
+                    style="color: red;font-size:5rem; position: absolute;right:20px;top:-50px;"
+                  >mdi-menu-up</v-icon>
+                </div>
+                <div
+                  style="text-align: center;width:280px;position:absolute;top:10px;right:10px;background:#ffffff"
+                >
+                  <table border="1" cellspacing="0" cellpadding="0" style="width:100%">
+                    <tr style="height: 50px;">
+                      <td class="green darken-1" style="text-align: center; width: 25%;">
+                        <span
+                          v-if="indexList[itemIndex.length] >= 906 || itemIndex.length == 15"
+                        >9年6个月</span>
+                      </td>
+                      <td class="green darken-1" style="text-align: center; width: 25%;">
+                        <span
+                          v-if="indexList[itemIndex.length] >= 909 || itemIndex.length == 15"
+                        >9年9个月</span>
+                      </td>
+                      <td class="green darken-1" style="text-align: center; width: 25%;">
+                        <span
+                          v-if="indexList[itemIndex.length] >= 910 || itemIndex.length == 15"
+                        >9年10个月</span>
+                      </td>
+                      <td class="green darken-1" style="text-align: center; width: 25%;">
+                        <span
+                          v-if="indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911"
+                        >9年11个月</span>
+                      </td>
+                    </tr>
+                  </table>
 
-                <table border="1" cellspacing="0" cellpadding="0" style="width:100%">
-                  <tr style="height: 100px;">
-                    <td style="text-align: center;width:25%">
-                      <button
-                        type="button"
-                        @click="selectItem(906, 'A')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="
+                  <table border="1" cellspacing="0" cellpadding="0" style="width:100%">
+                    <tr style="height: 100px;">
+                      <td style="text-align: center;width:25%">
+                        <button
+                          type="button"
+                          @click="selectItem(906, 'A')"
+                          class="v-icon notranslate py-1 v-icon--link mdi theme--light"
+                          :class="
                           isSelected(906, 'A') == -1
                             ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'mdi-arrow-up-bold grey--text':'')
                             : (isSelected(906, 'A') == 1
                             ? 'mdi-arrow-up-bold green--text'
                             : 't')
                         "
-                        style="width:100%"
-                      ></button>
-                      <button
-                        @click="selectItem(906, 'AB')"
-                        type="button"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="
+                          style="width:100%"
+                        ></button>
+                        <button
+                          @click="selectItem(906, 'AB')"
+                          type="button"
+                          class="v-icon notranslate py-1 v-icon--link mdi theme--light"
+                          :class="
                           isSelected(906, 'AB') == -1
                             ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'mdi-view-stream grey--text':'')
                             : (isSelected(906, 'AB') == 1
                             ? 'mdi-view-stream green--text'
                             : 't')
                         "
-                        style="font-size: 36px;width:100% "
-                      ></button>
-                      <button
-                        @click="selectItem(906, 'B')"
-                        type="button"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="
+                          style="font-size: 36px;width:100% "
+                        ></button>
+                        <button
+                          @click="selectItem(906, 'B')"
+                          type="button"
+                          class="v-icon notranslate py-1 v-icon--link mdi theme--light"
+                          :class="
                           isSelected(906, 'B') == -1
                             ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'mdi-arrow-down-bold  grey--text':'')
                             : (isSelected(906, 'B') == 1
                             ? 'mdi-arrow-down-bold green--text'
                             : 't')
                         "
-                        style="width:100%"
-                      ></button>
-                    </td>
-                    <td style="text-align: center;width:25%">
-                      <button
-                        type="button"
-                        @click="selectItem(909, 'A')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="
+                          style="width:100%"
+                        ></button>
+                      </td>
+                      <td style="text-align: center;width:25%">
+                        <button
+                          type="button"
+                          @click="selectItem(909, 'A')"
+                          class="v-icon notranslate py-1 v-icon--link mdi theme--light"
+                          :class="
                           isSelected(909, 'A') == -1
                             ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'mdi-arrow-up-bold grey--text':'')
                             : (isSelected(909, 'A') == 1
                             ? 'mdi-arrow-up-bold green--text'
                             : 't')
                         "
-                        style="width:100%"
-                      ></button>
-                      <button
-                        type="button"
-                        @click="selectItem(909, 'AB')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="
+                          style="width:100%"
+                        ></button>
+                        <button
+                          type="button"
+                          @click="selectItem(909, 'AB')"
+                          class="v-icon notranslate py-1 v-icon--link mdi theme--light"
+                          :class="
                            isSelected(909, 'AB') == -1
                             ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'mdi-view-stream grey--text':'')
                             : (isSelected(909, 'AB') == 1
                             ? 'mdi-view-stream green--text'
                             : 't')
                         "
-                        style="font-size: 36px;width:100%"
-                      ></button>
-                      <button
-                        type="button"
-                        @click="selectItem(909, 'B')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="
+                          style="font-size: 36px;width:100%"
+                        ></button>
+                        <button
+                          type="button"
+                          @click="selectItem(909, 'B')"
+                          class="v-icon notranslate py-1 v-icon--link mdi theme--light"
+                          :class="
                           isSelected(909, 'B') == -1
                             ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'mdi-arrow-down-bold  grey--text':'')
                             : (isSelected(909, 'B') == 1
                             ? 'mdi-arrow-down-bold green--text'
                             : 't')
                         "
-                        style="width:100%"
-                      ></button>
-                    </td>
-                    <td style="text-align: center;width:25%">
-                      <button
-                        type="button"
-                        @click="selectItem(910, 'A')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="
+                          style="width:100%"
+                        ></button>
+                      </td>
+                      <td style="text-align: center;width:25%">
+                        <button
+                          type="button"
+                          @click="selectItem(910, 'A')"
+                          class="v-icon notranslate py-1 v-icon--link mdi theme--light"
+                          :class="
                           isSelected(910, 'A') == -1
                             ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'mdi-arrow-up-bold grey--text':'')
                             : (isSelected(910, 'A') == 1
                             ? 'mdi-arrow-up-bold green--text'
                             : 't')
                         "
-                        style="width:100%"
-                      ></button>
-                      <button
-                        type="button"
-                        @click="selectItem(910, 'AB')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="
+                          style="width:100%"
+                        ></button>
+                        <button
+                          type="button"
+                          @click="selectItem(910, 'AB')"
+                          class="v-icon notranslate py-1 v-icon--link mdi theme--light"
+                          :class="
                           isSelected(910, 'AB') == -1
                             ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'mdi-view-stream grey--text':'')
                             : (isSelected(910, 'AB') == 1
                             ? 'mdi-view-stream green--text'
                             : 't')
                         "
-                        style="font-size: 36px;width:100%"
-                      ></button>
-                      <button
-                        type="button"
-                        @click="selectItem(910, 'B')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="
+                          style="font-size: 36px;width:100%"
+                        ></button>
+                        <button
+                          type="button"
+                          @click="selectItem(910, 'B')"
+                          class="v-icon notranslate py-1 v-icon--link mdi theme--light"
+                          :class="
                          isSelected(910, 'B') == -1
                             ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'mdi-arrow-down-bold  grey--text':'')
                             : (isSelected(910, 'B') == 1
                             ? 'mdi-arrow-down-bold green--text'
                             : 't')
                         "
-                        style="width:100%"
-                      ></button>
-                    </td>
-                    
-                    <td style="text-align: center;width:25%">
-                      <button
-                        type="button"
-                        @click="selectItem(911, 'A')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light blue--text"
-                        :class="
+                          style="width:100%"
+                        ></button>
+                      </td>
+
+                      <td style="text-align: center;width:25%">
+                        <button
+                          type="button"
+                          @click="selectItem(911, 'A')"
+                          class="v-icon notranslate py-1 v-icon--link mdi theme--light blue--text"
+                          :class="
                           isSelected(911, 'A') == -1
                             ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'mdi-arrow-up-bold grey--text':'')
                             : (isSelected(911, 'A') == 1
                             ? 'mdi-arrow-up-bold green--text'
                             : 't')
                         "
-                        style="width:100%"
-                      ></button>
-                      <button
-                        type="button"
-                        @click="selectItem(911, 'AB')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light blue--text"
-                        :class="
+                          style="width:100%"
+                        ></button>
+                        <button
+                          type="button"
+                          @click="selectItem(911, 'AB')"
+                          class="v-icon notranslate py-1 v-icon--link mdi theme--light blue--text"
+                          :class="
                           isSelected(911, 'AB') == -1
                             ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'mdi-view-stream grey--text':'')
                             : (isSelected(911, 'AB') == 1
                             ? 'mdi-view-stream green--text'
                             : 't')
                         "
-                        style="font-size: 36px;width:100%"
-                      ></button>
-                      <button
-                        type="button"
-                        @click="selectItem(911, 'B')"
-                        class="v-icon notranslate py-1 v-icon--link mdi theme--light"
-                        :class="
+                          style="font-size: 36px;width:100%"
+                        ></button>
+                        <button
+                          type="button"
+                          @click="selectItem(911, 'B')"
+                          class="v-icon notranslate py-1 v-icon--link mdi theme--light"
+                          :class="
                            isSelected(911, 'B') == -1
                             ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'mdi-arrow-down-bold  grey--text':'')
                             : (isSelected(911, 'B') == 1
                             ? 'mdi-arrow-down-bold green--text'
                             : 't')
                         "
-                        style="width:100%"
-                      ></button>
-                    </td>
-                  </tr>
-                </table>
+                          style="width:100%"
+                        ></button>
+                      </td>
+                    </tr>
+                  </table>
 
-                <table border="1" cellspacing="0" cellpadding="0" style="width:100%">
-                  <tr style="height: 50px;">
-                    <td class="blue lighten-3" style="text-align: center; width: 24px;">10年</td>
-                  </tr>
-                </table>
+                  <table border="1" cellspacing="0" cellpadding="0" style="width:100%">
+                    <tr style="height: 50px;">
+                      <td class="blue lighten-3" style="text-align: center; width: 24px;">10年</td>
+                    </tr>
+                  </table>
+                </div>
               </div>
-            </div>
-              </v-expand-transition>
+            </v-expand-transition>
           </div>
           <v-col cols="2">
             <v-row
@@ -549,15 +565,20 @@ export default {
       // console.log(this.isSelected(k, v));
       // 判断A页面是否回答完成，如果最后一次回答且本次与前面所有都选择A，选择答案后跳转到B页面继续回答持续的11道问题
       var aCount = 0;
+      var bCount = 0;
       for (var i = 0; i < this.itemList.length; i++) {
         if (this.itemList[i].answer == "A") {
           aCount++;
         }
+        if (this.itemList[i].answer == "B") {
+          bCount++;
+        }
       }
       // 逻辑2，如果第一次选A，第二次到第11次都选择B或AB，那么问到第11题之后追加一道是否为9.5年的问题
-      console.log(aCount);
+      // console.log(aCount);
       if (
         aCount == 1 &&
+        bCount == 10 &&
         this.itemList[0].answer == "A" &&
         this.itemList.length == 11
       ) {
@@ -634,12 +655,12 @@ export default {
       this.$emit("cUpdateItem", { arr: arr, next: next });
     },
     nextQuestion() {
-      var aCount = 0;
-      for (var i = 1; i < this.itemList.length - 1; i++) {
-        if (this.itemList[i].answer == "A") {
-          aCount++;
-        }
-      }
+      // var aCount = 0;
+      // for (var i = 1; i < this.itemList.length - 1; i++) {
+      //   if (this.itemList[i].answer == "A") {
+      //     aCount++;
+      //   }
+      // }
       if (
         (this.isAppend && this.itemList.length == 15) ||
         (!this.isAppend && this.itemList.length == 11)
