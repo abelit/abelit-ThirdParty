@@ -68,7 +68,10 @@
 
                   <table border="1" cellspacing="0" cellpadding="0" style="width:100%">
                     <tr style="height: 100px;">
-                      <td style="text-align: center;width:25%">
+                      <td
+                        style="text-align: center;width:25%"
+                        :class="isSelected(906,'A') == -1?'dynamic-icon':''"
+                      >
                         <button
                           type="button"
                           @click="selectItem(906, 'A')"
@@ -109,7 +112,10 @@
                           style="width:100%"
                         ></button>
                       </td>
-                      <td style="text-align: center;width:25%">
+                      <td
+                        style="text-align: center;width:25%"
+                        :class="isSelected(909,'A') == -1?'dynamic-icon':''"
+                      >
                         <button
                           type="button"
                           @click="selectItem(909, 'A')"
@@ -150,7 +156,10 @@
                           style="width:100%"
                         ></button>
                       </td>
-                      <td style="text-align: center;width:25%">
+                      <td
+                        style="text-align: center;width:25%"
+                        :class="isSelected(910,'A') == -1?'dynamic-icon':''"
+                      >
                         <button
                           type="button"
                           @click="selectItem(910, 'A')"
@@ -192,7 +201,10 @@
                         ></button>
                       </td>
 
-                      <td style="text-align: center;width:25%">
+                      <td
+                        style="text-align: center;width:25%"
+                        :class="isSelected(911,'A') == -1?'dynamic-icon':''"
+                      >
                         <button
                           type="button"
                           @click="selectItem(911, 'A')"
@@ -325,6 +337,7 @@
                     :key="item"
                     ref="iconList"
                     style="text-align: center; width: 24px;"
+                    :class="isSelected(item,'A') == -1?'dynamic-icon':''"
                     @mouseover="mouseOver(item)"
                     @mouseleave="mouseLeave(item)"
                   >
@@ -721,3 +734,36 @@ export default {
   }
 };
 </script>
+
+
+<style lang="scss" scoped>
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fade {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.dynamic-icon {
+  color: #fff;
+  // font-size: 15px;
+  animation: fade 600ms infinite;
+  -webkit-animation: fade 600ms infinite;
+}
+</style>
