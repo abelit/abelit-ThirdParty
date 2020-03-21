@@ -35,7 +35,7 @@
               </v-col>
             </v-row>
           </v-col>
-          <v-col cols="9" class="px-8" v-if="slide == 1" >
+          <v-col cols="9" class="px-8" v-if="slide == 1">
             <!-- <v-row v-if="showDetail" justify="start">
               <span class="display-0">当前SLIDE： {{ slide }}</span>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -426,7 +426,11 @@ export default {
           this.cStyle1 = this.getStyle(
             this.$refs.table1.offsetWidth,
             this.topYear,
-            this.currentYear == 0 ? 0.5 : this.currentYear
+            this.currentYear == 0
+              ? 0.5
+              : this.currentYear == 0.5
+              ? 0.8
+              : this.currentYear
           );
           this.drawLine(
             "canvas2",
@@ -449,7 +453,11 @@ export default {
           this.cStyle3 = this.getStyle(
             this.$refs.table3.offsetWidth,
             this.topYearB,
-            this.currentYearB == 0 ? 1 : (this.currentYearB == 0.5 ? 1.5 : this.currentYearB)
+            this.currentYearB == 0
+              ? 1
+              : this.currentYearB == 0.5
+              ? 1.5
+              : this.currentYearB
           );
         }
       });
@@ -623,7 +631,11 @@ export default {
           this.cStyle1 = this.getStyle(
             this.$refs.table1.offsetWidth,
             this.topYear,
-            this.currentYear == 0 ? 0.5: this.currentYear
+            this.currentYear == 0
+              ? 0.5
+              : this.currentYear == 0.5
+              ? 0.8
+              : this.currentYear
           );
 
           // console.log(this.cStyle1);
@@ -660,7 +672,11 @@ export default {
           this.cStyle3 = this.getStyle(
             this.$refs.table3.offsetWidth,
             this.topYearB,
-              this.currentYearB == 0 ? 1 : (this.currentYearB == 0.5 ? 1.5 : this.currentYearB)
+            this.currentYearB == 0
+              ? 1
+              : this.currentYearB == 0.5
+              ? 1.5
+              : this.currentYearB
           );
           this.drawLine(
             "canvas5",
