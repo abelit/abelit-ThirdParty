@@ -25,7 +25,7 @@
             <v-expand-transition>
               <div
                 id="alertbox"
-                style="position: absolute;width:300px;height:240px;top:140px;right:180px; z-index:99"
+                style="position: absolute;width:300px;height:240px;top:160px;right:180px; z-index:99"
                 v-show="isAppend"
               >
                 <div
@@ -44,22 +44,34 @@
                 >
                   <table border="1" cellspacing="0" cellpadding="0" style="width:100%">
                     <tr style="height: 50px;">
-                      <td class="green darken-1" style="text-align: center; width: 25%;">
+                      <td
+                        :class="(indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'green darken-1':''"
+                        style="text-align: center; width: 25%;"
+                      >
                         <span
                           v-if="indexList[itemIndex.length] >= 906 || itemIndex.length == 15"
                         >9年6个月</span>
                       </td>
-                      <td class="green darken-1" style="text-align: center; width: 25%;">
+                      <td
+                        :class="(indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'green darken-1':''"
+                        style="text-align: center; width: 25%;"
+                      >
                         <span
                           v-if="indexList[itemIndex.length] >= 909 || itemIndex.length == 15"
                         >9年9个月</span>
                       </td>
-                      <td class="green darken-1" style="text-align: center; width: 25%;">
+                      <td
+                        :class="(indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'green darken-1':''"
+                        style="text-align: center; width: 25%;"
+                      >
                         <span
                           v-if="indexList[itemIndex.length] >= 910 || itemIndex.length == 15"
                         >9年10个月</span>
                       </td>
-                      <td class="green darken-1" style="text-align: center; width: 25%;">
+                      <td
+                        :class="(indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'green darken-1':''"
+                        style="text-align: center; width: 25%;"
+                      >
                         <span
                           v-if="indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911"
                         >9年11个月</span>
@@ -67,7 +79,7 @@
                     </tr>
                   </table>
 
-                  <table border="1" cellspacing="0" cellpadding="0" style="width:100%">
+                  <table border="0" cellspacing="0" cellpadding="0" style="width:100%">
                     <tr style="height: 100px;">
                       <td
                         style="text-align: center;width:25%"
@@ -281,6 +293,7 @@
                 :style="style1"
                 style="width: 1002.22px;text-align: right"
               >{{ currentYear }}年</div>
+              <canvas id="canvas1" ref="canvas1"></canvas>
             </v-row>
             <v-row justify="center" align="center">
               <table border="1" cellspacing="0" cellpadding="0" ref="table1">
@@ -492,7 +505,8 @@
               </table>
             </v-row>
             <v-row justify="center" align="center">
-              <div ref="div2" style="width: 1002.22px;text-align: right">{{ topYear }}年</div>
+              <canvas id="canvas2" ref="canvas2"></canvas>
+              <div ref="div2" style="width: 1002.22px;text-align: center">{{ topYear }}年</div>
             </v-row>
           </v-col>
           <!-- 调整这里 -->
@@ -572,7 +586,15 @@ export default {
         }
       }
       this.style1 = this.getStyle(
-        24.44 * (this.topYear - this.currentYear) * 4
+        24.44 * (this.topYear - this.currentYear / 2) * 4
+      );
+      this.drawLine(
+        "canvas1",
+        this.$refs.table1.offsetWidth,
+        20,
+        (this.$refs.table1.offsetWidth / this.topYear) * this.currentYear,
+        10,
+        0
       );
       console.log(this.itemList);
       // console.log(this.itemIndex);
@@ -661,6 +683,14 @@ export default {
       this.itemList = [];
       this.itemIndex = [];
       this.$store.dispatch("setNstpPage", 1);
+      this.drawLine(
+        "canvas1",
+        this.$refs.table1.offsetWidth,
+        20,
+        this.$refs.table1.offsetWidth,
+        10,
+        0
+      );
     },
     getStyle(w) {
       return "padding-right: " + w + "px;";
@@ -702,6 +732,60 @@ export default {
       } else {
         alert("请完成答题步骤才能进行下一步！");
       }
+    },
+    drawLine(c, w, h, l, top, left) {
+      //获取画板
+      var canvas = document.getElementById(c);
+
+      if (canvas == null) return false;
+
+      canvas.height = h;
+      canvas.width = w;
+
+      if (l === 0) return false;
+
+      //获取画笔
+      var ctx = canvas.getContext("2d");
+      //画线
+      //横  （向右）
+      drawArrowLine(ctx, 0, top, 0 + left + 5, 0, l + left - 5, 0);
+      //横  （向左）
+      drawArrowLine(ctx, 0 + left + 5, 0, 5, 0, 0, 0);
+      //画带箭头的线
+      function drawArrowLine(ctx, ox, oy, x1, y1, x2, y2) {
+        //参数说明 canvas的 id ，原点坐标  第一个端点的坐标，第二个端点的坐标
+        var sta = new Array(x1, y1);
+        var end = new Array(x2, y2);
+        //画线
+        ctx.beginPath();
+        //坐标源点
+        ctx.translate(ox, oy, 0);
+        ctx.moveTo(sta[0], sta[1]);
+        ctx.lineTo(end[0], end[1]);
+        ctx.fill();
+        ctx.stroke();
+        ctx.save();
+        //画箭头
+        ctx.translate(end[0], end[1]);
+        //我的箭头本垂直向下，算出直线偏离Y的角，然后旋转 ,rotate是顺时针旋转的，所以加个负号
+        var ang = (end[0] - sta[0]) / (end[1] - sta[1]);
+        ang = Math.atan(ang);
+        if (end[1] - sta[1] >= 0) {
+          ctx.rotate(-ang);
+        } else {
+          // 旋转180度
+          ctx.rotate(Math.PI - ang);
+        }
+        ctx.lineTo(-5, -10);
+        ctx.lineTo(0, -5);
+        ctx.lineTo(5, -10);
+        ctx.lineTo(0, 0);
+        ctx.fill();
+        // ctx.fillText("hello abelit",50,90);
+        // ctx.textAlign = center;
+        ctx.restore();
+        ctx.closePath();
+      }
     }
   },
   computed: {
@@ -732,6 +816,27 @@ export default {
       "eqLangLabels",
       "nstpPage"
     ])
+  },
+  mounted() {
+    this.drawLine(
+      "canvas1",
+      this.$refs.table1.offsetWidth,
+      20,
+      this.$refs.table1.offsetWidth,
+      10,
+      0
+    );
+    this.drawLine(
+      "canvas2",
+      this.$refs.table2.offsetWidth,
+      20,
+      this.$refs.table2.offsetWidth,
+      10,
+      0
+    );
+    this.style1 = this.getStyle(
+      24.44 * (this.topYear - this.currentYear / 2) * 4
+    );
   }
 };
 </script>

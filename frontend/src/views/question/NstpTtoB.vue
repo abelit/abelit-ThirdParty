@@ -44,6 +44,7 @@
                 style="width: 1326.67px;text-align: right"
                 :style="style3"
               >{{ currentYear }}年</div>
+              <canvas id="canvas1" ref="canvas1"></canvas>
             </v-row>
 
             <v-row justify="center" align="center">
@@ -244,7 +245,11 @@
               </table>
             </v-row>
             <v-row justify="center" align="center">
-              <div ref="div2" style="width: 1326.67px;text-align: right">{{ topYear * 2 }}年</div>
+              <div>
+                <canvas id="canvas4" ref="canvas4"></canvas>
+                <canvas id="canvas5" ref="canvas5"></canvas>
+              </div>
+              <div ref="div2" style="width: 1326.67px;text-align: center">{{ topYear * 2 }}年</div>
             </v-row>
 
             <!-- 调整这里 -->
@@ -331,7 +336,17 @@ export default {
       }
 
       this.style3 = this.getStyle(
-        this.currentYear == 0 ?16.67 * (this.topYear - 0.5) * 4 + 650 :16.67 * (this.topYear - this.currentYear) * 4 + 650
+        this.currentYear == 0
+          ? 16.67 * (this.topYear - 0.5) * 4 + 650
+          : 16.67 * (this.topYear - this.currentYear / 2) * 4 + 650
+      );
+      this.drawLine(
+        "canvas1",
+        this.$refs.table1.offsetWidth,
+        20,
+        (this.$refs.table1.offsetWidth / 2 / this.topYear) * this.currentYear,
+        10,
+        0
       );
       console.log(this.itemList);
       console.log(this.isSelected(k, v));
@@ -402,6 +417,60 @@ export default {
       } else {
         alert("请完成答题步骤才能进行下一步！");
       }
+    },
+    drawLine(c, w, h, l, top, left) {
+      //获取画板
+      var canvas = document.getElementById(c);
+
+      if (canvas == null) return false;
+
+      canvas.height = h;
+      canvas.width = w;
+
+      if (l === 0) return false;
+
+      //获取画笔
+      var ctx = canvas.getContext("2d");
+      //画线
+      //横  （向右）
+      drawArrowLine(ctx, 0, top, 0 + left + 5, 0, l + left - 5, 0);
+      //横  （向左）
+      drawArrowLine(ctx, 0 + left + 5, 0, 5, 0, 0, 0);
+      //画带箭头的线
+      function drawArrowLine(ctx, ox, oy, x1, y1, x2, y2) {
+        //参数说明 canvas的 id ，原点坐标  第一个端点的坐标，第二个端点的坐标
+        var sta = new Array(x1, y1);
+        var end = new Array(x2, y2);
+        //画线
+        ctx.beginPath();
+        //坐标源点
+        ctx.translate(ox, oy, 0);
+        ctx.moveTo(sta[0], sta[1]);
+        ctx.lineTo(end[0], end[1]);
+        ctx.fill();
+        ctx.stroke();
+        ctx.save();
+        //画箭头
+        ctx.translate(end[0], end[1]);
+        //我的箭头本垂直向下，算出直线偏离Y的角，然后旋转 ,rotate是顺时针旋转的，所以加个负号
+        var ang = (end[0] - sta[0]) / (end[1] - sta[1]);
+        ang = Math.atan(ang);
+        if (end[1] - sta[1] >= 0) {
+          ctx.rotate(-ang);
+        } else {
+          // 旋转180度
+          ctx.rotate(Math.PI - ang);
+        }
+        ctx.lineTo(-5, -10);
+        ctx.lineTo(0, -5);
+        ctx.lineTo(5, -10);
+        ctx.lineTo(0, 0);
+        ctx.fill();
+        // ctx.fillText("hello abelit",50,90);
+        // ctx.textAlign = center;
+        ctx.restore();
+        ctx.closePath();
+      }
     }
   },
   computed: {
@@ -432,6 +501,37 @@ export default {
       "eqLangLabels",
       "nstpPage"
     ])
+  },
+  mounted() {
+    this.drawLine(
+      "canvas1",
+      this.$refs.table1.offsetWidth,
+      20,
+      this.$refs.table1.offsetWidth / 2,
+      10,
+      0
+    );
+    this.drawLine(
+      "canvas4",
+      this.$refs.table1.offsetWidth / 2,
+      20,
+      this.$refs.table1.offsetWidth / 2,
+      10,
+      0
+    );
+    this.drawLine(
+      "canvas5",
+      this.$refs.table1.offsetWidth / 2,
+      20,
+      this.$refs.table1.offsetWidth / 2,
+      10,
+      0
+    );
+    this.style3 = this.getStyle(
+      this.currentYear == 0
+        ? 16.67 * (this.topYear - 0.5) * 4 + 650
+        : 16.67 * (this.topYear - this.currentYear / 2) * 4 + 650
+    );
   }
 };
 </script>
