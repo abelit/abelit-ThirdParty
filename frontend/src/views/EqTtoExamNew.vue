@@ -42,7 +42,7 @@ export default {
     eqTtoQuestions: [{}],
     currentItem: 0,
     startTime: 0,
-    ttoAnswers: [],
+    newttoAnswers: [],
     popupDialog: true
   }),
   created() {
@@ -58,13 +58,13 @@ export default {
   },
   methods: {
     pUpdateItem(data) {
-      this.ttoAnswers.push(data);
-      // console.log(this.ttoAnswers);
+      this.newttoAnswers.push(data);
+      console.log(this.newttoAnswers);
       this.currentItem++;
       // console.log(this.currentItem);
       // console.log(this.eqTtoQuestions.length)
       if (this.currentItem > this.eqTtoQuestions.length - 1) {
-        this.$store.dispatch("setAllAnswer", this.ttoAnswers);
+        this.$store.dispatch("setAllAnswer", this.newttoAnswers);
         this.$router.push({ path: "/eq/end" });
       }
     },

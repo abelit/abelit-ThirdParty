@@ -17,13 +17,19 @@
                   <v-btn class="black" @click="chooseAnswer('A')" fab dark>A</v-btn>
                 </v-row>
                 <v-row justify="center" class="my-6">
-                  <v-btn class="black darken-3" @click="chooseAnswer('AB')" large dark>A & B</v-btn>
+                  <v-btn
+                    class="black darken-3"
+                    @click="chooseAnswer('AB')"
+                    disabled
+                    large
+                    dark
+                  >A & B</v-btn>
                 </v-row>
                 <v-row justify="center" class="my-2" style="margin-top:10px">
                   <v-btn class="black" @click="chooseAnswer('B')" fab dark>B</v-btn>
                 </v-row>
                 <v-row justify="center" class="my-2">
-                  <v-btn class="black" dark v-if="step > 0" @click="reset">
+                  <v-btn class="black" dark v-if="selectList.length > 0" @click="reset" disabled>
                     <v-icon>refresh</v-icon>
                   </v-btn>
                 </v-row>
@@ -215,7 +221,7 @@
       </v-card-text>
       <v-divider></v-divider>
     </v-card>
-    <v-row>
+    <!-- <v-row>
       <v-dialog v-model="popupDialog" persistent max-width="600">
         <v-card class="pt-5 yellow lighten-4">
           <v-card-text class="display-1">{{ popMsg }}</v-card-text>
@@ -235,7 +241,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </v-row>
+    </v-row>-->
 
     <v-row>
       <v-dialog v-model="openQDialog" persistent max-width="900">
@@ -320,7 +326,7 @@
           </v-card-text>
           <v-card-actions class="blue lighten-4">
             <v-spacer></v-spacer>
-            <v-btn color="black darken-3" @click="test()" dark large width="120px">是</v-btn>
+            <v-btn color="black darken-3" @click="submitAnswer()" dark large width="120px">是</v-btn>
             <v-spacer></v-spacer>
             <!-- <v-btn color="black darken-3" @click="submitAnswer('N')" dark>否</v-btn> -->
           </v-card-actions>
@@ -351,10 +357,12 @@ export default {
     stepDirection: 0,
     resets: 0,
     bAlertText: "",
-    ttoAnswer: "",
+    newttoAnswer: "",
     popupDialog: false,
     popAB: false,
     popMsg: "",
+    randomYear: Math.floor(Math.random() * 6) + 2,
+    randomYearB: "",
     selectList: [],
     openQDialog: false,
     ticksLabels: Array.from({ length: 21 }, (v, k) => k / 2),
@@ -429,7 +437,7 @@ export default {
           this.$nextTick(() => {
             this.drawLine(
               "canvas1",
-              this.$refs.Btable1.offsetWidth,
+              this.$refs.table1.offsetWidth,
               20,
               (this.$refs.table1.offsetWidth / this.topYear) * this.currentYear,
               10,
@@ -478,43 +486,44 @@ export default {
       console.log(this.yearRange);
       this.openQDialog = false;
     },
-    submitAnswer(value) {
-      if (value == "Y") {
-        var ttoValue = 0;
-        if (this.stepDirection % 2 == 0) {
-          ttoValue = this.currentYear * 0.1;
-        } else {
-          ttoValue = (this.currentYearB - 10) * 0.1;
-        }
-        var answerObj = {
-          questionid: this.examType.id,
-          participant: this.userInfo.participant,
-          interviewer: this.userInfo.interviewer,
-          item: this.block.name,
-          position_of_item: this.block.id,
-          tto_value: ttoValue,
-          used_time: this.itemUsedTime,
-          composite_switches: this.stepDirection,
-          resets: this.resets,
-          number_of_moves: this.step,
-          block: this.block.block,
-          version: this.qVersion
-        };
-        this.ttoAnswer = answerObj;
+    submitAnswer() {
+      var answerObj = {
+        questionid: this.examType.id,
+        participant: this.userInfo.participant,
+        interviewer: this.userInfo.interviewer,
+        item: this.block.name,
+        position_of_item: this.block.id,
+        block: this.block.block,
+        start_year_random: this.randomYear,
+        select1: "",
+        select2: "",
+        select3: "",
+        select4: "",
+        open_select: "",
+        end_year_random: this.randomYearB,
+        version: this.qVersion
+      };
 
-        // console.log("本题用时：" + this.itemUsedTime);
-        this.itemStartTime = new Date();
-        this.itemEndTime = 0;
-        this.itemUsedTime = "00:00:00";
-        this.getUsedTime();
-        // this.reset();
-        // //通过改变父组件的值
-        this.updateItem();
-        this.popupDialog = false;
+      let [s1, s2, s3, s4] = this.selectList;
+
+      answerObj.select1 = s1;
+      answerObj.select2 = s2;
+      answerObj.select3 = s3;
+      answerObj.select4 = s4;
+
+      if (this.opYearType == 1) {
+        answerObj.open_select = this.opYear;
       } else {
-        this.popupDialog = false;
+        answerObj.open_select = this.opYearStart + "~" + this.opYearEnd;
       }
-      this.popAB = false;
+
+      this.newttoAnswer = answerObj;
+
+      // console.log(this.newttoAnswer);
+
+      // //通过改变父组件的值
+      this.openQDialog = false;
+      this.updateItem();
     },
     genPoppupMsg(type) {
       if (this.stepDirection % 2 == 0) {
@@ -631,8 +640,15 @@ export default {
           break;
         case 2:
           this.slide = type == "A" ? 2 : 1;
-          this.currentYearB = Math.floor(Math.random() * 6) + 2;
+          this.randomYearB = Math.floor(Math.random() * 6) + 2;
+          this.currentYearB = this.randomYearB;
           this.openQDialog = type == "B";
+          if (this.slide == 2) {
+            this.opYear = "";
+            this.opYearType = "";
+            this.opYearStart = "";
+            this.opYearEnd = "";
+          }
           break;
         case 3:
           this.openQDialog = true;
@@ -764,7 +780,7 @@ export default {
       );
     },
     updateItem() {
-      this.$emit("cUpdateItem", this.ttoAnswer);
+      this.$emit("cUpdateItem", this.newttoAnswer);
     },
     closeDialog() {
       this.popupDialog = false;
@@ -783,11 +799,29 @@ export default {
 
     // console.log(rangeArray(0, 20));
 
-    console.log(Array.from({ length: 21 }, (v, k) => k / 2));
-    console.log(1.5 % 0.5);
+    // console.log(Array.from({ length: 21 }, (v, k) => k / 2));
+    // console.log(1.5 % 0.5);
+    // let arr1 = ["A", "B"];
+    // let obj = {
+    //   block: 1,
+    //   item: 1,
+    //   select1: "",
+    //   select2: "",
+    //   select3: "",
+    //   select4: ""
+    // };
+    // let [select1, select2, select3, select4] = arr1;
+
+    // obj.select1 = select1;
+    // obj.select2 = select2;
+    // obj.select3 = select3;
+    // obj.select4 = select4;
+
+    // console.log(obj);
 
     // 随机生成2~8年
-    this.currentYear = Math.floor(Math.random() * 6) + 2;
+
+    this.currentYear = this.randomYear;
     // 生成样式
     this.cStyle1 = this.getStyle(
       this.$refs.table1.offsetWidth,
