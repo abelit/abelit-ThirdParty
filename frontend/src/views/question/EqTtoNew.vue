@@ -61,7 +61,7 @@
                     :key="item"
                     style="text-align: center; width: 24px"
                     :class="
-                      item <= 4 * currentYear ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3') : ''
+                   opYearType >0 ? ( opYearType == 1 ? (opYear >0 && opYear<=10  ? (item <= 4 * opYear ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3') : '') :''): (opYearEnd >0 && opYearEnd<=10  ? (item <= 4 * opYearEnd && item>4*opYearStart ? (parseInt((item - 1) / 4) % 2 == 1?'purple lighten-1':'purple darken-3') : (item<=4*opYearEnd ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3'):'')) :'') )  : (item <= 4 * currentYear ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3') : '')
                     "
                   ></td>
                 </tr>
@@ -226,9 +226,92 @@
     </v-row>
 
     <v-row>
-      <v-dialog v-model="openQDialog" persistent max-width="600">
-        <v-card class="pt-5 yellow lighten-4">
-          <v-card-text class="display-1">open question</v-card-text>
+      <v-dialog v-model="openQDialog" persistent max-width="900">
+        <v-card style="margin-top: 120px;" outlined>
+          <v-card-title class="blue darken-1 font-weight-black">开放式问题：请选择您偏好的年份或年份范围？</v-card-title>
+          <v-divider></v-divider>
+          <v-card-text class="blue lighten-4 py-5">
+            <!-- <v-range-slider
+              v-model="yearRange"
+              thumb-label="always"
+              class="my-10"
+              :tick-labels="ticksLabels"
+              :max="10"
+              thumb-size="35"
+              step="0.5"
+              ticks="always"
+              thumb-color="orange darken-3"
+              color="orange darken-3"
+              track-fill-color="blue"
+            >
+              <template v-slot:thumb-label="{ value }">{{ value }} 年</template>
+            </v-range-slider>-->
+            <v-row>
+              <v-col cols="12" sm="3" md="2">
+                <v-radio-group v-model="opYearType" column>
+                  <v-radio label="年份：" value="1" class="font-weight-black"></v-radio>
+                  <span class="font-weight-black" style="margin-top: 40px;">或者</span>
+                  <v-radio
+                    label="年范围："
+                    value="2"
+                    class="font-weight-black"
+                    style="margin-top: 40px;"
+                  ></v-radio>
+                </v-radio-group>
+              </v-col>
+              <v-col cols="12" sm="9" md="10">
+                <v-row>
+                  <!-- <v-col cols="12" sm="3" md="2">
+                    <span class="font-weight-black">年份：</span>
+                  </v-col>-->
+                  <v-col cols="12" sm="6" md="3">
+                    <v-text-field
+                      v-model="opYear"
+                      label="年份"
+                      outlined
+                      :rules="[rules.required, rules.numRequired]"
+                      :disabled="opYearType != 1"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <!-- <v-row>
+                  <v-col cols="12" sm="6" md="2">
+                    <span class="font-weight-black">或者</span>
+                  </v-col>
+                </v-row>-->
+                <v-row class="mt-5">
+                  <!-- <v-col cols="12" sm="6" md="2">
+                    <span class="font-weight-black">年份范围：</span>
+                  </v-col>-->
+                  <v-col cols="12" sm="6" md="3">
+                    <v-text-field
+                      v-model="opYearStart"
+                      label="起始年"
+                      outlined
+                      :rules="[rules.required, rules.numRequired]"
+                      :disabled="opYearType != 2"
+                    ></v-text-field>
+                  </v-col>
+                  <span class="pt-5">~</span>
+                  <v-col cols="12" sm="6" md="3">
+                    <v-text-field
+                      v-model="opYearEnd"
+                      label="结束年"
+                      outlined
+                      :rules="[rules.required, rules.numRequired]"
+                      :disabled="opYearType != 2"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-card-text>
+          <v-card-actions class="blue lighten-4">
+            <v-spacer></v-spacer>
+            <v-btn color="black darken-3" @click="test()" dark large width="120px">是</v-btn>
+            <v-spacer></v-spacer>
+            <!-- <v-btn color="black darken-3" @click="submitAnswer('N')" dark>否</v-btn> -->
+          </v-card-actions>
         </v-card>
       </v-dialog>
     </v-row>
@@ -261,10 +344,74 @@ export default {
     popAB: false,
     popMsg: "",
     selectList: [],
-    openQDialog: false
+    openQDialog: false,
+    ticksLabels: Array.from({ length: 21 }, (v, k) => k / 2),
+    yearRange: [0, 10],
+    rules: {
+      required: value => !!value || "请填写年份.",
+      numRequired: v =>
+        !!((v * 10) % 5 == 0 && v >= 0 && v <= 10) ||
+        "填写的年份应在0-10之间，且只包含半年或整年，如1.5，1"
+    },
+    opYearType: "",
+    opYear: "",
+    opYearStart: "",
+    opYearEnd: "",
+    radio1: "",
+    radio2: ""
   }),
+  watch: {
+    opYear(val) {
+      if (val >= 0 && val <= 10 && (val * 10) % 5 === 0) {
+        this.currentYear = val;
+        this.drawLine(
+          "canvas1",
+          this.$refs.table1.offsetWidth,
+          20,
+          (this.$refs.table1.offsetWidth / this.topYear) * this.currentYear,
+          10,
+          0
+        );
+        this.cStyle1 = this.getStyle(
+          this.$refs.table1.offsetWidth,
+          this.topYear,
+          this.currentYear == 0
+            ? 0.5
+            : this.currentYear == 0.5
+            ? 0.8
+            : this.currentYear
+        );
+      }
+    },
+    opYearEnd(val) {
+      if (val >= 0 && val <= 10 && (val * 10) % 5 === 0) {
+        this.currentYear = val;
+        this.drawLine(
+          "canvas1",
+          this.$refs.table1.offsetWidth,
+          20,
+          (this.$refs.table1.offsetWidth / this.topYear) * this.currentYear,
+          10,
+          0
+        );
+        this.cStyle1 = this.getStyle(
+          this.$refs.table1.offsetWidth,
+          this.topYear,
+          this.currentYear == 0
+            ? 0.5
+            : this.currentYear == 0.5
+            ? 0.8
+            : this.currentYear
+        );
+      }
+    }
+  },
 
   methods: {
+    test() {
+      console.log(this.yearRange);
+      this.openQDialog = false;
+    },
     submitAnswer(value) {
       if (value == "Y") {
         var ttoValue = 0;
@@ -563,6 +710,16 @@ export default {
     }
   },
   mounted() {
+    // let rangeArray = (start, end) =>
+    //   Array(end - start + 1)
+    //     .fill(0)
+    //     .map((v, i) => i / 2 + start);
+
+    // console.log(rangeArray(0, 20));
+
+    console.log(Array.from({ length: 21 }, (v, k) => k / 2));
+    console.log(1.5 % 0.5);
+
     // 随机生成2~8年
     this.currentYear = Math.floor(Math.random() * 6) + 2;
     // 生成样式
