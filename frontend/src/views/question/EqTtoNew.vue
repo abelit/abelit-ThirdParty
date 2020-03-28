@@ -109,7 +109,7 @@
                 </div>
                 <canvas id="canvas3" ref="canvas3"></canvas>
               </div>
-              <table border="1" cellspacing="0" cellpadding="0" ref="table3">
+              <!-- <table border="1" cellspacing="0" cellpadding="0" ref="table3">
                 <tr style="height: 50px">
                   <td
                     v-for="item in allContent(topYearB)"
@@ -117,6 +117,18 @@
                     style="text-align: center; width: 16px"
                     :class="
                       item <= 4 * currentYearB ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3') : ''
+                    "
+                  ></td>
+                </tr>
+              </table>-->
+              <table border="1" cellspacing="0" cellpadding="0" ref="table3">
+                <tr style="height: 50px">
+                  <td
+                    v-for="item in allContent(topYearB)"
+                    :key="item"
+                    style="text-align: center; width: 16px"
+                    :class="
+                   opYearType >0 ? ( opYearType == 1 ? (opYear >0 && opYear<=10  ? (item <= 4 * opYear ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3') : '') :''): (opYearEnd >0 && opYearEnd<=10  ? (item <= 4 * opYearEnd && item>4*opYearStart ? (parseInt((item - 1) / 4) % 2 == 1?'purple lighten-1':'purple darken-3') : (item<=4*opYearEnd ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3'):'')) :'') )  : (item <= 4 * currentYearB ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3') : '')
                     "
                   ></td>
                 </tr>
@@ -363,46 +375,100 @@ export default {
   watch: {
     opYear(val) {
       if (val >= 0 && val <= 10 && (val * 10) % 5 === 0) {
-        this.currentYear = val;
-        this.drawLine(
-          "canvas1",
-          this.$refs.table1.offsetWidth,
-          20,
-          (this.$refs.table1.offsetWidth / this.topYear) * this.currentYear,
-          10,
-          0
-        );
-        this.cStyle1 = this.getStyle(
-          this.$refs.table1.offsetWidth,
-          this.topYear,
-          this.currentYear == 0
-            ? 0.5
-            : this.currentYear == 0.5
-            ? 0.8
-            : this.currentYear
-        );
+        if (this.slide == 1) {
+          this.currentYear = val;
+          this.$nextTick(() => {
+            this.drawLine(
+              "canvas1",
+              this.$refs.table1.offsetWidth,
+              20,
+              (this.$refs.table1.offsetWidth / this.topYear) * this.currentYear,
+              10,
+              0
+            );
+            this.cStyle1 = this.getStyle(
+              this.$refs.table1.offsetWidth,
+              this.topYear,
+              this.currentYear == 0
+                ? 0.5
+                : this.currentYear == 0.5
+                ? 0.8
+                : this.currentYear
+            );
+          });
+        } else {
+          this.currentYearB = val;
+          this.$nextTick(() => {
+            this.drawLine(
+              "canvas3",
+              this.$refs.table3.offsetWidth,
+              20,
+              ((this.$refs.table3.offsetWidth / this.topYear) *
+                this.currentYearB) /
+                2,
+              10,
+              0
+            );
+            this.cStyle3 = this.getStyle(
+              this.$refs.table3.offsetWidth,
+              this.topYearB,
+              this.currentYearB == 0
+                ? 1
+                : this.currentYearB == 0.5
+                ? 1.5
+                : this.currentYearB
+            );
+          });
+        }
       }
     },
     opYearEnd(val) {
       if (val >= 0 && val <= 10 && (val * 10) % 5 === 0) {
-        this.currentYear = val;
-        this.drawLine(
-          "canvas1",
-          this.$refs.table1.offsetWidth,
-          20,
-          (this.$refs.table1.offsetWidth / this.topYear) * this.currentYear,
-          10,
-          0
-        );
-        this.cStyle1 = this.getStyle(
-          this.$refs.table1.offsetWidth,
-          this.topYear,
-          this.currentYear == 0
-            ? 0.5
-            : this.currentYear == 0.5
-            ? 0.8
-            : this.currentYear
-        );
+        if (this.slide == 1) {
+          this.currentYear = val;
+          this.$nextTick(() => {
+            this.drawLine(
+              "canvas1",
+              this.$refs.Btable1.offsetWidth,
+              20,
+              (this.$refs.table1.offsetWidth / this.topYear) * this.currentYear,
+              10,
+              0
+            );
+            this.cStyle1 = this.getStyle(
+              this.$refs.table1.offsetWidth,
+              this.topYear,
+              this.currentYear == 0
+                ? 0.5
+                : this.currentYear == 0.5
+                ? 0.8
+                : this.currentYear
+            );
+          });
+        } else {
+          this.currentYearB = val;
+          this.$nextTick(() => {
+            this.drawLine(
+              "canvas3",
+              this.$refs.table3.offsetWidth,
+              20,
+              ((this.$refs.table3.offsetWidth / this.topYear) *
+                this.currentYearB) /
+                2,
+              10,
+              0
+            );
+            this.cStyle3 = this.getStyle(
+              this.$refs.table3.offsetWidth,
+              this.topYearB,
+              this.currentYearB == 0
+                ? 1
+                : this.currentYearB == 0.5
+                ? 1.5
+                : this.currentYearB
+            );
+          });
+        }
       }
     }
   },
