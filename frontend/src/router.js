@@ -36,11 +36,11 @@ export default new Router({
       name: "newtto",
       component: () => import("@/views/EqTtoExamNew.vue")
     },
-    {
-      path: "/eq/newnstptto",
-      name: "newnstptto",
-      component: () => import("@/views/question/EqNstpTtoNew.vue")
-    },
+    // {
+    //   path: "/eq/newnstptto",
+    //   name: "newnstptto",
+    //   component: () => import("@/views/question/EqNstpTtoNew.vue")
+    // },
     {
       path: "/eq/nstptto",
       name: "nstptto",

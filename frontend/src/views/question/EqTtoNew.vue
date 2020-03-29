@@ -264,65 +264,70 @@
             >
               <template v-slot:thumb-label="{ value }">{{ value }} 年</template>
             </v-range-slider>-->
-            <v-row>
-              <v-col cols="12" sm="3" md="2">
-                <v-radio-group v-model="opYearType" column>
-                  <v-radio label="年份：" value="1" class="font-weight-black"></v-radio>
-                  <span class="font-weight-black" style="margin-top: 40px;">或者</span>
-                  <v-radio
-                    label="年范围："
-                    value="2"
-                    class="font-weight-black"
-                    style="margin-top: 40px;"
-                  ></v-radio>
-                </v-radio-group>
-              </v-col>
-              <v-col cols="12" sm="9" md="10">
-                <v-row>
-                  <!-- <v-col cols="12" sm="3" md="2">
+            <v-form ref="form" v-model="valid" lazy-validation>
+              <v-row>
+                <v-col cols="12" sm="3" md="2">
+                  <v-radio-group v-model="opYearType" column required>
+                    <v-radio label="年份：" value="1" class="font-weight-black"></v-radio>
+                    <span class="font-weight-black" style="margin-top: 40px;">或者</span>
+                    <v-radio
+                      label="年范围："
+                      value="2"
+                      class="font-weight-black"
+                      style="margin-top: 40px;"
+                    ></v-radio>
+                  </v-radio-group>
+                </v-col>
+                <v-col cols="12" sm="9" md="10">
+                  <v-row>
+                    <!-- <v-col cols="12" sm="3" md="2">
                     <span class="font-weight-black">年份：</span>
-                  </v-col>-->
-                  <v-col cols="12" sm="6" md="3">
-                    <v-text-field
-                      v-model="opYear"
-                      label="年份"
-                      outlined
-                      :rules="[rules.required, rules.numRequired]"
-                      :disabled="opYearType != 1"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <!-- <v-row>
+                    </v-col>-->
+                    <v-col cols="12" sm="6" md="3">
+                      <v-text-field
+                        v-model="opYear"
+                        label="年份"
+                        outlined
+                        :rules="[rules.required, rules.numRequired]"
+                        :disabled="opYearType != 1"
+                        required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <!-- <v-row>
                   <v-col cols="12" sm="6" md="2">
                     <span class="font-weight-black">或者</span>
                   </v-col>
-                </v-row>-->
-                <v-row class="mt-5">
-                  <!-- <v-col cols="12" sm="6" md="2">
+                  </v-row>-->
+                  <v-row class="mt-5">
+                    <!-- <v-col cols="12" sm="6" md="2">
                     <span class="font-weight-black">年份范围：</span>
-                  </v-col>-->
-                  <v-col cols="12" sm="6" md="3">
-                    <v-text-field
-                      v-model="opYearStart"
-                      label="起始年"
-                      outlined
-                      :rules="[rules.required, rules.numRequired]"
-                      :disabled="opYearType != 2"
-                    ></v-text-field>
-                  </v-col>
-                  <span class="pt-5">~</span>
-                  <v-col cols="12" sm="6" md="3">
-                    <v-text-field
-                      v-model="opYearEnd"
-                      label="结束年"
-                      outlined
-                      :rules="[rules.required, rules.numRequired]"
-                      :disabled="opYearType != 2"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-col>
-            </v-row>
+                    </v-col>-->
+                    <v-col cols="12" sm="6" md="3">
+                      <v-text-field
+                        v-model="opYearStart"
+                        label="起始年"
+                        outlined
+                        :rules="[rules.required, rules.numRequired]"
+                        :disabled="opYearType != 2"
+                        required
+                      ></v-text-field>
+                    </v-col>
+                    <span class="pt-5">~</span>
+                    <v-col cols="12" sm="6" md="3">
+                      <v-text-field
+                        v-model="opYearEnd"
+                        label="结束年"
+                        outlined
+                        :rules="[rules.required, rules.numRequired]"
+                        :disabled="opYearType != 2"
+                        required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-form>
           </v-card-text>
           <v-card-actions class="blue lighten-4">
             <v-spacer></v-spacer>
@@ -378,7 +383,8 @@ export default {
     opYearStart: "",
     opYearEnd: "",
     radio1: "",
-    radio2: ""
+    radio2: "",
+    valid: true
   }),
   watch: {
     opYear(val) {
@@ -487,6 +493,26 @@ export default {
       this.openQDialog = false;
     },
     submitAnswer() {
+      // 验证是否选择开放式问题
+      // this.$refs.form.validate();
+      if (
+        !(
+          (this.opYearType == 1 &&
+            this.opYear >= 0 &&
+            this.opYear <= 10 &&
+            (this.opYear * 10) % 5 == 0) ||
+          (this.opYearType == 2 &&
+            this.opYearStart >= 0 &&
+            this.opYearStart <= 10 &&
+            this.opYearEnd >= 0 &&
+            this.opYearEnd <= 10 &&
+            this.opYearStart <= this.opYearEnd &&
+            (this.opYearStart * 10) % 5 == 0 &&
+            (this.opYearEnd * 10) % 5 == 0)
+        )
+      ) {
+        return;
+      }
       var answerObj = {
         questionid: this.examType.id,
         participant: this.userInfo.participant,
@@ -506,10 +532,10 @@ export default {
 
       let [s1, s2, s3, s4] = this.selectList;
 
-      answerObj.select1 = s1;
-      answerObj.select2 = s2;
-      answerObj.select3 = s3;
-      answerObj.select4 = s4;
+      answerObj.select1 = s1 || "";
+      answerObj.select2 = s2 || "";
+      answerObj.select3 = s3 || "";
+      answerObj.select4 = s4 || "";
 
       if (this.opYearType == 1) {
         answerObj.open_select = this.opYear;

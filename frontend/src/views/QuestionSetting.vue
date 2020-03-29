@@ -161,6 +161,10 @@
               Non-Stopping TTO
               <v-icon small dark>file_download</v-icon>
             </v-btn>
+            <v-btn class="ml-3" color="#036f90" dark @click="downloadAnswer('all',6)">
+              New TTO
+              <v-icon small dark>file_download</v-icon>
+            </v-btn>
           </v-row>
         </v-col>
       </v-row>
@@ -245,6 +249,21 @@
                 v-if="item.NonStopping_TTO > 0"
                 color="primary"
                 @click="downloadAnswer(item.participant,item.NonStopping_TTO)"
+              >file_download</v-icon>
+            </template>
+            <template v-slot:item.New_TTO="{ item }">
+              <v-icon
+                small
+                class="mr-2"
+                color="#036f90"
+                v-if="item.New_TTO > 0"
+                @click="viewDetailAnswer(item.participant,item.New_TTO)"
+              >remove_red_eye</v-icon>
+              <v-icon
+                small
+                v-if="item.New_TTO > 0"
+                color="primary"
+                @click="downloadAnswer(item.participant,item.New_TTO)"
               >file_download</v-icon>
             </template>
           </v-data-table>
@@ -458,6 +477,9 @@ export default {
         case 5:
           url = "/api/question/nstptto";
           break;
+        case 6:
+          url = "/api/question/newtto";
+          break;
         default:
           alert("请选择题库类型");
       }
@@ -507,6 +529,9 @@ export default {
           break;
         case 5:
           url = "/api/answer/nstptto";
+          break;
+        case 6:
+          url = "/api/answer/newtto";
           break;
         default:
           alert("请选择题库类型！");
@@ -559,6 +584,9 @@ export default {
           break;
         case 5:
           url = "/api/question/nstptto";
+          break;
+        case 6:
+          url = "/api/question/newtto";
           break;
         default:
           alert("题型不存在");
@@ -670,6 +698,9 @@ export default {
           break;
         case 5:
           questionName = "Non-Stopping TTO";
+          break;
+        case 6:
+          questionName = "New TTO";
           break;
         default:
           questionName = "unkonwn";

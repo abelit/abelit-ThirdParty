@@ -71,7 +71,7 @@ export default {
     getQuestion() {
       // console.log(this.userInfo.blockQuestion);
       this.$axios
-        .get("/api/question/tto", {
+        .get("/api/question/newtto", {
           params: { block: this.userInfo.blockQuestion, version: this.qVersion }
         })
         .then(res => {

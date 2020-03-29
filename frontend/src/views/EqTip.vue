@@ -46,6 +46,9 @@ export default {
         case 5:
           this.$router.push({ path: "/eq/nstptto" });
           break;
+        case 6:
+          this.$router.push({ path: "/eq/newtto" });
+          break;
         default:
           alert("题库不存在，即将跳转到首页！");
           this.$router.push({ path: "/" });
