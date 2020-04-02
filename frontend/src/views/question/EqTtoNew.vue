@@ -436,9 +436,17 @@ export default {
         }
       }
     },
-    opYearEnd(val) {
-      if (val >= 0 && val <= 10 && (val * 10) % 5 === 0) {
-        console.log(this.opYearStart)
+    opYearEnd(value) {
+      // if (val < this.opYearStart && this.opYearStart != " ") {
+      //   // this.opYearEnd = ""
+      //   alert("结束年份不能小于起始年份")
+      //   return
+      // }
+
+      let val = parseFloat(value)
+      
+      if (val >= 0 && val <= 10 && (val * 10) % 5 == 0 && this.opYearStart >=0 && this.opYearStart <=10 && this.opYearStart <= val && (this.opYearStart * 10) % 5 ==0) {
+        console.log("-------------------------------------------------")
         if (this.slide == 1) {
           this.currentYear = val;
           this.$nextTick(() => {
@@ -446,7 +454,7 @@ export default {
               "canvas1",
               this.$refs.table1.offsetWidth,
               20,
-              (this.$refs.table1.offsetWidth / this.topYear) * this.currentYear-(this.$refs.table1.offsetWidth / this.topYear)  * this.opYearStart,
+              (this.$refs.table1.offsetWidth / this.topYear) * this.opYearEnd-(this.$refs.table1.offsetWidth / this.topYear)  * this.opYearStart,
               10,
            (this.$refs.table1.offsetWidth / this.topYear)  * this.opYearStart
             );
@@ -462,6 +470,61 @@ export default {
           });
         } else {
           this.currentYearB = val;
+          this.$nextTick(() => {
+            this.drawLine(
+              "canvas3",
+              this.$refs.table3.offsetWidth,
+              20,
+              ((this.$refs.table3.offsetWidth / this.topYear) *
+                this.currentYearB) /
+                2,
+              10,
+              0
+            );
+            this.cStyle3 = this.getStyle(
+              this.$refs.table3.offsetWidth,
+              this.topYearB,
+              this.currentYearB == 0
+                ? 1
+                : this.currentYearB == 0.5
+                ? 1.5
+                : this.currentYearB
+            );
+          });
+        }
+      }
+    },
+    opYearStart(value) {
+      // if (val > this.opYearEnd && this.opYearEnd != " ") {
+      //   // this.opYearStart = ""
+      //   alert("起始年份不能大于结束年份")
+      //   return;
+      // }
+      let val = parseFloat(value)
+      if (val >= 0 && val <= 10 && (val * 10) % 5 === 0 && val<= this.opYearEnd && this.opYearEnd <=10 && this.opYearEnd >= 0 && (this.opYearEnd * 10) % 5 === 0) {
+        if (this.slide == 1) {
+          this.opYearStart = val;
+          this.$nextTick(() => {
+            this.drawLine(
+              "canvas1",
+              this.$refs.table1.offsetWidth,
+              20,
+              (this.$refs.table1.offsetWidth / this.topYear) * this.opYearEnd-(this.$refs.table1.offsetWidth / this.topYear)  * this.opYearStart,
+              10,
+           (this.$refs.table1.offsetWidth / this.topYear)  * this.opYearStart
+            );
+            this.cStyle1 = this.getStyle(
+              this.$refs.table1.offsetWidth,
+              this.topYear,
+              this.currentYear == 0
+                ? 0.5
+                : this.currentYear == 0.5
+                ? 0.8
+                : this.currentYear
+            );
+          });
+        } else {
+          // this.currentYearB = val;
           this.$nextTick(() => {
             this.drawLine(
               "canvas3",
