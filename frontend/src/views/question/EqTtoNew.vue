@@ -438,6 +438,7 @@ export default {
     },
     opYearEnd(val) {
       if (val >= 0 && val <= 10 && (val * 10) % 5 === 0) {
+        console.log(this.opYearStart)
         if (this.slide == 1) {
           this.currentYear = val;
           this.$nextTick(() => {
@@ -445,9 +446,9 @@ export default {
               "canvas1",
               this.$refs.table1.offsetWidth,
               20,
-              (this.$refs.table1.offsetWidth / this.topYear) * this.currentYear,
+              (this.$refs.table1.offsetWidth / this.topYear) * this.currentYear-(this.$refs.table1.offsetWidth / this.topYear)  * this.opYearStart,
               10,
-              0
+           (this.$refs.table1.offsetWidth / this.topYear)  * this.opYearStart
             );
             this.cStyle1 = this.getStyle(
               this.$refs.table1.offsetWidth,
