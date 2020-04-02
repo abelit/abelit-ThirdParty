@@ -243,12 +243,12 @@
       </v-dialog>
     </v-row>-->
 
-    <v-row>
-      <v-dialog v-model="openQDialog" persistent max-width="480">
+    <v-row class="page-1">
+      <v-dialog v-model="openQDialog" persistent max-width="360">
         <v-card outlined>
           <v-card-title class="blue darken-1 font-weight-black">开放式问题：请选择您偏好的年份或年份范围？</v-card-title>
           <v-divider></v-divider>
-          <v-card-text class="blue lighten-4 py-5">
+          <v-card-text class="blue lighten-4 pb-0">
             <!-- <v-range-slider
               v-model="yearRange"
               thumb-label="always"
@@ -266,10 +266,10 @@
             </v-range-slider>-->
             <v-form ref="form" v-model="valid" lazy-validation>
               <v-row>
-                <v-col cols="12" sm="5" md="4">
+                <v-col cols="12" sm="5" md="5">
                   <v-radio-group v-model="opYearType" column required>
                     <v-radio label="年份：" value="1" class="font-weight-black"></v-radio>
-                    <span class="font-weight-black" style="margin-top: 40px;">或者</span>
+                    <span class="font-weight-black" style="margin-top: 20px;">或者</span>
                     <v-radio
                       label="年范围："
                       value="2"
@@ -278,18 +278,19 @@
                     ></v-radio>
                   </v-radio-group>
                 </v-col>
-                <v-col cols="12" sm="7" md="8">
+                <v-col cols="12" sm="7" md="7">
                   <v-row>
                     <!-- <v-col cols="12" sm="3" md="2">
                     <span class="font-weight-black">年份：</span>
                     </v-col>-->
-                    <v-col cols="12" sm="6" md="5">
+                    <v-col cols="12" sm="6" md="8">
                       <v-text-field
                         v-model="opYear"
                         label="年份"
                         outlined
                         :rules="[rules.required, rules.numRequired]"
                         :disabled="opYearType != 1"
+                        dense
                         required
                       ></v-text-field>
                     </v-col>
@@ -310,6 +311,7 @@
                         outlined
                         :rules="[rules.required, rules.numRequired]"
                         :disabled="opYearType != 2"
+                        dense
                         required
                       ></v-text-field>
                     </v-col>
@@ -321,6 +323,7 @@
                         outlined
                         :rules="[rules.required, rules.numRequired]"
                         :disabled="opYearType != 2"
+                        dense
                         required
                       ></v-text-field>
                     </v-col>
@@ -443,10 +446,17 @@ export default {
       //   return
       // }
 
-      let val = parseFloat(value)
-      
-      if (val >= 0 && val <= 10 && (val * 10) % 5 == 0 && this.opYearStart >=0 && this.opYearStart <=10 && this.opYearStart <= val && (this.opYearStart * 10) % 5 ==0) {
-        console.log("-------------------------------------------------")
+      let val = parseFloat(value);
+
+      if (
+        val >= 0 &&
+        val <= 10 &&
+        (val * 10) % 5 == 0 &&
+        this.opYearStart >= 0 &&
+        this.opYearStart <= 10 &&
+        this.opYearStart <= val &&
+        (this.opYearStart * 10) % 5 == 0
+      ) {
         if (this.slide == 1) {
           this.currentYear = val;
           this.$nextTick(() => {
@@ -454,9 +464,11 @@ export default {
               "canvas1",
               this.$refs.table1.offsetWidth,
               20,
-              (this.$refs.table1.offsetWidth / this.topYear) * this.opYearEnd-(this.$refs.table1.offsetWidth / this.topYear)  * this.opYearStart,
+              (this.$refs.table1.offsetWidth / this.topYear) * this.opYearEnd -
+                (this.$refs.table1.offsetWidth / this.topYear) *
+                  this.opYearStart,
               10,
-           (this.$refs.table1.offsetWidth / this.topYear)  * this.opYearStart
+              (this.$refs.table1.offsetWidth / this.topYear) * this.opYearStart
             );
             this.cStyle1 = this.getStyle(
               this.$refs.table1.offsetWidth,
@@ -477,9 +489,14 @@ export default {
               20,
               ((this.$refs.table3.offsetWidth / this.topYear) *
                 this.currentYearB) /
-                2,
+                2 -
+                ((this.$refs.table3.offsetWidth / this.topYear) *
+                  this.opYearStart) /
+                  2,
               10,
-              0
+              ((this.$refs.table3.offsetWidth / this.topYear) *
+                this.opYearStart) /
+                2
             );
             this.cStyle3 = this.getStyle(
               this.$refs.table3.offsetWidth,
@@ -500,8 +517,16 @@ export default {
       //   alert("起始年份不能大于结束年份")
       //   return;
       // }
-      let val = parseFloat(value)
-      if (val >= 0 && val <= 10 && (val * 10) % 5 === 0 && val<= this.opYearEnd && this.opYearEnd <=10 && this.opYearEnd >= 0 && (this.opYearEnd * 10) % 5 === 0) {
+      let val = parseFloat(value);
+      if (
+        val >= 0 &&
+        val <= 10 &&
+        (val * 10) % 5 === 0 &&
+        val <= this.opYearEnd &&
+        this.opYearEnd <= 10 &&
+        this.opYearEnd >= 0 &&
+        (this.opYearEnd * 10) % 5 === 0
+      ) {
         if (this.slide == 1) {
           this.opYearStart = val;
           this.$nextTick(() => {
@@ -509,9 +534,11 @@ export default {
               "canvas1",
               this.$refs.table1.offsetWidth,
               20,
-              (this.$refs.table1.offsetWidth / this.topYear) * this.opYearEnd-(this.$refs.table1.offsetWidth / this.topYear)  * this.opYearStart,
+              (this.$refs.table1.offsetWidth / this.topYear) * this.opYearEnd -
+                (this.$refs.table1.offsetWidth / this.topYear) *
+                  this.opYearStart,
               10,
-           (this.$refs.table1.offsetWidth / this.topYear)  * this.opYearStart
+              (this.$refs.table1.offsetWidth / this.topYear) * this.opYearStart
             );
             this.cStyle1 = this.getStyle(
               this.$refs.table1.offsetWidth,
@@ -532,9 +559,14 @@ export default {
               20,
               ((this.$refs.table3.offsetWidth / this.topYear) *
                 this.currentYearB) /
-                2,
+                2 -
+                ((this.$refs.table3.offsetWidth / this.topYear) *
+                  this.opYearStart) /
+                  2,
               10,
-              0
+              ((this.$refs.table3.offsetWidth / this.topYear) *
+                this.opYearStart) /
+                2
             );
             this.cStyle3 = this.getStyle(
               this.$refs.table3.offsetWidth,
@@ -575,6 +607,9 @@ export default {
             (this.opYearEnd * 10) % 5 == 0)
         )
       ) {
+        alert(
+          "请填写符合条件的答案，通常，填写的年份在0~10之间，且小数部分只能包含0.5（如5, 5.5），若为时间范围，开始值应该小于结束值。"
+        );
         return;
       }
       var answerObj = {
@@ -957,8 +992,8 @@ export default {
 
 <style lang="scss" scoped>
 .v-dialog__content {
-  padding-top: 200px;
-  left: 160px;
+  padding-top: 380px;
+  left: 450px;
 }
 .message-box {
   position: relative;
