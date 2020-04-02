@@ -244,8 +244,8 @@
     </v-row>-->
 
     <v-row>
-      <v-dialog v-model="openQDialog" persistent max-width="900">
-        <v-card style="margin-top: 120px;" outlined>
+      <v-dialog v-model="openQDialog" persistent max-width="480">
+        <v-card outlined>
           <v-card-title class="blue darken-1 font-weight-black">开放式问题：请选择您偏好的年份或年份范围？</v-card-title>
           <v-divider></v-divider>
           <v-card-text class="blue lighten-4 py-5">
@@ -266,7 +266,7 @@
             </v-range-slider>-->
             <v-form ref="form" v-model="valid" lazy-validation>
               <v-row>
-                <v-col cols="12" sm="3" md="2">
+                <v-col cols="12" sm="5" md="4">
                   <v-radio-group v-model="opYearType" column required>
                     <v-radio label="年份：" value="1" class="font-weight-black"></v-radio>
                     <span class="font-weight-black" style="margin-top: 40px;">或者</span>
@@ -278,12 +278,12 @@
                     ></v-radio>
                   </v-radio-group>
                 </v-col>
-                <v-col cols="12" sm="9" md="10">
+                <v-col cols="12" sm="7" md="8">
                   <v-row>
                     <!-- <v-col cols="12" sm="3" md="2">
                     <span class="font-weight-black">年份：</span>
                     </v-col>-->
-                    <v-col cols="12" sm="6" md="3">
+                    <v-col cols="12" sm="6" md="5">
                       <v-text-field
                         v-model="opYear"
                         label="年份"
@@ -303,7 +303,7 @@
                     <!-- <v-col cols="12" sm="6" md="2">
                     <span class="font-weight-black">年份范围：</span>
                     </v-col>-->
-                    <v-col cols="12" sm="6" md="3">
+                    <v-col cols="12" sm="6" md="5">
                       <v-text-field
                         v-model="opYearStart"
                         label="起始年"
@@ -314,7 +314,7 @@
                       ></v-text-field>
                     </v-col>
                     <span class="pt-5">~</span>
-                    <v-col cols="12" sm="6" md="3">
+                    <v-col cols="12" sm="6" md="5">
                       <v-text-field
                         v-model="opYearEnd"
                         label="结束年"
@@ -956,6 +956,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.v-dialog__content {
+  padding-top: 200px;
+  left: 160px;
+}
 .message-box {
   position: relative;
   width: 400px;
