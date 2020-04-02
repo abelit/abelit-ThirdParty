@@ -245,10 +245,10 @@
 
     <v-row class="page-1">
       <v-dialog v-model="openQDialog" persistent max-width="360">
-        <v-card outlined>
-          <v-card-title class="blue darken-1 font-weight-black">开放式问题：请选择您偏好的年份或年份范围？</v-card-title>
+        <v-card outlined style="opacity: 0.5;" class="black" dark>
+          <v-card-title class="blue darken-1 font-weight-wwhite">开放式问题：请选择您偏好的年份或年份范围？</v-card-title>
           <v-divider></v-divider>
-          <v-card-text class="blue lighten-4 pb-0">
+          <v-card-text class="pb-0">
             <!-- <v-range-slider
               v-model="yearRange"
               thumb-label="always"
@@ -332,9 +332,9 @@
               </v-row>
             </v-form>
           </v-card-text>
-          <v-card-actions class="blue lighten-4">
+          <v-card-actions class="black">
             <v-spacer></v-spacer>
-            <v-btn color="black darken-3" @click="submitAnswer()" dark large width="120px">是</v-btn>
+            <v-btn color="blue darken-3" @click="submitAnswer()" dark large width="120px">是</v-btn>
             <v-spacer></v-spacer>
             <!-- <v-btn color="black darken-3" @click="submitAnswer('N')" dark>否</v-btn> -->
           </v-card-actions>
@@ -992,8 +992,9 @@ export default {
 
 <style lang="scss" scoped>
 .v-dialog__content {
-  padding-top: 380px;
-  left: 450px;
+  padding-top: 80px;
+  left: 180px;
+
 }
 .message-box {
   position: relative;
