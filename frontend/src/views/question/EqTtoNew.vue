@@ -4,32 +4,46 @@
       <v-card-title v-show="true">
         <v-row>
           <v-col>
-            <v-alert dense type="info">{{ eqLangLabels[$vuetify.lang.current].question }}</v-alert>
+            <v-alert dense type="info">{{
+              eqLangLabels[$vuetify.lang.current].question
+            }}</v-alert>
           </v-col>
         </v-row>
       </v-card-title>
       <v-card-text>
-        <v-row style="height: 300px !important;">
+        <v-row style="height: 500px !important;">
           <v-col cols="3" class="px-8">
             <v-row justify="end">
               <v-col>
                 <v-row justify="center" class="pt-8">
-                  <v-btn class="black" @click="chooseAnswer('A')" fab dark>A</v-btn>
+                  <v-btn class="black" @click="chooseAnswer('A')" fab dark
+                    >A</v-btn
+                  >
                 </v-row>
-                <v-row justify="center" class="my-6">
+                <!-- <v-row justify="center" class="my-6">
                   <v-btn
                     class="black darken-3"
                     @click="chooseAnswer('AB')"
                     disabled
                     large
                     dark
-                  >A & B</v-btn>
-                </v-row>
+                    >A & B</v-btn
+                  >
+                </v-row> -->
+                <div style="height:280px"></div>
                 <v-row justify="center" class="my-2" style="margin-top:10px">
-                  <v-btn class="black" @click="chooseAnswer('B')" fab dark>B</v-btn>
+                  <v-btn class="black" @click="chooseAnswer('B')" fab dark
+                    >B</v-btn
+                  >
                 </v-row>
                 <v-row justify="center" class="my-2">
-                  <v-btn class="black" dark v-if="selectList.length > 0" @click="reset" disabled>
+                  <v-btn
+                    class="black"
+                    dark
+                    v-if="selectList.length > 0"
+                    @click="reset"
+                    disabled
+                  >
                     <v-icon>refresh</v-icon>
                   </v-btn>
                 </v-row>
@@ -39,23 +53,28 @@
           <v-col cols="9" class="px-8" v-if="slide == 1">
             <v-row justify="start" align="center">
               <div style="position: relative;">
-                <div style="position: absolute;right:0px; z-index:99; top:-30px;">
+                <div
+                  style="position: absolute;right:0px; z-index:99; top:-30px;"
+                >
                   <div
                     style="background:#92d050;padding:10px 10px;width:200px;border-radius: 15px"
-                  >完全健康</div>
+                  >
+                    完全健康
+                  </div>
                 </div>
                 <v-icon
                   style="color:#92d050;font-size:5rem; position: absolute;right:120px; z-index:98; top:-25px;"
-                >mdi-menu-down</v-icon>
+                  >mdi-menu-down</v-icon
+                >
                 <div :style="cStyle1" style="text-align: center">
                   {{
-                  Math.floor(currentYear) +
-                  eqLangLabels[$vuetify.lang.current].years +
-                  ((currentYear % 1) * 12 != 0
-                  ? "," +
-                  (currentYear % 1) * 12 +
-                  eqLangLabels[$vuetify.lang.current].months
-                  : "")
+                    Math.floor(currentYear) +
+                      eqLangLabels[$vuetify.lang.current].years +
+                      ((currentYear % 1) * 12 != 0
+                        ? "," +
+                          (currentYear % 1) * 12 +
+                          eqLangLabels[$vuetify.lang.current].months
+                        : "")
                   }}
                 </div>
                 <canvas id="canvas1" ref="canvas1"></canvas>
@@ -67,12 +86,37 @@
                     :key="item"
                     style="text-align: center; width: 24px"
                     :class="
-                   opYearType >0 ? ( opYearType == 1 ? (opYear >0 && opYear<=10  ? (item <= 4 * opYear ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3') : '') :''): (opYearEnd >0 && opYearEnd<=10  ? (item <= 4 * opYearEnd && item>4*opYearStart ? (parseInt((item - 1) / 4) % 2 == 1?'purple lighten-1':'purple darken-3') : (item<=4*opYearEnd ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3'):'')) :'') )  : (item <= 4 * currentYear ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3') : '')
+                      opYearType > 0
+                        ? opYearType == 1
+                          ? opYear > 0 && opYear <= 10
+                            ? item <= 4 * opYear
+                              ? parseInt((item - 1) / 4) % 2 == 1
+                                ? 'green lighten-1'
+                                : 'green darken-3'
+                              : ''
+                            : ''
+                          : opYearEnd > 0 && opYearEnd <= 10
+                          ? item <= 4 * opYearEnd && item > 4 * opYearStart
+                            ? parseInt((item - 1) / 4) % 2 == 1
+                              ? 'purple lighten-1'
+                              : 'purple darken-3'
+                            : item <= 4 * opYearEnd
+                            ? parseInt((item - 1) / 4) % 2 == 1
+                              ? 'green lighten-1'
+                              : 'green darken-3'
+                            : ''
+                          : ''
+                        : item <= 4 * currentYear
+                        ? parseInt((item - 1) / 4) % 2 == 1
+                          ? 'green lighten-1'
+                          : 'green darken-3'
+                        : ''
                     "
                   ></td>
                 </tr>
               </table>
             </v-row>
+            <div style="height:160px;"></div>
             <v-row justify="start" align="center" class="pt-12 mt-12">
               <table border="1" cellspacing="0" cellpadding="0" ref="table2">
                 <tr style="height: 50px">
@@ -80,7 +124,11 @@
                     v-for="item in allContent(topYear)"
                     :key="item"
                     style="text-align: center; width: 24px"
-                    :class="(parseInt((item - 1) / 4) % 2 == 1?'blue':'blue darken-3')"
+                    :class="
+                      parseInt((item - 1) / 4) % 2 == 1
+                        ? 'blue'
+                        : 'blue darken-3'
+                    "
                   ></td>
                 </tr>
               </table>
@@ -94,23 +142,28 @@
           <v-col cols="9" class="px-8" v-if="slide == 2">
             <v-row justify="start">
               <div style="position: relative">
-                <div style="position: absolute;right:0px; z-index:99; top:-30px;">
+                <div
+                  style="position: absolute;right:0px; z-index:99; top:-30px;"
+                >
                   <div
                     style="background:#92d050;padding:10px 10px;width:200px;border-radius: 15px"
-                  >完全健康</div>
+                  >
+                    完全健康
+                  </div>
                 </div>
                 <v-icon
                   style="color:#92d050;font-size:5rem; position: absolute;right:120px; z-index:98; top:-25px;"
-                >mdi-menu-down</v-icon>
+                  >mdi-menu-down</v-icon
+                >
                 <div :style="cStyle3" style="text-align: center">
                   {{
-                  Math.floor(currentYearB) +
-                  eqLangLabels[$vuetify.lang.current].years +
-                  ((currentYearB % 1) * 12 != 0
-                  ? "," +
-                  (currentYearB % 1) * 12 +
-                  eqLangLabels[$vuetify.lang.current].months
-                  : "")
+                    Math.floor(currentYearB) +
+                      eqLangLabels[$vuetify.lang.current].years +
+                      ((currentYearB % 1) * 12 != 0
+                        ? "," +
+                          (currentYearB % 1) * 12 +
+                          eqLangLabels[$vuetify.lang.current].months
+                        : "")
                   }}
                 </div>
                 <canvas id="canvas3" ref="canvas3"></canvas>
@@ -134,12 +187,37 @@
                     :key="item"
                     style="text-align: center; width: 16px"
                     :class="
-                   opYearType >0 ? ( opYearType == 1 ? (opYear >0 && opYear<=10  ? (item <= 4 * opYear ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3') : '') :''): (opYearEnd >0 && opYearEnd<=10  ? (item <= 4 * opYearEnd && item>4*opYearStart ? (parseInt((item - 1) / 4) % 2 == 1?'purple lighten-1':'purple darken-3') : (item<=4*opYearEnd ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3'):'')) :'') )  : (item <= 4 * currentYearB ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3') : '')
+                      opYearType > 0
+                        ? opYearType == 1
+                          ? opYear > 0 && opYear <= 10
+                            ? item <= 4 * opYear
+                              ? parseInt((item - 1) / 4) % 2 == 1
+                                ? 'green lighten-1'
+                                : 'green darken-3'
+                              : ''
+                            : ''
+                          : opYearEnd > 0 && opYearEnd <= 10
+                          ? item <= 4 * opYearEnd && item > 4 * opYearStart
+                            ? parseInt((item - 1) / 4) % 2 == 1
+                              ? 'purple lighten-1'
+                              : 'purple darken-3'
+                            : item <= 4 * opYearEnd
+                            ? parseInt((item - 1) / 4) % 2 == 1
+                              ? 'green lighten-1'
+                              : 'green darken-3'
+                            : ''
+                          : ''
+                        : item <= 4 * currentYearB
+                        ? parseInt((item - 1) / 4) % 2 == 1
+                          ? 'green lighten-1'
+                          : 'green darken-3'
+                        : ''
                     "
                   ></td>
                 </tr>
               </table>
             </v-row>
+            <div style="height:160px;"></div>
             <v-row justify="start" align="center" class="pt-12 mt-12">
               <table border="1" cellspacing="0" cellpadding="0" ref="table4">
                 <tr style="height: 50px">
@@ -148,7 +226,13 @@
                     :key="item"
                     style="text-align: center; width: 16px"
                     :class="
-                      item <= 40 ? (parseInt((item - 1) / 4) % 2 == 1?'green lighten-1':'green darken-3') : (parseInt((item - 1) / 4) % 2 == 1?'blue lighten-1':'blue darken-3')
+                      item <= 40
+                        ? parseInt((item - 1) / 4) % 2 == 1
+                          ? 'green lighten-1'
+                          : 'green darken-3'
+                        : parseInt((item - 1) / 4) % 2 == 1
+                        ? 'blue lighten-1'
+                        : 'blue darken-3'
                     "
                   ></td>
                 </tr>
@@ -156,27 +240,46 @@
 
               <div>
                 <canvas id="canvas4" ref="canvas4"></canvas>
+
                 <canvas id="canvas5" ref="canvas5"></canvas>
               </div>
               <div style="width:100%" ref="tip_w">
-                <div ref="tenyear4" style="width:50%;text-align: center;float:left">10年完全健康</div>
-                <div ref="tenyear5" style="width:50%;text-align: center;float:right">10年</div>
+                <div
+                  ref="tenyear4"
+                  style="width:50%;text-align: center;float:left"
+                >
+                  10年完全健康
+                </div>
+                <div
+                  ref="tenyear5"
+                  style="width:50%;text-align: center;float:right"
+                >
+                  10年
+                </div>
               </div>
             </v-row>
           </v-col>
         </v-row>
-        <v-row justify="center" align="center" v-if="slide == 1 && block.source_text">
+        <v-row
+          justify="center"
+          align="center"
+          v-if="slide == 1 && block.source_text"
+        >
           <v-col cols="6">
             <v-row>
               <div style="position: relative;height:180px;">
                 <v-icon
                   style="color:#5b9bd5;font-size:5rem; position: absolute;left:250px; z-index:98; top:-45px;"
-                >mdi-menu-up</v-icon>
+                  >mdi-menu-up</v-icon
+                >
                 <div style>
                   <div
                     style="background:#5b9bd5;padding:10px 10px;width:400px;border-radius: 15px;height:180px"
                   >
-                    <div v-for="msg in block.source_text.split('*')" :key="msg.key">
+                    <div
+                      v-for="msg in block.source_text.split('*')"
+                      :key="msg.key"
+                    >
                       <li v-if="msg != ''">
                         <span>{{ msg }}</span>
                       </li>
@@ -192,18 +295,22 @@
             <v-row style="position: relative;">
               <v-icon
                 style="color:#92d050;font-size:5rem; position: absolute;left:250px; z-index:98; top:-45px;"
-              >mdi-menu-up</v-icon>
+                >mdi-menu-up</v-icon
+              >
 
               <div
                 style="background:#92d050;padding:10px 10px;width:400px;border-radius: 15px;height:180px"
-              >完全健康</div>
+              >
+                完全健康
+              </div>
             </v-row>
           </div>
           <div style="float:right; position: absolute;right:100px">
             <v-row style="position: relative;">
               <v-icon
                 style="color:#5b9bd5;font-size:5rem; position: absolute;left:250px; z-index:98; top:-45px;"
-              >mdi-menu-up</v-icon>
+                >mdi-menu-up</v-icon
+              >
 
               <div
                 style="background:#5b9bd5;padding:10px 10px;width:400px;border-radius: 15px;height:180px"
@@ -244,11 +351,13 @@
     </v-row>-->
 
     <v-row class="page-1">
-      <v-dialog v-model="openQDialog" persistent max-width="360">
-        <v-card outlined style="opacity: 0.5;" class="black" dark>
-          <v-card-title class="blue darken-1 font-weight-wwhite">开放式问题：请选择您偏好的年份或年份范围？</v-card-title>
+      <v-dialog v-model="openQDialog" persistent max-width="480">
+        <v-card outlined>
+          <v-card-title class="blue darken-1 font-weight-wwhite"
+            >开放式问题：请选择您偏好的年份或年份范围？</v-card-title
+          >
           <v-divider></v-divider>
-          <v-card-text class="pb-0">
+          <v-card-text style="height:160px; overflow: hidden;">
             <!-- <v-range-slider
               v-model="yearRange"
               thumb-label="always"
@@ -268,13 +377,19 @@
               <v-row>
                 <v-col cols="12" sm="5" md="5">
                   <v-radio-group v-model="opYearType" column required>
-                    <v-radio label="年份：" value="1" class="font-weight-black"></v-radio>
-                    <span class="font-weight-black" style="margin-top: 20px;">或者</span>
+                    <v-radio
+                      label="年份："
+                      value="1"
+                      class="font-weight-black"
+                    ></v-radio>
+                    <span class="font-weight-black" style="margin-top:20px"
+                      >或者</span
+                    >
                     <v-radio
                       label="年范围："
                       value="2"
                       class="font-weight-black"
-                      style="margin-top: 40px;"
+                      style="margin-top: 20px;"
                     ></v-radio>
                   </v-radio-group>
                 </v-col>
@@ -300,7 +415,7 @@
                     <span class="font-weight-black">或者</span>
                   </v-col>
                   </v-row>-->
-                  <v-row class="mt-5">
+                  <v-row>
                     <!-- <v-col cols="12" sm="6" md="2">
                     <span class="font-weight-black">年份范围：</span>
                     </v-col>-->
@@ -332,11 +447,40 @@
               </v-row>
             </v-form>
           </v-card-text>
-          <v-card-actions class="black">
+          <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-3" @click="submitAnswer()" dark large width="120px">是</v-btn>
+            <v-btn
+              color="blue darken-3"
+              @click="submitAnswer()"
+              dark
+              large
+              width="120px"
+              >是</v-btn
+            >
             <v-spacer></v-spacer>
             <!-- <v-btn color="black darken-3" @click="submitAnswer('N')" dark>否</v-btn> -->
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+    <v-row>
+      <v-dialog v-model="popupDialog2" persistent max-width="600">
+        <v-card class="pt-5 yellow lighten-4">
+          <v-card-text class="display-1">{{ popMsg }}</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="light-green darken-3"
+              @click="submitAnswer2('Y')"
+              large
+              >是</v-btn
+            >
+            <v-btn
+              color="light-green darken-3"
+              @click="submitAnswer2('N')"
+              large
+              >否</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -367,6 +511,7 @@ export default {
     bAlertText: "",
     newttoAnswer: "",
     popupDialog: false,
+    popupDialog2: false,
     popAB: false,
     popMsg: "",
     randomYear: Math.floor(Math.random() * 6) + 2,
@@ -589,8 +734,16 @@ export default {
       this.openQDialog = false;
     },
     submitAnswer() {
+      this.popupDialog2 = true;
+      this.genPoppupMsg(this.slide);
+    },
+    submitAnswer2(value) {
       // 验证是否选择开放式问题
       // this.$refs.form.validate();
+      if (value == "N") {
+        this.popupDialog2 = false;
+        return;
+      }
       if (
         !(
           (this.opYearType == 1 &&
@@ -651,46 +804,36 @@ export default {
       this.updateItem();
     },
     genPoppupMsg(type) {
-      if (this.stepDirection % 2 == 0) {
-        if (this.currentYear == 0) {
-          if (type == "A") {
-            this.popMsg = this.eqLangLabels[
-              this.$vuetify.lang.current
-            ].popup_window;
-          } else {
-            this.popMsg = this.eqLangLabels[
-              this.$vuetify.lang.current
-            ].msg_response_43;
-          }
-        } else {
-          if (type == "A" && this.currentYear == 0.5) {
-            this.popMsg = this.eqLangLabels[
-              this.$vuetify.lang.current
-            ].popup_window;
-          } else {
-            this.popMsg =
-              this.eqLangLabels[this.$vuetify.lang.current].msg_response_41 +
-              (10 - this.currentYear) +
-              this.eqLangLabels[this.$vuetify.lang.current].msg_response_42;
-          }
-        }
-      } else {
-        if (this.currentYearB == 0) {
-          this.popMsg = this.eqLangLabels[
-            this.$vuetify.lang.current
-          ].msg_response_53;
-        } else {
-          this.popMsg =
-            this.eqLangLabels[this.$vuetify.lang.current].msg_response_51 +
-            (20 - this.currentYearB) +
-            this.eqLangLabels[this.$vuetify.lang.current].msg_response_52;
-        }
+      //   opYearType: "",
+      // opYear: "",
+      // opYearStart: "",
+      // opYearEnd: "",
+      if (type == 1) {
+        let displayYear1 =
+          this.opYearType == 1
+            ? 10 - this.opYear
+            : (10 - this.opYearEnd).toString() +
+              "~" +
+              (10 - this.opYearStart).toString();
+
+        this.popMsg =
+          this.eqLangLabels[this.$vuetify.lang.current].msg_response_41 +
+          displayYear1 +
+          this.eqLangLabels[this.$vuetify.lang.current].msg_response_42;
       }
-      if (type != "A" && type != "B") {
-        console.log("hihihi .....");
-        this.popAB = true;
+      if (type == 2) {
+        let displayYear2 =
+          this.opYearType == 1
+            ? 20 - this.opYear
+            : (20 - this.opYearEnd).toString() +
+              "~" +
+              (20 - this.opYearStart).toString();
+
+        this.popMsg =
+          this.eqLangLabels[this.$vuetify.lang.current].msg_response_51 +
+          displayYear2 +
+          this.eqLangLabels[this.$vuetify.lang.current].msg_response_52;
       }
-      this.popupDialog = true;
     },
     reset() {
       this.resets++;
@@ -991,10 +1134,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// .v-dialog__content {
+//   padding-top: 80px;
+//   left: 180px;
+// }
 .v-dialog__content {
-  padding-top: 80px;
-  left: 180px;
-
+  margin-top: -25px;
 }
 .message-box {
   position: relative;
