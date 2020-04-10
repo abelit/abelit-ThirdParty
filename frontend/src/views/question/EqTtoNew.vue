@@ -1043,7 +1043,7 @@ export default {
 
 <style lang="scss" scoped>
 .v-dialog__content {
-  padding-bottom: 60px;
+  padding-bottom: 20px;
 }
 .v-dialog__content {
   margin-top: -25px;
