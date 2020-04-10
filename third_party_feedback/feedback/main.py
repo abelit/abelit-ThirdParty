@@ -76,7 +76,7 @@ def init_db():
                 "create table opened_question(id integer primary key autoincrement,questionid integer,presentation text,name text,block text,source_text text, version text, created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table dce_answer(id integer primary key autoincrement,questionid integer,participant text,interviewer text,item integer, position_of_item integer,selected_state text,dce_reversal text,block integer, version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table tto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,tto_value real,used_time text,composite_switches interger,resets integer,number_of_moves integer,block text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table newtto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,start_year_random text,select1 text,select2 text,select3 text,select4 text,open_select text,end_year_random text,block text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+                "create table newtto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,start_year_random text,select1 text,select2 text,select3 text,select4 text,open_select text,end_year_random text,block text,reset text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table nstptto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,select_order interger,select_value text,page integer,block text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table ttofeedback_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,tto_value real,used_time text,composite_switches interger,resets integer,number_of_moves integer,block text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table opened_answer(id integer primary key autoincrement,questionid integer, participant text,interviewer text,item text,position_of_item integer,participant_answer text,block text, version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))"]
@@ -561,24 +561,26 @@ def add_newtto_answer():
 
     content = request.get_json()
 
+    print(content)
+
     status = None
     msg = None
 
     try:
         cursor = conn.cursor()
         for row in content:
-            SQL_TEXT = "insert into newtto_answer(questionid,participant,interviewer,item,position_of_item,start_year_random,select1,select2,select3,select4,end_year_random,open_select,block,version) values('{0}', '{1}', '{2}', '{3}', {4}, {5}, '{6}', '{7}', '{8}', '{9}', '{10}', '{11}','{12}','{13}')".format(
-                row['questionid'], row['participant'], row['interviewer'], row['item'], row['position_of_item'], row['start_year_random'], row['select1'], row['select2'], row['select3'], row['select4'], row['end_year_random'], row['open_select'], row['block'], row['version'])
+            SQL_TEXT = "insert into newtto_answer(questionid,participant,interviewer,item,position_of_item,start_year_random,select1,select2,select3,select4,end_year_random,open_select,block,reset,version) values('{0}', '{1}', '{2}', '{3}', {4}, {5}, '{6}', '{7}', '{8}', '{9}', '{10}', '{11}','{12}','{13}','{14}')".format(
+                row['questionid'], row['participant'], row['interviewer'], row['item'], row['position_of_item'], row['start_year_random'], row['select1'], row['select2'], row['select3'], row['select4'], row['end_year_random'], row['open_select'], row['block'],row['reset'], row['version'])
             cursor.execute(SQL_TEXT)
         conn.commit()
         conn.close()
         status = 200
         msg = "成功"
     except Exception as err:
-        msg = err
+        msg = str(err)
         status = 600
 
-    return jsonify({"msg": msg, "status": status})
+    return jsonify({"msg": msg, "status": status}), status
     # return jsonify(request.get_json())
 
 
@@ -670,7 +672,7 @@ def get_newtto_answer():
     data = []
     for row in result:
         data.append({"id": row[0], "questionid": row[1], "participant": row[2], "interviewer": row[3], "item": row[4], "position_of_item": row[5], "start_year_random": row[6],
-                     "select1": row[7], "select2": row[8], "select3": row[9], "select4": row[10], "open_select": row[11], "end_year_random": row[12], "block": row[13], "version": row[14], "created_timestamp": row[15]})
+                     "select1": row[7], "select2": row[8], "select3": row[9], "select4": row[10], "open_select": row[11], "end_year_random": row[12], "block": row[13],"reset": row[14], "version": row[15], "created_timestamp": row[16]})
 
     return jsonify(data)
 

@@ -82,7 +82,27 @@
                     :key="item"
                     style="text-align: center; width: 24px"
                     :class="
-                      item <= 4 * currentYear
+                      opYearType > 0
+                        ? opYearType == 1
+                          ? opYear > 0 && opYear <= 10
+                            ? item <= 4 * opYear
+                              ? parseInt((item - 1) / 4) % 2 == 1
+                                ? 'green lighten-1'
+                                : 'green darken-3'
+                              : ''
+                            : ''
+                          : opYearEnd > 0 && opYearEnd <= 10
+                          ? item <= 4 * opYearEnd && item > 4 * opYearStart
+                            ? parseInt((item - 1) / 4) % 2 == 1
+                              ? 'purple lighten-1'
+                              : 'purple darken-3'
+                            : item <= 4 * opYearEnd
+                            ? parseInt((item - 1) / 4) % 2 == 1
+                              ? 'green lighten-1'
+                              : 'green darken-3'
+                            : ''
+                          : ''
+                        : item <= 4 * currentYear
                         ? parseInt((item - 1) / 4) % 2 == 1
                           ? 'green lighten-1'
                           : 'green darken-3'
@@ -163,7 +183,27 @@
                     :key="item"
                     style="text-align: center; width: 16px"
                     :class="
-                      item <= 4 * currentYearB
+                      opYearType > 0
+                        ? opYearType == 1
+                          ? opYear > 0 && opYear <= 10
+                            ? item <= 4 * opYear
+                              ? parseInt((item - 1) / 4) % 2 == 1
+                                ? 'green lighten-1'
+                                : 'green darken-3'
+                              : ''
+                            : ''
+                          : opYearEnd > 0 && opYearEnd <= 10
+                          ? item <= 4 * opYearEnd && item > 4 * opYearStart
+                            ? parseInt((item - 1) / 4) % 2 == 1
+                              ? 'purple lighten-1'
+                              : 'purple darken-3'
+                            : item <= 4 * opYearEnd
+                            ? parseInt((item - 1) / 4) % 2 == 1
+                              ? 'green lighten-1'
+                              : 'green darken-3'
+                            : ''
+                          : ''
+                        : item <= 4 * currentYearB
                         ? parseInt((item - 1) / 4) % 2 == 1
                           ? 'green lighten-1'
                           : 'green darken-3'
@@ -310,35 +350,114 @@
       <v-dialog v-model="openQDialog" persistent max-width="480">
         <v-card outlined>
           <v-card-title class="blue darken-1 font-weight-wwhite"
-            >开放式问题：请填写您偏好的年份？</v-card-title
+            >开放式问题：请选择您偏好的年份或年份范围？</v-card-title
           >
           <v-divider></v-divider>
-          <v-card-text style="overflow: hidden;" class="px-0 py-0 mt-3">
+          <v-card-text style="height:160px; overflow: hidden;">
+            <!-- <v-range-slider
+              v-model="yearRange"
+              thumb-label="always"
+              class="my-10"
+              :tick-labels="ticksLabels"
+              :max="10"
+              thumb-size="35"
+              step="0.5"
+              ticks="always"
+              thumb-color="orange darken-3"
+              color="orange darken-3"
+              track-fill-color="blue"
+            >
+              <template v-slot:thumb-label="{ value }">{{ value }} 年</template>
+            </v-range-slider>-->
             <v-form ref="form" v-model="valid" lazy-validation>
-              <v-row align="center" justify="center">
-                <v-col cols="12" sm="6" md="8">
-                  <v-text-field
-                    v-model="opYear"
-                    label="填写年份"
-                    outlined
-                    :rules="[rules.required, rules.numRequired]"
-                    dense
-                    required
-                  ></v-text-field>
+              <v-row>
+                <v-col cols="12" sm="5" md="5">
+                  <v-radio-group v-model="opYearType" column required>
+                    <v-radio
+                      label="年份："
+                      value="1"
+                      class="font-weight-black"
+                    ></v-radio>
+                    <span class="font-weight-black" style="margin-top:20px"
+                      >或者</span
+                    >
+                    <v-radio
+                      label="年范围："
+                      value="2"
+                      class="font-weight-black"
+                      style="margin-top: 20px;"
+                    ></v-radio>
+                  </v-radio-group>
+                </v-col>
+                <v-col cols="12" sm="7" md="7">
+                  <v-row>
+                    <!-- <v-col cols="12" sm="3" md="2">
+                    <span class="font-weight-black">年份：</span>
+                    </v-col>-->
+                    <v-col cols="12" sm="6" md="8">
+                      <v-text-field
+                        v-model="opYear"
+                        label="年份"
+                        outlined
+                        :rules="[rules.required, rules.numRequired]"
+                        :disabled="opYearType != 1"
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <!-- <v-row>
+                  <v-col cols="12" sm="6" md="2">
+                    <span class="font-weight-black">或者</span>
+                  </v-col>
+                  </v-row>-->
+                  <v-row>
+                    <!-- <v-col cols="12" sm="6" md="2">
+                    <span class="font-weight-black">年份范围：</span>
+                    </v-col>-->
+                    <v-col cols="12" sm="6" md="5">
+                      <v-text-field
+                        v-model="opYearStart"
+                        label="起始年"
+                        outlined
+                        :rules="[rules.required, rules.numRequired]"
+                        :disabled="opYearType != 2"
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
+                    <span class="pt-5">~</span>
+                    <v-col cols="12" sm="6" md="5">
+                      <v-text-field
+                        v-model="opYearEnd"
+                        label="结束年"
+                        outlined
+                        :rules="[rules.required, rules.numRequired]"
+                        :disabled="opYearType != 2"
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
                 </v-col>
               </v-row>
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-3" @click="submitAnswer()" dark large
+            <v-btn
+              color="blue darken-3"
+              @click="submitAnswer()"
+              dark
+              large
+             
               >是</v-btn
             >
-
+       
             <v-btn class="red darken-3" @click="reset" large dark
               ><v-icon>refresh</v-icon></v-btn
             >
-            <v-spacer></v-spacer>
+                 <v-spacer></v-spacer>
             <!-- <v-btn color="black darken-3" @click="submitAnswer('N')" dark>否</v-btn> -->
           </v-card-actions>
         </v-card>
@@ -402,10 +521,10 @@ export default {
     ticksLabels: Array.from({ length: 21 }, (v, k) => k / 2),
     yearRange: [0, 10],
     rules: {
-      required: value => !!value || "年份为必填项.",
-      numRequired: v =>
+      required: (value) => !!value || "请填写年份.",
+      numRequired: (v) =>
         !!((v * 10) % 5 == 0 && v >= 0 && v <= 10) ||
-        "填写的年份应在0-10之间，且只包含半年或整年，如1.5，1"
+        "填写的年份应在0-10之间，且只包含半年或整年，如1.5，1",
     },
     opYearType: "",
     opYear: "",
@@ -413,7 +532,7 @@ export default {
     opYearEnd: "",
     radio1: "",
     radio2: "",
-    valid: true
+    valid: true,
   }),
   watch: {
     opYear(val) {
@@ -606,7 +725,7 @@ export default {
           });
         }
       }
-    }
+    },
   },
 
   methods: {
@@ -661,7 +780,7 @@ export default {
         open_select: "",
         end_year_random: this.randomYearB,
         version: this.qVersion,
-        reset: this.resets
+        reset: this.resets,
       };
 
       let [s1, s2, s3, s4] = this.selectList;
@@ -801,7 +920,6 @@ export default {
       });
     },
     chooseAnswer(type) {
-      this.opYearType = 1;
       switch (this.selectList.length) {
         case 0:
           this.currentYear = type == "A" ? 1 : 9;
@@ -965,7 +1083,7 @@ export default {
       this.popA_to_B = false;
       this.popAZero = false;
       this.popBFull = false;
-    }
+    },
   },
   mounted() {
     // let rangeArray = (start, end) =>
@@ -1036,15 +1154,16 @@ export default {
         return arr;
       };
     },
-    ...mapState(["userInfo", "examType", "qVersion", "eqLangLabels"])
-  }
+    ...mapState(["userInfo", "examType", "qVersion", "eqLangLabels"]),
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.v-dialog__content {
-  padding-bottom: 60px;
-}
+// .v-dialog__content {
+//   padding-top: 80px;
+//   left: 180px;
+// }
 .v-dialog__content {
   margin-top: -25px;
 }
