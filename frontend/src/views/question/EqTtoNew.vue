@@ -20,17 +20,13 @@
                     >A</v-btn
                   >
                 </v-row>
-                <!-- <v-row justify="center" class="my-6">
-                  <v-btn
-                    class="black darken-3"
-                    @click="chooseAnswer('AB')"
-                    disabled
-                    large
-                    dark
-                    >A & B</v-btn
+                <div style="height:80px"></div>
+                <v-row justify="center" class="my-6">
+                  <v-btn class="red darken-3" @click="reset" large dark
+                    ><v-icon>refresh</v-icon></v-btn
                   >
-                </v-row> -->
-                <div style="height:280px"></div>
+                </v-row>
+                <div style="height:80px"></div>
                 <v-row justify="center" class="my-2" style="margin-top:10px">
                   <v-btn class="black" @click="chooseAnswer('B')" fab dark
                     >B</v-btn
@@ -454,10 +450,14 @@
               @click="submitAnswer()"
               dark
               large
-              width="120px"
+             
               >是</v-btn
             >
-            <v-spacer></v-spacer>
+       
+            <v-btn class="red darken-3" @click="reset" large dark
+              ><v-icon>refresh</v-icon></v-btn
+            >
+                 <v-spacer></v-spacer>
             <!-- <v-btn color="black darken-3" @click="submitAnswer('N')" dark>否</v-btn> -->
           </v-card-actions>
         </v-card>
@@ -521,10 +521,10 @@ export default {
     ticksLabels: Array.from({ length: 21 }, (v, k) => k / 2),
     yearRange: [0, 10],
     rules: {
-      required: value => !!value || "请填写年份.",
-      numRequired: v =>
+      required: (value) => !!value || "请填写年份.",
+      numRequired: (v) =>
         !!((v * 10) % 5 == 0 && v >= 0 && v <= 10) ||
-        "填写的年份应在0-10之间，且只包含半年或整年，如1.5，1"
+        "填写的年份应在0-10之间，且只包含半年或整年，如1.5，1",
     },
     opYearType: "",
     opYear: "",
@@ -532,7 +532,7 @@ export default {
     opYearEnd: "",
     radio1: "",
     radio2: "",
-    valid: true
+    valid: true,
   }),
   watch: {
     opYear(val) {
@@ -725,7 +725,7 @@ export default {
           });
         }
       }
-    }
+    },
   },
 
   methods: {
@@ -779,7 +779,8 @@ export default {
         select4: "",
         open_select: "",
         end_year_random: this.randomYearB,
-        version: this.qVersion
+        version: this.qVersion,
+        reset: this.resets,
       };
 
       let [s1, s2, s3, s4] = this.selectList;
@@ -838,11 +839,36 @@ export default {
     reset() {
       this.resets++;
       this.slide = 1;
-      this.currentYear = 10;
-      this.step = 0;
-      this.currentYearB = 10;
-      this.stepB = 0;
-      this.stepDirection = 0;
+      (this.cStyle1 = ""),
+        (this.cStyle3 = ""),
+        (this.showDetail = true),
+        (this.currentYear = 5),
+        (this.topYear = 10),
+        (this.step = 0),
+        (this.currentYearB = 10),
+        (this.topYearB = 20),
+        (this.stepB = 0),
+        (this.selected = []),
+        (this.tableWidth = ""),
+        (this.slide = 1),
+        (this.stepDirection = 0),
+        (this.bAlertText = ""),
+        (this.newttoAnswer = ""),
+        (this.popupDialog = false),
+        (this.popupDialog2 = false),
+        (this.popAB = false),
+        (this.popMsg = ""),
+        (this.randomYear = Math.floor(Math.random() * 6) + 2),
+        (this.randomYearB = ""),
+        (this.selectList = []),
+        (this.openQDialog = false),
+        (this.opYearType = ""),
+        (this.opYear = ""),
+        (this.opYearStart = ""),
+        (this.opYearEnd = ""),
+        (this.radio1 = ""),
+        (this.radio2 = ""),
+        (this.valid = true);
 
       this.$nextTick(() => {
         if (this.slide === 1) {
@@ -1057,7 +1083,7 @@ export default {
       this.popA_to_B = false;
       this.popAZero = false;
       this.popBFull = false;
-    }
+    },
   },
   mounted() {
     // let rangeArray = (start, end) =>
@@ -1128,8 +1154,8 @@ export default {
         return arr;
       };
     },
-    ...mapState(["userInfo", "examType", "qVersion", "eqLangLabels"])
-  }
+    ...mapState(["userInfo", "examType", "qVersion", "eqLangLabels"]),
+  },
 };
 </script>
 
