@@ -615,6 +615,10 @@ export default {
       this.openQDialog = false;
     },
     submitAnswer() {
+      if (this.opYear == '' || this.opYear * 10 % 5 != 0 || this.opYear >10 ||this.opYear < 0) {
+        alert("请填写符合条件的答案，通常，填写的年份在0~10之间，且小数部分只能包含0.5（如5, 5.5）。");
+        return;
+      }
       this.popupDialog2 = true;
       this.genPoppupMsg(this.slide);
     },
@@ -646,6 +650,7 @@ export default {
         );
         return;
       }
+
       var answerObj = {
         questionid: this.examType.id,
         participant: this.userInfo.participant,
@@ -720,36 +725,39 @@ export default {
     reset() {
       this.resets++;
       this.slide = 1;
-      (this.cStyle1 = ""),
-        (this.cStyle3 = ""),
-        (this.showDetail = true),
-        (this.currentYear = 5),
-        (this.topYear = 10),
-        (this.step = 0),
-        (this.currentYearB = 10),
-        (this.topYearB = 20),
-        (this.stepB = 0),
-        (this.selected = []),
-        (this.tableWidth = ""),
-        (this.slide = 1),
-        (this.stepDirection = 0),
-        (this.bAlertText = ""),
-        (this.newttoAnswer = ""),
-        (this.popupDialog = false),
-        (this.popupDialog2 = false),
-        (this.popAB = false),
-        (this.popMsg = ""),
-        (this.randomYear = Math.floor(Math.random() * 6) + 2),
-        (this.randomYearB = ""),
-        (this.selectList = []),
-        (this.openQDialog = false),
-        (this.opYearType = ""),
-        (this.opYear = ""),
-        (this.opYearStart = ""),
-        (this.opYearEnd = ""),
-        (this.radio1 = ""),
-        (this.radio2 = ""),
-        (this.valid = true);
+      this.cStyle1 = "";
+      this.cStyle3 = "";
+      this.showDetail = true;
+      // this.currentYear = 5;
+      this.topYear = 10;
+      this.step = 0;
+      this.currentYearB = 10;
+      this.topYearB = 20;
+      this.stepB = 0;
+      this.selected = [];
+      this.tableWidth = "";
+      this.slide = 1;
+      this.stepDirection = 0;
+      this.bAlertText = "";
+      this.newttoAnswer = "";
+      this.popupDialog = false;
+      this.popupDialog2 = false;
+      this.popAB = false;
+      this.popMsg = "";
+      this.randomYear = Math.floor(Math.random() * 6) + 2;
+      this.randomYearB = "";
+      this.selectList = [];
+      this.openQDialog = false;
+      this.opYearType = "";
+      this.opYear = "";
+      this.opYearStart = "";
+      this.opYearEnd = "";
+      this.radio1 = "";
+      this.radio2 = "";
+      this.valid = true;
+
+
+      this.currentYear = this.randomYear;
 
       this.$nextTick(() => {
         if (this.slide === 1) {
