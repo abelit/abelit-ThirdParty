@@ -39,12 +39,16 @@ import NstpTtoA from "@/views/question/NstpTtoA";
 import NstpTtoB from "@/views/question/NstpTtoB";
 import { mapState } from "vuex";
 
+var intervalTimer;
+
 export default {
   data: () => ({
     eqTtoQuestions: [{}],
     popupDialog: true,
     currentItem: 0,
-    nstpttoAnswers: []
+    nstpttoAnswers: [],
+    disTime: 0,
+    disFormatTime: "00:00:00",
   }),
   components: {
     NstpTtoA,
@@ -54,7 +58,27 @@ export default {
     ...mapState(["nstpPage", "userInfo", "qVersion", "eqLangLabels"])
   },
   methods: {
+    countTime() {
+      intervalTimer = setInterval(() => {
+        this.disTime = this.disTime + 1;
+        this.disFormatTime = this.displayTime(this.disTime);
+      }, 1000);
+    },
+    displayTime(time) {
+      const hours = Math.floor(time / 3600);
+      const minutes = Math.floor(time / 60);
+      const seconds = time % 60;
+
+      return `${this.zeroPadded(hours)}:${this.zeroPadded(
+        minutes
+      )}:${this.zeroPadded(seconds)}`;
+    },
+    zeroPadded(num) {
+      // 4 --> 04
+      return num < 10 ? `0${num}` : num;
+    },
     pUpdateItem(data) {
+      data.arr.map(item => item.used_time = this.disTime)
       this.nstpttoAnswers = this.nstpttoAnswers.concat(data.arr);
       console.log(this.nstpttoAnswers);
       if (data.next) {
@@ -66,6 +90,9 @@ export default {
           this.$store.dispatch("setAllAnswer", this.nstpttoAnswers);
           this.$router.push({ path: "/eq/end" });
         }
+        console.log(this.disFormatTime)
+        // clearInterval(intervalTimer);
+        this.disTime = 0;
       }
     },
     getQuestion() {
@@ -91,6 +118,9 @@ export default {
   },
   created() {
     this.getQuestion();
+  },
+  mounted() {
+    this.countTime();
   }
 };
 </script>

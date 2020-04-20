@@ -371,6 +371,7 @@
 
 <script>
 import { mapState } from "vuex";
+var intervalTimer;
 export default {
   name: "EqTto",
   props: ["block", "startTime"],
@@ -413,7 +414,9 @@ export default {
     opYearEnd: "",
     radio1: "",
     radio2: "",
-    valid: true
+    valid: true,
+    disTime: 0,
+    disFormatTime: "00:00:00",
   }),
   watch: {
     opYear(val) {
@@ -666,7 +669,8 @@ export default {
         open_select: "",
         end_year_random: this.randomYearB,
         version: this.qVersion,
-        reset: this.resets
+        reset: this.resets,
+        used_time: this.disTime
       };
 
       let [s1, s2, s3, s4] = this.selectList;
@@ -973,7 +977,29 @@ export default {
       this.popA_to_B = false;
       this.popAZero = false;
       this.popBFull = false;
-    }
+    },
+     countTime() {
+      intervalTimer = setInterval(() => {
+        this.disTime = this.disTime + 1;
+        this.disFormatTime = this.displayTime(this.disTime);
+      }, 1000);
+    },
+    displayTime(time) {
+      const hours = Math.floor(time / 3600);
+      const minutes = Math.floor(time / 60);
+      const seconds = time % 60;
+
+      return `${this.zeroPadded(hours)}:${this.zeroPadded(
+        minutes
+      )}:${this.zeroPadded(seconds)}`;
+    },
+    zeroPadded(num) {
+      // 4 --> 04
+      return num < 10 ? `0${num}` : num;
+    },
+  },
+   beforeDestroy() {
+    clearInterval(intervalTimer);
   },
   mounted() {
     // let rangeArray = (start, end) =>
@@ -1002,6 +1028,7 @@ export default {
     // obj.select4 = select4;
 
     // console.log(obj);
+    this.countTime();
 
     // 随机生成2~8年
 

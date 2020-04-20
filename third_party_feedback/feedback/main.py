@@ -76,8 +76,8 @@ def init_db():
                 "create table opened_question(id integer primary key autoincrement,questionid integer,presentation text,name text,block text,source_text text, version text, created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table dce_answer(id integer primary key autoincrement,questionid integer,participant text,interviewer text,item integer, position_of_item integer,selected_state text,dce_reversal text,block integer, version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table tto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,tto_value real,used_time text,composite_switches interger,resets integer,number_of_moves integer,block text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table newtto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,start_year_random text,select1 text,select2 text,select3 text,select4 text,open_select text,end_year_random text,block text,reset text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table nstptto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,select_order interger,select_value text,page integer,block text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+                "create table newtto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,start_year_random text,select1 text,select2 text,select3 text,select4 text,open_select text,end_year_random text,block text,reset text,used_time text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+                "create table nstptto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,select_order interger,select_value text,page integer,block text,used_time text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table ttofeedback_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,tto_value real,used_time text,composite_switches interger,resets integer,number_of_moves integer,block text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
                 "create table opened_answer(id integer primary key autoincrement,questionid integer, participant text,interviewer text,item text,position_of_item integer,participant_answer text,block text, version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))"]
 
@@ -569,8 +569,8 @@ def add_newtto_answer():
     try:
         cursor = conn.cursor()
         for row in content:
-            SQL_TEXT = "insert into newtto_answer(questionid,participant,interviewer,item,position_of_item,start_year_random,select1,select2,select3,select4,end_year_random,open_select,block,reset,version) values('{0}', '{1}', '{2}', '{3}', {4}, {5}, '{6}', '{7}', '{8}', '{9}', '{10}', '{11}','{12}','{13}','{14}')".format(
-                row['questionid'], row['participant'], row['interviewer'], row['item'], row['position_of_item'], row['start_year_random'], row['select1'], row['select2'], row['select3'], row['select4'], row['end_year_random'], row['open_select'], row['block'],row['reset'], row['version'])
+            SQL_TEXT = "insert into newtto_answer(questionid,participant,interviewer,item,position_of_item,start_year_random,select1,select2,select3,select4,end_year_random,open_select,block,reset,version) values('{0}', '{1}', '{2}', '{3}', {4}, {5}, '{6}', '{7}', '{8}', '{9}', '{10}', '{11}','{12}','{13}','{14}','{15}')".format(
+                row['questionid'], row['participant'], row['interviewer'], row['item'], row['position_of_item'], row['start_year_random'], row['select1'], row['select2'], row['select3'], row['select4'], row['end_year_random'], row['open_select'], row['block'],row['reset'], row['used_time'], row['version'])
             cursor.execute(SQL_TEXT)
         conn.commit()
         conn.close()
@@ -598,8 +598,8 @@ def add_nstptto_answer():
     try:
         cursor = conn.cursor()
         for row in content:
-            SQL_TEXT = "insert into nstptto_answer(questionid,participant,interviewer,item,position_of_item,select_order,select_value,page,block,version) values('{0}', '{1}', '{2}', '{3}', {4}, {5}, '{6}', '{7}', '{8}', '{9}')".format(
-                row['questionid'], row['participant'], row['interviewer'], row['item'], row['position_of_item'], row['select_order'], row['select_value'], row['page'], row['block'], row['version'])
+            SQL_TEXT = "insert into nstptto_answer(questionid,participant,interviewer,item,position_of_item,select_order,select_value,page,block,version) values('{0}', '{1}', '{2}', '{3}', {4}, {5}, '{6}', '{7}', '{8}', '{9}','{10}')".format(
+                row['questionid'], row['participant'], row['interviewer'], row['item'], row['position_of_item'], row['select_order'], row['select_value'], row['page'], row['block'], row['used_time'], row['version'])
             cursor.execute(SQL_TEXT)
         conn.commit()
         conn.close()
@@ -672,7 +672,7 @@ def get_newtto_answer():
     data = []
     for row in result:
         data.append({"id": row[0], "questionid": row[1], "participant": row[2], "interviewer": row[3], "item": row[4], "position_of_item": row[5], "start_year_random": row[6],
-                     "select1": row[7], "select2": row[8], "select3": row[9], "select4": row[10], "open_select": row[11], "end_year_random": row[12], "block": row[13],"reset": row[14], "version": row[15], "created_timestamp": row[16]})
+                     "select1": row[7], "select2": row[8], "select3": row[9], "select4": row[10], "open_select": row[11], "end_year_random": row[12], "block": row[13],"reset": row[14],"used_time": row[15], "version": row[16], "created_timestamp": row[17]})
 
     return jsonify(data)
 
@@ -704,7 +704,7 @@ def get_nstptto_answer():
     data = []
     for row in result:
         data.append({"id": row[0], "questionid": row[1], "participant": row[2], "interviewer": row[3], "item": row[4], "position_of_item": row[5], "select_order": row[6],
-                     "select_value": row[7], "page": row[8], "block": row[9], "version": row[10], "created_timestamp": row[11]})
+                     "select_value": row[7], "page": row[8], "block": row[9],"used_time": row[10], "version": row[11], "created_timestamp": row[12]})
 
     return jsonify(data)
 
