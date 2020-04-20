@@ -192,7 +192,7 @@ def get_answer_version():
 #         status = 200
 #         msg = "成功"
 #     except Exception as err:
-#         msg = err
+#         msg = str(err)
 #         status = 600
 
 #     return jsonify({"msg": msg, "status": status})
@@ -546,7 +546,7 @@ def add_tto_answer():
         status = 200
         msg = "成功"
     except Exception as err:
-        msg = err
+        msg = str(err)
         status = 600
 
     return jsonify({"msg": msg, "status": status})
@@ -606,7 +606,7 @@ def add_nstptto_answer():
         status = 200
         msg = "成功"
     except Exception as err:
-        msg = err
+        msg = str(err)
         status = 600
 
     return jsonify({"msg": msg, "status": status})
@@ -732,7 +732,7 @@ def add_dce_answer():
         status = 200
         msg = "成功"
     except Exception as err:
-        msg = err
+        msg = str(err)
         status = 600
 
     return jsonify({"msg": msg, "status": status})
@@ -795,7 +795,7 @@ def add_open_answer():
         status = 200
         msg = "成功"
     except Exception as err:
-        msg = err
+        msg = str(err)
         status = 600
 
     return jsonify({"msg": msg, "status": status})
