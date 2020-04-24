@@ -16,11 +16,17 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
       <script>
-    console.log(window.screen.width)
-    if(window.screen.width<=1280){
-      document.write('<meta name="viewport" content="width=device-width, initial-scale=0.6,user-scalable=no">')
-    }else{
-      document.write('<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">')
+   var met=document.getElementsByName("viewport");
+    console.log(met[0].content="sss")
+    window.onresize = function () {  //注册事件处理函数，动态调整盒子大小
+       console.log(window.screen.width)
+       if(window.screen.width<=1280){
+        met[0].content='<meta name="viewport" content="width=device-width, initial-scale=0.5,user-scalable=no">';
+         // document.write('<meta name="viewport" content="width=device-width, initial-scale=0.5,user-scalable=no">')
+        }else{
+          met[0].content='<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">';
+         // document.write('<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">')
+        }
     }
 
   </script>
