@@ -79,6 +79,7 @@ export default {
     },
     pUpdateItem(data) {
       data.arr.map(item => item.used_time = this.disTime)
+      data.arr.map(item => item.position_of_item = this.currentItem + 1)
       this.nstpttoAnswers = this.nstpttoAnswers.concat(data.arr);
       console.log(this.nstpttoAnswers);
       if (data.next) {
