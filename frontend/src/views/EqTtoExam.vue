@@ -58,9 +58,10 @@ export default {
   },
   methods: {
     pUpdateItem(data) {
-      this.ttoAnswers.push(data);
       // console.log(this.ttoAnswers);
       this.currentItem++;
+      data.position_of_item = this.currentItem;
+      this.ttoAnswers.push(data);
       // console.log(this.currentItem);
       // console.log(this.eqTtoQuestions.length)
       if (this.currentItem > this.eqTtoQuestions.length - 1) {
