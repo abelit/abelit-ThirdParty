@@ -339,7 +339,7 @@ export default {
           item: this.block.name,
           position_of_item: this.block.id,
           tto_value: ttoValue.toFixed(2),
-          used_time: this.itemUsedTime,
+          used_time: this.countTime(this.itemUsedTime),
           composite_switches: this.stepDirection,
           resets: this.resets,
           number_of_moves: this.step,
@@ -361,6 +361,9 @@ export default {
         this.popupDialog = false;
       }
       this.popAB = false;
+    },
+    countTime(t) {
+     return  Number((t).split(":")[0])*3600+ Number((t).split(":")[1] )*60+Number((t).split(":")[2]);
     },
     genPoppupMsg(type) {
       if (this.stepDirection % 2 == 0) {
