@@ -338,7 +338,7 @@ export default {
           interviewer: this.userInfo.interviewer,
           item: this.block.name,
           position_of_item: this.block.id,
-          tto_value: ttoValue,
+          tto_value: ttoValue.toFixed(2),
           used_time: this.itemUsedTime,
           composite_switches: this.stepDirection,
           resets: this.resets,
