@@ -828,7 +828,8 @@ export default {
           break;
         case 2:
           this.slide = type == "A" ? 2 : 1;
-          this.randomYearB = Math.floor(Math.random() * 6) + 2;
+          console.log(this.slide);
+          this.randomYearB = this.slide == 2 ? Math.floor(Math.random() * 6) + 2 : '';
           this.currentYearB = this.randomYearB;
           this.openQDialog = type == "B";
           if (this.slide == 2) {
