@@ -2,12 +2,12 @@
   <div>
     <div v-for="item in eqTtoQuestions" :key="item.id">
       <nstp-tto-a
-        v-if="nstpPage == 1 && eqTtoQuestions.indexOf(item)===currentItem"
+        v-if="nstpPage == 1 && eqTtoQuestions.indexOf(item) === currentItem"
         :block="item"
         v-on:cUpdateItem="pUpdateItem($event)"
       ></nstp-tto-a>
       <nstp-tto-b
-        v-if="nstpPage == 2 && eqTtoQuestions.indexOf(item)===currentItem"
+        v-if="nstpPage == 2 && eqTtoQuestions.indexOf(item) === currentItem"
         :block="item"
         v-on:cUpdateItem="pUpdateItem($event)"
       ></nstp-tto-b>
@@ -15,16 +15,17 @@
     <v-row>
       <v-dialog v-model="popupDialog" persistent max-width="600">
         <v-card class="pt-5 yellow lighten-4">
-          <v-card-text
-            class="display-1"
-          >{{ eqLangLabels[$vuetify.lang.current].popup_window_exmple }}</v-card-text>
+          <v-card-text class="display-1">{{
+            eqLangLabels[$vuetify.lang.current].popup_window_exmple
+          }}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
               color="light-green darken-3"
               @click="popupDialog = false"
               large
-            >{{ eqLangLabels[$vuetify.lang.current].btn_ok_exmple }}</v-btn>
+              >{{ eqLangLabels[$vuetify.lang.current].btn_ok_exmple }}</v-btn
+            >
             <v-spacer></v-spacer>
           </v-card-actions>
         </v-card>
@@ -32,7 +33,6 @@
     </v-row>
   </div>
 </template>
-
 
 <script>
 import NstpTtoA from "@/views/question/NstpTtoA";
@@ -52,10 +52,10 @@ export default {
   }),
   components: {
     NstpTtoA,
-    NstpTtoB
+    NstpTtoB,
   },
   computed: {
-    ...mapState(["nstpPage", "userInfo", "qVersion", "eqLangLabels"])
+    ...mapState(["nstpPage", "userInfo", "qVersion", "eqLangLabels"]),
   },
   methods: {
     countTime() {
@@ -78,20 +78,50 @@ export default {
       return num < 10 ? `0${num}` : num;
     },
     pUpdateItem(data) {
-      data.arr.map(item => item.used_time = this.disTime)
-      data.arr.map(item => item.position_of_item = this.currentItem + 1)
+      data.arr.map((item) => (item.used_time = this.disTime));
+      data.arr.map((item) => (item.position_of_item = this.currentItem + 1));
       this.nstpttoAnswers = this.nstpttoAnswers.concat(data.arr);
-      console.log(this.nstpttoAnswers);
+      // console.log(this.nstpttoAnswers);
       if (data.next) {
         this.currentItem++;
         // console.log(this.currentItem);
         // console.log(this.eqTtoQuestions.length)
         this.$store.dispatch("setNstpPage", 1);
         if (this.currentItem > this.eqTtoQuestions.length - 1) {
+          var result = [];
+
+          this.nstpttoAnswers.forEach(
+            ((hash) => (a) => {
+              if (!hash[a.position_of_item]) {
+                hash[a.position_of_item] = {
+                  position_of_item: a.position_of_item,
+                  used_time: 0,
+                };
+                result.push(hash[a.position_of_item]);
+              }
+              hash[a.position_of_item].used_time = Math.max(
+                hash[a.position_of_item].used_time,
+                a.used_time
+              );
+            })(Object.create(null))
+          );
+
+          this.nstpttoAnswers.map(function(i) {
+            //console.log(i.position_of_item)
+            result.map(function(j) {
+              if (i.position_of_item == j.position_of_item) {
+                i.used_time = j.used_time;
+              }
+            });
+          });
+
+          console.log(this.nstpttoAnswers)
+
           this.$store.dispatch("setAllAnswer", this.nstpttoAnswers);
           this.$router.push({ path: "/eq/end" });
         }
-        console.log(this.disFormatTime)
+        console.log(this.disFormatTime);
+
         // clearInterval(intervalTimer);
         this.disTime = 0;
       }
@@ -100,28 +130,31 @@ export default {
       // console.log(this.userInfo.blockQuestion);
       this.$axios
         .get("/api/question/nstptto", {
-          params: { block: this.userInfo.blockQuestion, version: this.qVersion }
+          params: {
+            block: this.userInfo.blockQuestion,
+            version: this.qVersion,
+          },
         })
-        .then(res => {
-          let common_arr = res.data.slice(0,6)
+        .then((res) => {
+          let common_arr = res.data.slice(0, 6);
           let random_arr = res.data.slice(6).sort(() => Math.random() - 0.5);
-          this.eqTtoQuestions = common_arr.concat(random_arr)
+          this.eqTtoQuestions = common_arr.concat(random_arr);
           // this.eqTtoQuestions = res.data.sort(() => Math.random() - 0.5);
           // console.log(this.eqTtoQuestions);
           // this.currentItem = this.eqTtoQuestions[0].id;
           // console.log(this.eqTtoQuestions);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
       // console.log(this.eqTtoQuestions);
-    }
+    },
   },
   created() {
     this.getQuestion();
   },
   mounted() {
     this.countTime();
-  }
+  },
 };
 </script>
