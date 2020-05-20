@@ -561,7 +561,7 @@ export default {
   props: ["block"],
   methods: {
     selectItem(k, v) {
-      console.log(k);
+      // console.log(k);
       if (
         !(
           (this.itemIndex.length == 0 && k == this.topYear * 4 + 1) ||
@@ -596,7 +596,7 @@ export default {
         10,
         0
       );
-      console.log(this.itemList);
+      // console.log(this.itemList);
       // console.log(this.itemIndex);
       // console.log(this.isSelected(k, v));
       // 判断A页面是否回答完成，如果最后一次回答且本次与前面所有都选择A，选择答案后跳转到B页面继续回答持续的11道问题
@@ -648,7 +648,7 @@ export default {
         // 切换到第二个页面继续答题
         this.$store.dispatch("setNstpPage", 2);
       }
-      console.log(this.itemIndex);
+      // console.log(this.itemIndex);
     },
     mouseOver(item) {
       // if (item % 4 == 1) {

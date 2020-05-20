@@ -349,8 +349,8 @@ export default {
         10,
         0
       );
-      console.log(this.itemList);
-      console.log(this.isSelected(k, v));
+      // console.log(this.itemList);
+      // console.log(this.isSelected(k, v));
     },
     mouseOver(item) {
       // if (item % 4 == 1) {
@@ -375,6 +375,8 @@ export default {
       this.isMouseOverItem = -1;
     },
     reSelect() {
+      console.log(this.block.name);
+      console.log("reselect from b....");
       this.topYear = 10;
       this.currentYear = 10;
       this.isMouseOverItem = -1;
@@ -385,9 +387,13 @@ export default {
       this.itemIndex = [];
       this.style3 = "padding-right: 650px";
       this.$store.dispatch("setNstpPage", 1);
+      this.deleteItem(this.block.name);
     },
     getStyle(w) {
       return "padding-right: " + w + "px;";
+    },
+    deleteItem(item) {
+      this.$emit("cDeleteItem", {item: item});
     },
     updateItem(arr, next) {
       this.$emit("cUpdateItem", { arr: arr, next: next });
@@ -395,6 +401,7 @@ export default {
     nextQuestion() {
       if (this.itemList.length == 11) {
         var arr = [];
+        console.log(this.block.id)
         for (var i = 0; i < this.itemList.length; i++) {
           var answerObj = {
             questionid: this.examType.id,
@@ -412,7 +419,7 @@ export default {
           arr.push(answerObj);
         }
         this.nstpttoAnswer = arr;
-        // console.log(this.nstpttoAnswer);
+        console.log(this.nstpttoAnswer);
         this.updateItem(this.nstpttoAnswer, true);
         this.$store.dispatch("setNstpPage", 1);
       } else {
@@ -500,7 +507,8 @@ export default {
       "examType",
       "qVersion",
       "eqLangLabels",
-      "nstpPage"
+      "nstpPage",
+      "allAnswer"
     ])
   },
   mounted() {

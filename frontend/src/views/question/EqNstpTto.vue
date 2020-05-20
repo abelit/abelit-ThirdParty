@@ -10,6 +10,7 @@
         v-if="nstpPage == 2 && eqTtoQuestions.indexOf(item) === currentItem"
         :block="item"
         v-on:cUpdateItem="pUpdateItem($event)"
+        v-on:cDeleteItem="pDeleteItem($event)"
       ></nstp-tto-b>
     </div>
     <v-row>
@@ -77,11 +78,16 @@ export default {
       // 4 --> 04
       return num < 10 ? `0${num}` : num;
     },
+    pDeleteItem(data) {
+      this.nstpttoAnswers = this.nstpttoAnswers.filter(item => item.item != data.item);
+      // console.log(this.nstpttoAnswers);
+      console.log(data.item)
+    },
     pUpdateItem(data) {
       data.arr.map((item) => (item.used_time = this.disTime));
       data.arr.map((item) => (item.position_of_item = this.currentItem + 1));
       this.nstpttoAnswers = this.nstpttoAnswers.concat(data.arr);
-      // console.log(this.nstpttoAnswers);
+      console.log(this.nstpttoAnswers);
       if (data.next) {
         this.currentItem++;
         // console.log(this.currentItem);
