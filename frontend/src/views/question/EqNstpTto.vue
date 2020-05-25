@@ -95,6 +95,7 @@ export default {
         // console.log(this.currentItem);
         // console.log(this.eqTtoQuestions.length)
         this.$store.dispatch("setNstpPage", 1);
+        this.reset = 0;
         if (this.currentItem > this.eqTtoQuestions.length - 1) {
           var result = [];
 
