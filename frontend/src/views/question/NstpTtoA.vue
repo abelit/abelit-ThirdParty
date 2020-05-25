@@ -556,7 +556,8 @@ export default {
     style1: "",
     currentYear: 10,
     nstpttoAnswer: "",
-    indexList: [41, 37, 33, 29, 25, 21, 17, 13, 9, 5, 1, 906, 909, 910, 911]
+    indexList: [41, 37, 33, 29, 25, 21, 17, 13, 9, 5, 1, 906, 909, 910, 911],
+    reset: 0
   }),
   props: ["block"],
   methods: {
@@ -691,6 +692,7 @@ export default {
         10,
         0
       );
+      this.reset++;
     },
     getStyle(w) {
       return "padding-right: " + w + "px;";
@@ -721,6 +723,7 @@ export default {
             select_value: this.itemList[i].answer,
             page: 1,
             block: this.block.block,
+            reset: this.reset,
             version: this.qVersion
           };
           arr.push(answerObj);

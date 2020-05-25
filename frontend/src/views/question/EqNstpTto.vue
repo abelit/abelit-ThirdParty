@@ -50,6 +50,7 @@ export default {
     nstpttoAnswers: [],
     disTime: 0,
     disFormatTime: "00:00:00",
+    reset: 0
   }),
   components: {
     NstpTtoA,
@@ -80,6 +81,7 @@ export default {
     },
     pDeleteItem(data) {
       this.nstpttoAnswers = this.nstpttoAnswers.filter(item => item.item != data.item);
+      this.reset++;
       // console.log(this.nstpttoAnswers);
       console.log(data.item)
     },
@@ -126,6 +128,8 @@ export default {
           this.$store.dispatch("setAllAnswer", this.nstpttoAnswers);
           this.$router.push({ path: "/eq/end" });
         }
+        this.nstpttoAnswers.map(item => item.reset += this.reset);
+        console.log(this.nstpttoAnswers)
         console.log(this.disFormatTime);
 
         // clearInterval(intervalTimer);

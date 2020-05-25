@@ -4,21 +4,26 @@
       <v-card-title v-show="true">
         <v-row>
           <v-col>
-            <v-alert dense type="info">哪一个选择比较好，生命A、生命B，还是它们大致相同？</v-alert>
+            <v-alert dense type="info"
+              >哪一个选择比较好，生命A、生命B，还是它们大致相同？</v-alert
+            >
           </v-col>
         </v-row>
       </v-card-title>
       <v-card-text>
         <v-row justify="center" align="center">
           <!-- 调整这里 -->
-          <div style="position: relative;width:100%;height:40px;background:#ffffff">
+          <div
+            style="position: relative;width:100%;height:40px;background:#ffffff"
+          >
             <div
               style="background:#92d050;padding:10px 10px;width:200px;border-radius: 15px;position:absolute;right:150px;"
             >
               完全健康
               <v-icon
                 style="color:#92d050;font-size:5rem; position: absolute;right:120px; z-index:98; top:5px;"
-              >mdi-menu-down</v-icon>
+                >mdi-menu-down</v-icon
+              >
             </div>
           </div>
           <v-col cols="2">
@@ -31,8 +36,11 @@
               <v-btn text @click="selectItem(indexList[itemList.length], 'A')">
                 <span
                   class="font-weight-bold"
-                  :class="uLarge ? 'headline blue--text text--darken-4' : 'title'"
-                >偏好A</span>
+                  :class="
+                    uLarge ? 'headline blue--text text--darken-4' : 'title'
+                  "
+                  >偏好A</span
+                >
               </v-btn>
             </v-row>
           </v-col>
@@ -43,7 +51,9 @@
                 ref="div2"
                 style="width: 1326.67px;text-align: right"
                 :style="style3"
-              >{{ currentYear }}年</div>
+              >
+                {{ currentYear }}年
+              </div>
               <canvas id="canvas1" ref="canvas1"></canvas>
             </v-row>
 
@@ -82,8 +92,11 @@
               <v-btn text @click="selectItem(indexList[itemList.length], 'AB')">
                 <span
                   class="font-weight-bold"
-                  :class="eLarge ? 'headline blue--text text--darken-4' : 'title'"
-                >A和B大致相同</span>
+                  :class="
+                    eLarge ? 'headline blue--text text--darken-4' : 'title'
+                  "
+                  >A和B大致相同</span
+                >
               </v-btn>
             </v-row>
           </v-col>
@@ -103,7 +116,7 @@
                     :key="item"
                     ref="iconList"
                     style="text-align: center; width: 16px;"
-                    :class="isSelected(item,'A') == -1?'dynamic-icon':''"
+                    :class="isSelected(item, 'A') == -1 ? 'dynamic-icon' : ''"
                     @mouseover="mouseOver(item)"
                     @mouseleave="mouseLeave(item)"
                   >
@@ -127,17 +140,17 @@
                       :small="item == isMouseOverItem && uLarge ? false : true"
                     >
                       {{
-                      isSelected(item, "A") != 0
-                      ? isSelected(item, "A") == -1 &&
-                      !(
-                      (itemIndex[itemIndex.length - 1] - 4 == item &&
-                      itemIndex.length != 0) ||
-                      (itemIndex.length == 0) &
-                      (item == topYear * 4 + 1)
-                      )
-                      ? "t"
-                      : "mdi-arrow-up-bold"
-                      : "t"
+                        isSelected(item, "A") != 0
+                          ? isSelected(item, "A") == -1 &&
+                            !(
+                              (itemIndex[itemIndex.length - 1] - 4 == item &&
+                                itemIndex.length != 0) ||
+                              (itemIndex.length == 0) &
+                                (item == topYear * 4 + 1)
+                            )
+                            ? "t"
+                            : "mdi-arrow-up-bold"
+                          : "t"
                       }}
                     </v-icon>
                     <v-icon
@@ -160,17 +173,17 @@
                       :small="item == isMouseOverItem && eLarge ? false : true"
                     >
                       {{
-                      isSelected(item, "AB") != 0
-                      ? isSelected(item, "AB") == -1 &&
-                      !(
-                      (itemIndex[itemIndex.length - 1] - 4 == item &&
-                      itemIndex.length != 0) ||
-                      (itemIndex.length == 0) &
-                      (item == topYear * 4 + 1)
-                      )
-                      ? "t"
-                      : "mdi-view-stream"
-                      : "t"
+                        isSelected(item, "AB") != 0
+                          ? isSelected(item, "AB") == -1 &&
+                            !(
+                              (itemIndex[itemIndex.length - 1] - 4 == item &&
+                                itemIndex.length != 0) ||
+                              (itemIndex.length == 0) &
+                                (item == topYear * 4 + 1)
+                            )
+                            ? "t"
+                            : "mdi-view-stream"
+                          : "t"
                       }}
                     </v-icon>
                     <v-icon
@@ -193,17 +206,17 @@
                       :small="item == isMouseOverItem && dLarge ? false : true"
                     >
                       {{
-                      isSelected(item, "B") != 0
-                      ? isSelected(item, "B") == -1 &&
-                      !(
-                      (itemIndex[itemIndex.length - 1] - 4 == item &&
-                      itemIndex.length != 0) ||
-                      (itemIndex.length == 0) &
-                      (item == topYear * 4 + 1)
-                      )
-                      ? "t"
-                      : "mdi-arrow-down-bold"
-                      : "t"
+                        isSelected(item, "B") != 0
+                          ? isSelected(item, "B") == -1 &&
+                            !(
+                              (itemIndex[itemIndex.length - 1] - 4 == item &&
+                                itemIndex.length != 0) ||
+                              (itemIndex.length == 0) &
+                                (item == topYear * 4 + 1)
+                            )
+                            ? "t"
+                            : "mdi-arrow-down-bold"
+                          : "t"
                       }}
                     </v-icon>
                   </td>
@@ -219,8 +232,11 @@
               <v-btn text @click="selectItem(indexList[itemList.length], 'B')">
                 <span
                   class="font-weight-bold"
-                  :class="dLarge ? 'headline blue--text text--darken-4' : 'title'"
-                >偏好B</span>
+                  :class="
+                    dLarge ? 'headline blue--text text--darken-4' : 'title'
+                  "
+                  >偏好B</span
+                >
               </v-btn>
             </v-row>
           </v-col>
@@ -250,18 +266,23 @@
                 <canvas id="canvas4" ref="canvas4"></canvas>
                 <canvas id="canvas5" ref="canvas5"></canvas>
               </div>
-              <div ref="div2" style="width: 1326.67px;text-align: center">{{ topYear * 2 }}年</div>
+              <div ref="div2" style="width: 1326.67px;text-align: center">
+                {{ topYear * 2 }}年
+              </div>
             </v-row>
 
             <!-- 调整这里 -->
-            <div style="position: relative;width:100%;height:140px;background:#ffffff">
+            <div
+              style="position: relative;width:100%;height:140px;background:#ffffff"
+            >
               <div
                 style="background:#5b9bd5;padding:10px 10px;width:300px;border-radius: 25px;position:absolute;left:80px;"
                 v-if="block.source_text"
               >
                 <v-icon
                   style="color:#5b9bd5;font-size:5rem; position: absolute;left:150px; z-index:98; top:-45px;"
-                >mdi-menu-up</v-icon>
+                  >mdi-menu-up</v-icon
+                >
                 <div v-for="msg in block.source_text.split('*')" :key="msg.key">
                   <li v-if="msg != ''">
                     <span>{{ msg }}</span>
@@ -274,7 +295,8 @@
                 完全健康
                 <v-icon
                   style="color:#92d050;font-size:5rem; position: absolute;right:120px; z-index:98; top:-45px;"
-                >mdi-menu-up</v-icon>
+                  >mdi-menu-up</v-icon
+                >
               </div>
             </div>
           </v-col>
@@ -308,7 +330,8 @@ export default {
     itemIndex: [],
     style3: "padding-right: 650px",
     nstpttoAnswer: "",
-    indexList: [41, 37, 33, 29, 25, 21, 17, 13, 9, 5, 1]
+    indexList: [41, 37, 33, 29, 25, 21, 17, 13, 9, 5, 1],
+    reset: 0,
   }),
   props: ["block"],
   methods: {
@@ -328,7 +351,7 @@ export default {
         this.itemList.push({
           index: k,
           answer: v,
-          page: this.nstpPage
+          page: this.nstpPage,
         });
         this.itemIndex.push(k);
         if (this.currentYear > 0) {
@@ -387,13 +410,14 @@ export default {
       this.itemIndex = [];
       this.style3 = "padding-right: 650px";
       this.$store.dispatch("setNstpPage", 1);
+      this.reset++;
       this.deleteItem(this.block.name);
     },
     getStyle(w) {
       return "padding-right: " + w + "px;";
     },
     deleteItem(item) {
-      this.$emit("cDeleteItem", {item: item});
+      this.$emit("cDeleteItem", { item: item });
     },
     updateItem(arr, next) {
       this.$emit("cUpdateItem", { arr: arr, next: next });
@@ -401,7 +425,7 @@ export default {
     nextQuestion() {
       if (this.itemList.length == 11) {
         var arr = [];
-        console.log(this.block.id)
+        console.log(this.block.id);
         for (var i = 0; i < this.itemList.length; i++) {
           var answerObj = {
             questionid: this.examType.id,
@@ -413,7 +437,8 @@ export default {
             select_value: this.itemList[i].answer,
             page: 2,
             block: this.block.block,
-            version: this.qVersion
+            reset: this.reset,
+            version: this.qVersion,
           };
 
           arr.push(answerObj);
@@ -479,7 +504,7 @@ export default {
         ctx.restore();
         ctx.closePath();
       }
-    }
+    },
   },
   computed: {
     // 判断选项是否选择，选项已选择且为当前答案，返回记录1；选项已选择且非当前单击答案，返回0；选择未选择返回-1.
@@ -508,8 +533,8 @@ export default {
       "qVersion",
       "eqLangLabels",
       "nstpPage",
-      "allAnswer"
-    ])
+      "allAnswer",
+    ]),
   },
   mounted() {
     this.drawLine(
@@ -541,7 +566,7 @@ export default {
         ? 16.67 * (this.topYear - 0.5) * 4 + 650
         : 16.67 * (this.topYear - this.currentYear / 2) * 4 + 650
     );
-  }
+  },
 };
 </script>
 
