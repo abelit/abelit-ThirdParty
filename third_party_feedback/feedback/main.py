@@ -598,7 +598,7 @@ def add_nstptto_answer():
     try:
         cursor = conn.cursor()
         for row in content:
-            SQL_TEXT = "insert into nstptto_answer(questionid,participant,interviewer,item,position_of_item,select_order,select_value,page,block,reset,used_time,version) values('{0}', '{1}', '{2}', '{3}', {4}, {5}, '{6}', '{7}', '{8}', '{9}','{10}')".format(
+            SQL_TEXT = "insert into nstptto_answer(questionid,participant,interviewer,item,position_of_item,select_order,select_value,page,block,reset,used_time,version) values('{0}', '{1}', '{2}', '{3}', {4}, {5}, '{6}', '{7}', '{8}', '{9}','{10}','{11}')".format(
                 row['questionid'], row['participant'], row['interviewer'], row['item'], row['position_of_item'], row['select_order'], row['select_value'], row['page'], row['block'],row['reset'], row['used_time'], row['version'])
             cursor.execute(SQL_TEXT)
         conn.commit()
