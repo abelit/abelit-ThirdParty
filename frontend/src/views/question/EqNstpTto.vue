@@ -129,13 +129,14 @@ export default {
           this.$store.dispatch("setAllAnswer", this.nstpttoAnswers);
           this.$router.push({ path: "/eq/end" });
         }
-        this.nstpttoAnswers.map(item => item.reset += this.reset);
+        
         console.log(this.nstpttoAnswers)
         console.log(this.disFormatTime);
 
         // clearInterval(intervalTimer);
         this.disTime = 0;
       }
+      this.nstpttoAnswers.map(item => item.reset += this.reset);
     },
     getQuestion() {
       // console.log(this.userInfo.blockQuestion);
