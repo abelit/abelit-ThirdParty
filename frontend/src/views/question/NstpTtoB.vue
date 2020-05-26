@@ -410,8 +410,9 @@ export default {
       this.itemIndex = [];
       this.style3 = "padding-right: 650px";
       this.$store.dispatch("setNstpPage", 1);
-      this.reset++;
+      // this.reset++;
       this.deleteItem(this.block.name);
+      this.$store.dispatch("setNstpReset", {reset: 0, value: 1});
     },
     getStyle(w) {
       return "padding-right: " + w + "px;";

@@ -692,10 +692,15 @@ export default {
         10,
         0
       );
-      this.reset++;
+      // this.reset++;
+      // this.updateReset();
+      this.$store.dispatch("setNstpReset", {reset: 0, value: 1});
     },
     getStyle(w) {
       return "padding-right: " + w + "px;";
+    },
+    updateReset() {
+      this.$emit("cUpdateReset");
     },
     updateItem(arr, next) {
       this.$emit("cUpdateItem", { arr: arr, next: next });
@@ -817,7 +822,8 @@ export default {
       "examType",
       "qVersion",
       "eqLangLabels",
-      "nstpPage"
+      "nstpPage",
+      "nstpReset"
     ])
   },
   mounted() {

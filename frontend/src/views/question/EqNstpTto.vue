@@ -5,6 +5,7 @@
         v-if="nstpPage == 1 && eqTtoQuestions.indexOf(item) === currentItem"
         :block="item"
         v-on:cUpdateItem="pUpdateItem($event)"
+        v-on:cUpdateReset="pUpdateReset"
       ></nstp-tto-a>
       <nstp-tto-b
         v-if="nstpPage == 2 && eqTtoQuestions.indexOf(item) === currentItem"
@@ -57,7 +58,13 @@ export default {
     NstpTtoB,
   },
   computed: {
-    ...mapState(["nstpPage", "userInfo", "qVersion", "eqLangLabels"]),
+    ...mapState([
+      "nstpPage",
+      "userInfo",
+      "qVersion",
+      "eqLangLabels",
+      "nstpReset",
+    ]),
   },
   methods: {
     countTime() {
@@ -83,10 +90,20 @@ export default {
       this.nstpttoAnswers = this.nstpttoAnswers.filter(
         (item) => item.item != data.item
       );
-      this.reset++;
-      // console.log(this.nstpttoAnswers);
+      // console.log(this.nstpReset);
+      // this.$store.dispatch("setNstpReset", {reset: 0, value: 1});
+      // console.log(this.nstpReset);
       console.log(this.reset);
-      console.log(data.item);
+      this.reset++;
+      console.log(this.reset);
+    },
+    pUpdateReset() {
+      // console.log(this.nstpReset);
+      // this.$store.dispatch("setNstpReset", {reset: 0, value: 1});
+      // console.log(this.nstpReset);
+      console.log(this.reset);
+      this.reset++;
+      console.log(this.reset);
     },
     pUpdateItem(data) {
       data.arr.map((item) => (item.used_time = this.disTime));
@@ -138,10 +155,20 @@ export default {
 
         // clearInterval(intervalTimer);
         this.disTime = 0;
+        // this.$store.dispatch("setNstpReset", {reset: 1, value: 0});
+        // this.reset = 0;
+        console.log(this.nstpReset);
       }
-      this.nstpttoAnswers.map((item) => (item.reset += this.reset));
+      this.nstpttoAnswers.map((itm) =>
+        data.arr[data.arr.length - 1].item == itm.item
+          ? (itm.reset = this.nstpReset)
+          : ""
+      );
       console.log(this.nstpttoAnswers);
-      this.reset = 0;
+      console.log(data.arr[data.arr.length - 1].item);
+      if (data.next) {
+        this.$store.dispatch("setNstpReset", { reset: 1, value: 0 });
+      }
     },
     getQuestion() {
       // console.log(this.userInfo.blockQuestion);
@@ -172,6 +199,7 @@ export default {
   },
   mounted() {
     this.countTime();
+    console.log("ff mounted....");
   },
 };
 </script>

@@ -514,6 +514,8 @@ def get_question_blocks():
     if version is not None:
         SQL_TEXT = SQL_TEXT + " " + " and version='{0}'".format(version)
 
+    SQL_TEXT += ' order by 1'
+
     result = cursor.execute(SQL_TEXT)
 
     blocks = []
