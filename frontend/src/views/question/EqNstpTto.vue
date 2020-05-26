@@ -50,7 +50,7 @@ export default {
     nstpttoAnswers: [],
     disTime: 0,
     disFormatTime: "00:00:00",
-    reset: 0
+    reset: 0,
   }),
   components: {
     NstpTtoA,
@@ -80,10 +80,13 @@ export default {
       return num < 10 ? `0${num}` : num;
     },
     pDeleteItem(data) {
-      this.nstpttoAnswers = this.nstpttoAnswers.filter(item => item.item != data.item);
+      this.nstpttoAnswers = this.nstpttoAnswers.filter(
+        (item) => item.item != data.item
+      );
       this.reset++;
       // console.log(this.nstpttoAnswers);
-      console.log(data.item)
+      console.log(this.reset);
+      console.log(data.item);
     },
     pUpdateItem(data) {
       data.arr.map((item) => (item.used_time = this.disTime));
@@ -95,7 +98,7 @@ export default {
         // console.log(this.currentItem);
         // console.log(this.eqTtoQuestions.length)
         this.$store.dispatch("setNstpPage", 1);
-        this.reset = 0;
+
         if (this.currentItem > this.eqTtoQuestions.length - 1) {
           var result = [];
 
@@ -124,19 +127,21 @@ export default {
             });
           });
 
-          console.log(this.nstpttoAnswers)
+          console.log(this.nstpttoAnswers);
 
           this.$store.dispatch("setAllAnswer", this.nstpttoAnswers);
           this.$router.push({ path: "/eq/end" });
         }
-        
-        console.log(this.nstpttoAnswers)
-        console.log(this.disFormatTime);
+        // console.log(this.reset);
+        // console.log(this.nstpttoAnswers);
+        // console.log(this.disFormatTime);
 
         // clearInterval(intervalTimer);
         this.disTime = 0;
       }
-      this.nstpttoAnswers.map(item => item.reset += this.reset);
+      this.nstpttoAnswers.map((item) => (item.reset += this.reset));
+      console.log(this.nstpttoAnswers);
+      this.reset = 0;
     },
     getQuestion() {
       // console.log(this.userInfo.blockQuestion);
