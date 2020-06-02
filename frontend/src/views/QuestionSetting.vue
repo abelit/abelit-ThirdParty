@@ -221,19 +221,19 @@
                 @click="downloadAnswer(item.participant,item.TTOFeedback)"
               >file_download</v-icon>
             </template>
-            <template v-slot:item.Opened="{ item }">
+            <template v-slot:item.Background_Questions="{ item }">
               <v-icon
                 small
                 class="mr-2"
                 color="#036f90"
-                v-if="item.Opened > 0"
-                @click="viewDetailAnswer(item.participant,item.Opened)"
+                v-if="item.Background_Questions > 0"
+                @click="viewDetailAnswer(item.participant,item.Background_Questions)"
               >remove_red_eye</v-icon>
               <v-icon
                 small
-                v-if="item.Opened > 0"
+                v-if="item.Background_Questions > 0"
                 color="primary"
-                @click="downloadAnswer(item.participant,item.Opened)"
+                @click="downloadAnswer(item.participant,item.Background_Questions)"
               >file_download</v-icon>
             </template>
             <template v-slot:item.NonStopping_TTO="{ item }">
@@ -251,19 +251,19 @@
                 @click="downloadAnswer(item.participant,item.NonStopping_TTO)"
               >file_download</v-icon>
             </template>
-            <template v-slot:item.New_TTO="{ item }">
+            <template v-slot:item.Open_TTO="{ item }">
               <v-icon
                 small
                 class="mr-2"
                 color="#036f90"
-                v-if="item.New_TTO > 0"
-                @click="viewDetailAnswer(item.participant,item.New_TTO)"
+                v-if="item.Open_TTO > 0"
+                @click="viewDetailAnswer(item.participant,item.Open_TTO)"
               >remove_red_eye</v-icon>
               <v-icon
                 small
-                v-if="item.New_TTO > 0"
+                v-if="item.Open_TTO > 0"
                 color="primary"
-                @click="downloadAnswer(item.participant,item.New_TTO)"
+                @click="downloadAnswer(item.participant,item.Open_TTO)"
               >file_download</v-icon>
             </template>
           </v-data-table>
@@ -694,13 +694,13 @@ export default {
           questionName = "TTO Feedback";
           break;
         case 4:
-          questionName = "Open end questions";
+          questionName = "Background Questions";
           break;
         case 5:
           questionName = "Non-Stopping TTO";
           break;
         case 6:
-          questionName = "New TTO";
+          questionName = "Open TTO";
           break;
         default:
           questionName = "unkonwn";

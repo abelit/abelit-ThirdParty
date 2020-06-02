@@ -863,7 +863,7 @@ def get_all_participant():
 
     for row in result:
         data.append({"participant": row[0], "DCE": row[1],
-                     "TTO": row[2], "TTO_Feedback": row[3], "Background Questions": row[4], "NonStopping_TTO": row[5], "Open TTO": row[6]})
+                     "TTO": row[2], "TTO_Feedback": row[3], "Background_Questions": row[4], "NonStopping_TTO": row[5], "Open_TTO": row[6]})
 
     return jsonify(data)
 
