@@ -92,7 +92,7 @@ def init_db():
     # conn.commit()
 
     # EQ Label
-    for item in ["TTO", "TTO-Feedback", "DCE", "Open ended questions", "Non-Stopping TTO", "New TTO"]:
+    for item in ["TTO", "TTO-Feedback", "DCE", "Background Questions", "Non-Stopping TTO", "Open TTO"]:
         for data in readexcel.read('./data/eqlabels.xlsx', item, True):
             cursor.execute(
                 "insert into eq_label(questionid,reference_id,slide,presentation,en_source_text,zh_source_text,version) values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')".format(data[5], data[0], data[1], data[2], data[3], data[4], data[6]))
@@ -863,7 +863,7 @@ def get_all_participant():
 
     for row in result:
         data.append({"participant": row[0], "DCE": row[1],
-                     "TTO": row[2], "TTO_Feedback": row[3], "Opened": row[4], "NonStopping_TTO": row[5], "New_TTO": row[6]})
+                     "TTO": row[2], "TTO_Feedback": row[3], "Background Questions": row[4], "NonStopping_TTO": row[5], "Open TTO": row[6]})
 
     return jsonify(data)
 
@@ -954,7 +954,7 @@ def upload_file():
                         data[6], data[0], data[1], data[2], data[3], data[4], data[5]))
 
                 # New TTO
-                for data in readexcel.read(filepath, 'New TTO', True):
+                for data in readexcel.read(filepath, 'Open TTO', True):
                     cursor.execute("insert into newtto_question(questionid,presentation,type,name,block,source_text,version) values({0},'{1}','{2}','{3}','{4}','{5}','{6}')".format(
                         data[6], data[0], data[1], data[2], data[3], data[4], data[5]))
 
@@ -974,7 +974,7 @@ def upload_file():
                         data[6], data[0], data[1], data[2], data[3], data[4], data[5]))
 
                 # Open ended Question
-                for data in readexcel.read(filepath, 'Open ended questions', True):
+                for data in readexcel.read(filepath, 'Background Questions', True):
                     cursor.execute("insert into opened_question(questionid,presentation,name,block,source_text,version) values({0},'{1}','{2}','{3}','{4}','{5}')".format(
                         data[5], data[0], data[1], data[2], data[3], data[4]))
                 conn.commit()
