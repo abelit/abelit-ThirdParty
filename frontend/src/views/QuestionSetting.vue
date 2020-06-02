@@ -154,7 +154,7 @@
               <v-icon small dark>file_download</v-icon>
             </v-btn>
             <v-btn class="ml-3" color="#036f90" dark @click="downloadAnswer('all',4)">
-              Opened
+              Background Questions
               <v-icon small dark>file_download</v-icon>
             </v-btn>
             <v-btn class="ml-3" color="#036f90" dark @click="downloadAnswer('all',5)">
@@ -162,7 +162,7 @@
               <v-icon small dark>file_download</v-icon>
             </v-btn>
             <v-btn class="ml-3" color="#036f90" dark @click="downloadAnswer('all',6)">
-              New TTO
+             Open TTO
               <v-icon small dark>file_download</v-icon>
             </v-btn>
           </v-row>
