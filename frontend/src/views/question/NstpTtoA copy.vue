@@ -91,7 +91,7 @@
                           class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                           :class="
                           isSelected(906, 'A') == -1
-                            ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'':'')
+                            ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'mdi-arrow-up-bold grey--text':'')
                             : (isSelected(906, 'A') == 1
                             ? 'mdi-arrow-up-bold green--text'
                             : 't')
@@ -104,7 +104,7 @@
                           class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                           :class="
                           isSelected(906, 'AB') == -1
-                            ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'':'')
+                            ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'mdi-view-stream grey--text':'')
                             : (isSelected(906, 'AB') == 1
                             ? 'mdi-view-stream green--text'
                             : 't')
@@ -117,7 +117,7 @@
                           class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                           :class="
                           isSelected(906, 'B') == -1
-                            ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'':'')
+                            ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'mdi-arrow-down-bold  grey--text':'')
                             : (isSelected(906, 'B') == 1
                             ? 'mdi-arrow-down-bold green--text'
                             : 't')
@@ -135,7 +135,7 @@
                           class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                           :class="
                           isSelected(909, 'A') == -1
-                            ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'':'')
+                            ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'mdi-arrow-up-bold grey--text':'')
                             : (isSelected(909, 'A') == 1
                             ? 'mdi-arrow-up-bold green--text'
                             : 't')
@@ -148,7 +148,7 @@
                           class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                           :class="
                            isSelected(909, 'AB') == -1
-                            ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'':'')
+                            ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'mdi-view-stream grey--text':'')
                             : (isSelected(909, 'AB') == 1
                             ? 'mdi-view-stream green--text'
                             : 't')
@@ -161,7 +161,7 @@
                           class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                           :class="
                           isSelected(909, 'B') == -1
-                            ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'':'')
+                            ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'mdi-arrow-down-bold  grey--text':'')
                             : (isSelected(909, 'B') == 1
                             ? 'mdi-arrow-down-bold green--text'
                             : 't')
@@ -179,7 +179,7 @@
                           class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                           :class="
                           isSelected(910, 'A') == -1
-                            ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'':'')
+                            ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'mdi-arrow-up-bold grey--text':'')
                             : (isSelected(910, 'A') == 1
                             ? 'mdi-arrow-up-bold green--text'
                             : 't')
@@ -192,7 +192,7 @@
                           class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                           :class="
                           isSelected(910, 'AB') == -1
-                            ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'':'')
+                            ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'mdi-view-stream grey--text':'')
                             : (isSelected(910, 'AB') == 1
                             ? 'mdi-view-stream green--text'
                             : 't')
@@ -205,7 +205,7 @@
                           class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                           :class="
                          isSelected(910, 'B') == -1
-                            ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'':'')
+                            ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'mdi-arrow-down-bold  grey--text':'')
                             : (isSelected(910, 'B') == 1
                             ? 'mdi-arrow-down-bold green--text'
                             : 't')
@@ -224,7 +224,7 @@
                           class="v-icon notranslate py-1 v-icon--link mdi theme--light blue--text"
                           :class="
                           isSelected(911, 'A') == -1
-                            ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'':'')
+                            ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'mdi-arrow-up-bold grey--text':'')
                             : (isSelected(911, 'A') == 1
                             ? 'mdi-arrow-up-bold green--text'
                             : 't')
@@ -237,7 +237,7 @@
                           class="v-icon notranslate py-1 v-icon--link mdi theme--light blue--text"
                           :class="
                           isSelected(911, 'AB') == -1
-                            ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'':'')
+                            ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'mdi-view-stream grey--text':'')
                             : (isSelected(911, 'AB') == 1
                             ? 'mdi-view-stream green--text'
                             : 't')
@@ -250,7 +250,7 @@
                           class="v-icon notranslate py-1 v-icon--link mdi theme--light"
                           :class="
                            isSelected(911, 'B') == -1
-                            ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'':'')
+                            ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'mdi-arrow-down-bold  grey--text':'')
                             : (isSelected(911, 'B') == 1
                             ? 'mdi-arrow-down-bold green--text'
                             : 't')
@@ -377,7 +377,12 @@
                       {{
                       isSelected(item, "A") != 0
                       ? isSelected(item, "A") == -1 &&
-                      
+                      !(
+                      (itemIndex[itemIndex.length - 1] - 4 == item &&
+                      itemIndex.length != 0) ||
+                      (itemIndex.length == 0) &
+                      (item == topYear * 4 + 1)
+                      ) &&
                       !(item == 4 * topYear - 1 && isAppend)
                       ? "t"
                       : "mdi-arrow-up-bold"
@@ -406,7 +411,12 @@
                       {{
                       isSelected(item, "AB") != 0
                       ? isSelected(item, "AB") == -1 &&
-                      
+                      !(
+                      (itemIndex[itemIndex.length - 1] - 4 == item &&
+                      itemIndex.length != 0) ||
+                      (itemIndex.length == 0) &
+                      (item == topYear * 4 + 1)
+                      ) &&
                       !(item == 4 * topYear - 1 && isAppend)
                       ? "t"
                       : "mdi-view-stream"
@@ -435,7 +445,12 @@
                       {{
                       isSelected(item, "B") != 0
                       ? isSelected(item, "B") == -1 &&
-                    
+                      !(
+                      (itemIndex[itemIndex.length - 1] - 4 == item &&
+                      itemIndex.length != 0) ||
+                      (itemIndex.length == 0) &
+                      (item == topYear * 4 + 1)
+                      ) &&
                       !(item == 4 * topYear - 1 && isAppend)
                       ? "t"
                       : "mdi-arrow-down-bold"

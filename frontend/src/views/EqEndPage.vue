@@ -57,6 +57,8 @@ export default {
         url = "/api/answer/open/addall";
       } else if (this.allAnswer[0].questionid == 5) {
         url = "/api/answer/nstptto/addall";
+      } else if (this.allAnswer[0].questionid == 6) {
+        url = "/api/answer/newtto/addall";
       } else {
         alert("后台地址不对");
       }
@@ -70,7 +72,7 @@ export default {
               this.snackbar = true;
               setTimeout(() => {
                 this.$router.push({ path: "/" });
-              },2000)
+              }, 2000);
             }, 1000);
           }
           this.isSave = true;

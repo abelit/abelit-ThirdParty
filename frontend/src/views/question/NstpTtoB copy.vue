@@ -141,7 +141,13 @@
                     >
                       {{
                         isSelected(item, "A") != 0
-                          ? isSelected(item, "A") == -1 
+                          ? isSelected(item, "A") == -1 &&
+                            !(
+                              (itemIndex[itemIndex.length - 1] - 4 == item &&
+                                itemIndex.length != 0) ||
+                              (itemIndex.length == 0) &
+                                (item == topYear * 4 + 1)
+                            )
                             ? "t"
                             : "mdi-arrow-up-bold"
                           : "t"
@@ -168,7 +174,13 @@
                     >
                       {{
                         isSelected(item, "AB") != 0
-                          ? isSelected(item, "AB") == -1
+                          ? isSelected(item, "AB") == -1 &&
+                            !(
+                              (itemIndex[itemIndex.length - 1] - 4 == item &&
+                                itemIndex.length != 0) ||
+                              (itemIndex.length == 0) &
+                                (item == topYear * 4 + 1)
+                            )
                             ? "t"
                             : "mdi-view-stream"
                           : "t"
@@ -195,7 +207,13 @@
                     >
                       {{
                         isSelected(item, "B") != 0
-                          ? isSelected(item, "B") == -1 
+                          ? isSelected(item, "B") == -1 &&
+                            !(
+                              (itemIndex[itemIndex.length - 1] - 4 == item &&
+                                itemIndex.length != 0) ||
+                              (itemIndex.length == 0) &
+                                (item == topYear * 4 + 1)
+                            )
                             ? "t"
                             : "mdi-arrow-down-bold"
                           : "t"

@@ -12,7 +12,8 @@ const state = {
   qVersion: localStorage.getItem("qVersion") || "",
   language: localStorage.getItem("language") || "zh_cn",
   eqLangLabels: JSON.parse(localStorage.getItem("eqLangLabels")) || [],
-  nstpPage: localStorage.getItem("nstpPage") || 1
+  nstpPage: localStorage.getItem("nstpPage") || 1,
+  nstpReset: 0
 };
 
 const actions = {
@@ -60,6 +61,11 @@ const actions = {
     commit
   }, value) {
     commit("setNstpPage", value);
+  },
+  setNstpReset({
+    commit
+  }, obj) {
+    commit("setNstpReset", obj);
   }
 };
 
@@ -99,6 +105,14 @@ const mutations = {
   setNstpPage: (state, value) => {
     state.nstpPage = value;
     localStorage.setItem("nstpPage", value);
+  },
+  setNstpReset: (state, obj) => {
+    if (obj.reset == 1) {
+      state.nstpReset = obj.value;
+    } else {
+      state.nstpReset += obj.value;
+    }
+    localStorage.setItem("nstpReset", state.nstpReset);
   },
 };
 

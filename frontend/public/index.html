@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- <meta name="viewport" content="width=device-width,initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     <link rel="icon" href="<%= BASE_URL %>static/favicon.ico">
     <title>frontend</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
@@ -24,4 +24,29 @@
       }
   </script>
   </body>
+  <script>
+    var met=document.getElementsByName("viewport");
+    
+    if(window.screen.width<=1280){
+        met[0].content="width=device-width, initial-scale=0.5,user-scalable=no";
+         // document.write('<meta name="viewport" content="width=device-width, initial-scale=0.5,user-scalable=no">')
+        }else{
+          met[0].content="width=device-width, initial-scale=1,user-scalable=no";
+         // document.write('<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">')
+        }
+        
+    window.onresize = function () {  //注册事件处理函数，动态调整盒子大小
+       console.log(window.screen.width)
+       if(window.screen.width<=1280){
+        met[0].content="width=device-width, initial-scale=0.5,user-scalable=no";
+         // document.write('<meta name="viewport" content="width=device-width, initial-scale=0.5,user-scalable=no">')
+        }else{
+          met[0].content="width=device-width, initial-scale=1,user-scalable=no";
+         // document.write('<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">')
+        }
+    }
+   
+
+  </script>
 </html>
+

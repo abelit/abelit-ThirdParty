@@ -4,7 +4,7 @@ import Home from "./views/Home.vue";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   // mode: "history",
   base: process.env.BASE_URL,
   routes: [{
@@ -31,6 +31,16 @@ export default new Router({
       name: "tto",
       component: () => import("@/views/EqTtoExam.vue")
     },
+    {
+      path: "/eq/newtto",
+      name: "newtto",
+      component: () => import("@/views/EqTtoExamNew.vue")
+    },
+    // {
+    //   path: "/eq/newnstptto",
+    //   name: "newnstptto",
+    //   component: () => import("@/views/question/EqNstpTtoNew.vue")
+    // },
     {
       path: "/eq/nstptto",
       name: "nstptto",
@@ -73,3 +83,16 @@ export default new Router({
     },
   ]
 });
+
+router.beforeEach((to,from,next) => {
+  if (to.name == "setting") {
+    var password = prompt("请输入管理员密码！")
+
+    if (password != "Passw0rd123!") {
+      return
+    }
+    next()
+  }
+  next()
+})
+export default router;

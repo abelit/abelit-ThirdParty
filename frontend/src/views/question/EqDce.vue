@@ -88,6 +88,7 @@
 <script>
 //import dataDce from "@/assets/data/dce.json";
 import { mapState } from "vuex";
+var intervalTimer;
 export default {
   data: () => ({
     dceQuestion: [],
@@ -98,14 +99,18 @@ export default {
     dceAnswers: [],
     dceReversal: "NORMAL",
     randNum: 1,
-    popupDialog: true
+    popupDialog: true,
+    disTime: 0,
+    disFormatTime: "00:00:00"
   }),
   created() {
     this.getdceQuestion();
     this.randNum = this.randomNum(1, 2);
     // console.log(this.randNum);
   },
-  mounted() {},
+  mounted() {
+    this.countTime();
+  },
   computed: {
     ...mapState(["userInfo", "examType", "qVersion", "eqLangLabels"])
   },
@@ -137,15 +142,17 @@ export default {
         selected_state: this.selectedAnswer,
         dce_reversal: this.dceReversal,
         block: this.userInfo.blockQuestion,
+        used_time: this.disTime,
         version: this.qVersion
       };
 
       this.dceAnswers.push(answerObj);
 
-      // console.log(this.dceAnswers);
+      console.log(this.dceAnswers);
 
       this.selectedAnswer = "";
       this.name = this.itemOrder[this.itemOrder.indexOf(this.name) + 1];
+      this.disTime = 0;
     },
     chooseAnswer(item) {
       this.selectedAnswer = item;
@@ -209,7 +216,26 @@ export default {
           return 0;
           break;
       }
-    }
+    },
+    countTime() {
+      intervalTimer = setInterval(() => {
+        this.disTime = this.disTime + 1;
+        this.disFormatTime = this.displayTime(this.disTime);
+      }, 1000);
+    },
+    displayTime(time) {
+      const hours = Math.floor(time / 3600);
+      const minutes = Math.floor(time / 60);
+      const seconds = time % 60;
+
+      return `${this.zeroPadded(hours)}:${this.zeroPadded(
+        minutes
+      )}:${this.zeroPadded(seconds)}`;
+    },
+    zeroPadded(num) {
+      // 4 --> 04
+      return num < 10 ? `0${num}` : num;
+    },
   }
 };
 </script>

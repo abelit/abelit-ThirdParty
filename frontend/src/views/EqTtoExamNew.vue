@@ -1,13 +1,13 @@
 <template>
   <div>
     <template v-for="item in eqTtoQuestions">
-      <eq-tto
+      <eq-tto-new
         v-if="eqTtoQuestions.indexOf(item)===currentItem"
         :block="item"
         :startTime="startTime"
         v-on:cUpdateItem="pUpdateItem($event)"
         :key="item.id"
-      ></eq-tto>
+      ></eq-tto-new>
     </template>
     <v-row>
       <v-dialog v-model="popupDialog" persistent max-width="600">
@@ -31,18 +31,18 @@
 </template>
 
 <script>
-import EqTto from "@/views/question/EqTto";
+import EqTtoNew from "@/views/question/EqTtoNew";
 import { mapState } from "vuex";
 
 export default {
   components: {
-    EqTto
+    EqTtoNew
   },
   data: () => ({
     eqTtoQuestions: [{}],
     currentItem: 0,
     startTime: 0,
-    ttoAnswers: [],
+    newttoAnswers: [],
     popupDialog: true
   }),
   created() {
@@ -58,32 +58,32 @@ export default {
   },
   methods: {
     pUpdateItem(data) {
-      // console.log(this.ttoAnswers);
+      console.log(this.newttoAnswers);
       this.currentItem++;
       data.position_of_item = this.currentItem;
-      this.ttoAnswers.push(data);
+      this.newttoAnswers.push(data);
       // console.log(this.currentItem);
       // console.log(this.eqTtoQuestions.length)
       if (this.currentItem > this.eqTtoQuestions.length - 1) {
-        this.$store.dispatch("setAllAnswer", this.ttoAnswers);
+        this.$store.dispatch("setAllAnswer", this.newttoAnswers);
         this.$router.push({ path: "/eq/end" });
       }
     },
     getQuestion() {
       // console.log(this.userInfo.blockQuestion);
       this.$axios
-        .get("/api/question/tto", {
+        .get("/api/question/newtto", {
           params: { block: this.userInfo.blockQuestion, version: this.qVersion }
         })
         .then(res => {
           let common_arr = res.data.filter(item => isNaN(item.block));
           let random_arr = res.data.filter(item => !isNaN(item.block)).sort(() => Math.random() - 0.5);
-          // let common_arr = res.data.slice(0,6)
+          // let common_arr = res.data.slice(0, 6);
           // let random_arr = res.data.slice(6).sort(() => Math.random() - 0.5);
           // console.log(random_arr)
           // this.eqTtoQuestions = res.data.sort(() => Math.random() - 0.5);
-          this.eqTtoQuestions = common_arr.concat(random_arr)
-          console.log(this.eqTtoQuestions)
+          this.eqTtoQuestions = common_arr.concat(random_arr);
+          console.log(this.eqTtoQuestions);
           // this.currentItem = this.eqTtoQuestions[0].id;
           // console.log(this.eqTtoQuestions);
         })
