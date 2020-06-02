@@ -180,8 +180,10 @@ export default {
           },
         })
         .then((res) => {
-          let common_arr = res.data.slice(0, 6);
-          let random_arr = res.data.slice(6).sort(() => Math.random() - 0.5);
+          let common_arr = res.data.filter(item => isNaN(item.id));
+          let random_arr = res.data.filter(item => !isNaN(item.id)).sort(() => Math.random() - 0.5);
+          // let common_arr = res.data.slice(0, 6);
+          // let random_arr = res.data.slice(6).sort(() => Math.random() - 0.5);
           this.eqTtoQuestions = common_arr.concat(random_arr);
           // this.eqTtoQuestions = res.data.sort(() => Math.random() - 0.5);
           // console.log(this.eqTtoQuestions);
