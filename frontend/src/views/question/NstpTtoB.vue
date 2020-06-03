@@ -128,7 +128,7 @@
                         uLarge && item == isMouseOverItem
                           ? 'blue darken-4'
                           : isSelected(item, 'A') == 1
-                          ? 'green'
+                          ? 'grey'
                           : item == isMouseOverItem
                           ? 'blue'
                           : 'grey lighten-1'
@@ -156,7 +156,7 @@
                         eLarge && item == isMouseOverItem
                           ? 'blue darken-4'
                           : isSelected(item, 'AB') == 1
-                          ? 'green'
+                          ? 'grey'
                           : item == isMouseOverItem
                           ? 'blue'
                           : 'grey lighten-1'
@@ -183,7 +183,7 @@
                         dLarge && item == isMouseOverItem
                           ? 'blue darken-4'
                           : isSelected(item, 'B') == 1
-                          ? 'green'
+                          ? 'grey'
                           : item == isMouseOverItem
                           ? 'blue'
                           : 'grey lighten-1'

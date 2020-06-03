@@ -93,7 +93,7 @@
                           isSelected(906, 'A') == -1
                             ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'':'')
                             : (isSelected(906, 'A') == 1
-                            ? 'mdi-arrow-up-bold green--text'
+                            ? 'mdi-arrow-up-bold grey--text'
                             : 't')
                         "
                           style="width:100%"
@@ -106,7 +106,7 @@
                           isSelected(906, 'AB') == -1
                             ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'':'')
                             : (isSelected(906, 'AB') == 1
-                            ? 'mdi-view-stream green--text'
+                            ? 'mdi-view-stream grey--text'
                             : 't')
                         "
                           style="font-size: 36px;width:100% "
@@ -119,7 +119,7 @@
                           isSelected(906, 'B') == -1
                             ? ((indexList[itemIndex.length] >= 906 || itemIndex.length == 15)?'':'')
                             : (isSelected(906, 'B') == 1
-                            ? 'mdi-arrow-down-bold green--text'
+                            ? 'mdi-arrow-down-bold grey--text'
                             : 't')
                         "
                           style="width:100%"
@@ -137,7 +137,7 @@
                           isSelected(909, 'A') == -1
                             ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'':'')
                             : (isSelected(909, 'A') == 1
-                            ? 'mdi-arrow-up-bold green--text'
+                            ? 'mdi-arrow-up-bold grey--text'
                             : 't')
                         "
                           style="width:100%"
@@ -150,7 +150,7 @@
                            isSelected(909, 'AB') == -1
                             ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'':'')
                             : (isSelected(909, 'AB') == 1
-                            ? 'mdi-view-stream green--text'
+                            ? 'mdi-view-stream grey--text'
                             : 't')
                         "
                           style="font-size: 36px;width:100%"
@@ -163,7 +163,7 @@
                           isSelected(909, 'B') == -1
                             ? ((indexList[itemIndex.length] >= 909 || itemIndex.length == 15)?'':'')
                             : (isSelected(909, 'B') == 1
-                            ? 'mdi-arrow-down-bold green--text'
+                            ? 'mdi-arrow-down-bold grey--text'
                             : 't')
                         "
                           style="width:100%"
@@ -181,7 +181,7 @@
                           isSelected(910, 'A') == -1
                             ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'':'')
                             : (isSelected(910, 'A') == 1
-                            ? 'mdi-arrow-up-bold green--text'
+                            ? 'mdi-arrow-up-bold grey--text'
                             : 't')
                         "
                           style="width:100%"
@@ -194,7 +194,7 @@
                           isSelected(910, 'AB') == -1
                             ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'':'')
                             : (isSelected(910, 'AB') == 1
-                            ? 'mdi-view-stream green--text'
+                            ? 'mdi-view-stream grey--text'
                             : 't')
                         "
                           style="font-size: 36px;width:100%"
@@ -207,7 +207,7 @@
                          isSelected(910, 'B') == -1
                             ? ((indexList[itemIndex.length] >= 910 || itemIndex.length == 15)?'':'')
                             : (isSelected(910, 'B') == 1
-                            ? 'mdi-arrow-down-bold green--text'
+                            ? 'mdi-arrow-down-bold grey--text'
                             : 't')
                         "
                           style="width:100%"
@@ -226,7 +226,7 @@
                           isSelected(911, 'A') == -1
                             ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'':'')
                             : (isSelected(911, 'A') == 1
-                            ? 'mdi-arrow-up-bold green--text'
+                            ? 'mdi-arrow-up-bold grey--text'
                             : 't')
                         "
                           style="width:100%"
@@ -239,7 +239,7 @@
                           isSelected(911, 'AB') == -1
                             ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'':'')
                             : (isSelected(911, 'AB') == 1
-                            ? 'mdi-view-stream green--text'
+                            ? 'mdi-view-stream grey--text'
                             : 't')
                         "
                           style="font-size: 36px;width:100%"
@@ -252,7 +252,7 @@
                            isSelected(911, 'B') == -1
                             ? ((indexList[itemIndex.length] >= 911 || indexList[itemIndex.length - 1] == 911)?'':'')
                             : (isSelected(911, 'B') == 1
-                            ? 'mdi-arrow-down-bold green--text'
+                            ? 'mdi-arrow-down-bold grey--text'
                             : 't')
                         "
                           style="width:100%"
@@ -363,7 +363,7 @@
                         uLarge && item == isMouseOverItem
                           ? 'blue darken-4'
                           : isSelected(item, 'A') == 1
-                          ? 'green'
+                          ? 'grey'
                           : item == isMouseOverItem
                           ? 'blue'
                           : 'grey lighten-1'
@@ -393,7 +393,7 @@
                         eLarge && item == isMouseOverItem
                           ? 'blue darken-4'
                           : isSelected(item, 'AB') == 1
-                          ? 'green'
+                          ? 'grey'
                           : item == isMouseOverItem
                           ? 'blue'
                           : 'grey lighten-1'
@@ -422,7 +422,7 @@
                         dLarge && item == isMouseOverItem
                           ? 'blue darken-4'
                           : isSelected(item, 'B') == 1
-                          ? 'green'
+                          ? 'grey'
                           : item == isMouseOverItem
                           ? 'blue'
                           : 'grey lighten-1'
