@@ -81,6 +81,11 @@ const router = new Router({
       name: "setting",
       component: () => import("@/views/QuestionSetting.vue")
     },
+    {
+      path: "/eq/vcode",
+      name: "vcode",
+      component: () => import("@/views/VerifyCode.vue")
+    },
   ]
 });
 
