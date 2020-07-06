@@ -1,0 +1,5 @@
+xlrd
+flask
+pymysql
+flask_cors
+werkzeug
