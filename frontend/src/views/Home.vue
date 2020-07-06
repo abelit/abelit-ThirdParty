@@ -50,8 +50,8 @@
                     v-model="vcode"
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12" sm="6" md="4">
-                  <verify-code :identifyCode="identifyCode"></verify-code>
+                <v-col cols="12" sm="6" md="4" @click="refreshCode">
+                  <verify-code :identifyCode="identifyCode" ></verify-code>
                 </v-col>
               </v-row>
               <v-row class="pl-3"> 
@@ -66,10 +66,10 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="primary" text @click="refreshCode">
-                刷新
+                刷新验证码
               </v-btn>
               <v-btn color="primary" text @click="startQuestion">
-                完成
+                开始答题
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -112,6 +112,7 @@ export default {
       if (this.identifyCode != this.vcode) {
         // alert("验证码错误！");
         this.codeErr = true;
+        // this.refreshCode();
         return;
       }
       this.dialog = false;
