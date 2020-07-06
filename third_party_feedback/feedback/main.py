@@ -1,7 +1,8 @@
 # coding:utf8
 from flask import Flask, request, jsonify, render_template, send_from_directory, send_file, make_response
 from flask_cors import CORS
-import sqlite3
+# import sqlite3
+import pymysql
 import os
 import re
 import readexcel
@@ -9,13 +10,13 @@ import json
 import time
 from werkzeug.utils import secure_filename
 
-# Import module cx_Oracle to connect oracle using python
-try:
-    import cx_Oracle
-except ImportError:
-    cx_oracle_exists = False
-else:
-    cx_oracle_exists = True
+# # Import module cx_Oracle to connect oracle using python
+# try:
+#     import cx_Oracle
+# except ImportError:
+#     cx_oracle_exists = False
+# else:
+#     cx_oracle_exists = True
 
 
 app = Flask(__name__)
@@ -28,6 +29,12 @@ app.config['UPLOAD_PATH'] = UPLOAD_PATH
 app.config['adminpwd'] = "Passw0rd123!"
 
 app.config['JSON_SORT_KEYS'] = False
+
+# DB Settings
+DBHOST="10.50.0.210"
+DBUSER="eq"
+DBPASS="Eq_Questions2020"
+DBNAME="eqdb"
 
 # 跨域设置
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
@@ -51,38 +58,60 @@ def init_db():
     if not password or password != app.config['adminpwd']:
         return jsonify({"status": 400, "msg": "密码错误"}), 520
 
-    os.remove('question.db')
+    # os.remove('question.db')
 
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
 
-    all_table_text = "SELECT lower(name),sql FROM sqlite_master WHERE type='table' ORDER BY 1"
+    # all_table_text = "SELECT lower(name),sql FROM sqlite_master WHERE type='table' ORDER BY 1"
+    # all_table_text = "select table_name from information_schema.tables where table_schema='eqdb'"
     cursor = conn.cursor()
 
-    result = cursor.execute(all_table_text)
+    # result = cursor.execute(all_table_text)
+    # print(result)
+    result = ["interviewer","eq_question_version","eq_label","tto_question","newtto_question","nstptto_question",
+    "ttofeedback_question","dce_question","opened_question","dce_answer","tto_answer","newtto_answer","nstptto_answer","ttofeedback_answer","opened_answer"]
 
     for table in result:
-        conn.execute("drop table {0}".format(table[0]))
+        cursor.execute("drop table if exists {0}".format(table))
 
-    # create tables
-    SQL_TEXT = ["create table interviewer(id integer, name text,version text, created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table eq_question_version(id integer primary key autoincrement, version text, created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table eq_label(id integer primary key autoincrement,questionid integer, reference_id text,slide text,presentation text,en_source_text text,zh_source_text text,version text,created_timestamp timestamp default  current_timestamp)",
-                "create table tto_question(id integer primary key autoincrement,questionid integer, presentation text,type text, name text,block integer,source_text text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table newtto_question(id integer primary key autoincrement,questionid integer, presentation text,type text, name text,block integer,source_text text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table nstptto_question(id integer primary key autoincrement,questionid integer, presentation text,type text, name text,block integer,source_text text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table ttofeedback_question(id integer primary key autoincrement,questionid integer, presentation text,type text, name text,block integer,source_text text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table dce_question(id integer primary key autoincrement,questionid integer,presentation text,name integer,block integer,answer text,source_text text, version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table opened_question(id integer primary key autoincrement,questionid integer,presentation text,name text,block text,source_text text, version text, created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table dce_answer(id integer primary key autoincrement,questionid integer,participant text,interviewer text,item integer, position_of_item integer,selected_state text,dce_reversal text,block integer,used_time text, version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table tto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,tto_value real,used_time text,composite_switches interger,resets integer,number_of_moves integer,block text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table newtto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,start_year_random text,select1 text,select2 text,select3 text,select4 text,open_select text,end_year_random text,block text,reset text,used_time text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table nstptto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,select_order interger,select_value text,page integer,block text,reset text,used_time text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table ttofeedback_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,tto_value real,used_time text,composite_switches interger,resets integer,number_of_moves integer,block text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
-                "create table opened_answer(id integer primary key autoincrement,questionid integer, participant text,interviewer text,item text,position_of_item integer,participant_answer text,block text, version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))"]
+    # # create tables
+    # SQL_TEXT = ["create table interviewer(id integer, name text,version text, created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+    #             "create table eq_question_version(id integer primary key autoincrement, version text, created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+    #             "create table eq_label(id integer primary key autoincrement,questionid integer, reference_id text,slide text,presentation text,en_source_text text,zh_source_text text,version text,created_timestamp timestamp default  current_timestamp)",
+    #             "create table tto_question(id integer primary key autoincrement,questionid integer, presentation text,type text, name text,block text,source_text text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+    #             "create table newtto_question(id integer primary key autoincrement,questionid integer, presentation text,type text, name text,block text,source_text text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+    #             "create table nstptto_question(id integer primary key autoincrement,questionid integer, presentation text,type text, name text,block text,source_text text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+    #             "create table ttofeedback_question(id integer primary key autoincrement,questionid integer, presentation text,type text, name text,block text,source_text text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+    #             "create table dce_question(id integer primary key autoincrement,questionid integer,presentation text,name integer,block text,answer text,source_text text, version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+    #             "create table opened_question(id integer primary key autoincrement,questionid integer,presentation text,name text,block text,source_text text, version text, created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+    #             "create table dce_answer(id integer primary key autoincrement,questionid integer,participant text,interviewer text,item integer, position_of_item integer,selected_state text,dce_reversal text,block text,used_time text, version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+    #             "create table tto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,tto_value real,used_time text,composite_switches integer,resets integer,number_of_moves integer,block text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+    #             "create table newtto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,start_year_random text,select1 text,select2 text,select3 text,select4 text,open_select text,end_year_random text,block text,reset text,used_time text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+    #             "create table nstptto_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,select_order integer,select_value text,page integer,block text,reset text,used_time text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+    #             "create table ttofeedback_answer(id integer primary key autoincrement,questionid integer, participant text, interviewer text,item text,position_of_item integer,tto_value real,used_time text,composite_switches integer,resets integer,number_of_moves integer,block text,version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))",
+    #             "create table opened_answer(id integer primary key autoincrement,questionid integer, participant text,interviewer text,item text,position_of_item integer,participant_answer text,block text, version text,created_timestamp timestamp default (datetime(current_timestamp, 'localtime')))"]
+
+       # create tables
+    SQL_TEXT = ["create table interviewer(id integer, name varchar(200),version varchar(200), created_timestamp timestamp default now())",
+                "create table eq_question_version(id integer primary key auto_increment, version varchar(200), created_timestamp timestamp default now())",
+                "create table eq_label(id integer primary key auto_increment,questionid integer, reference_id varchar(200),slide varchar(200),presentation varchar(200),en_source_text varchar(4000),zh_source_text varchar(4000),version varchar(200),created_timestamp timestamp default  current_timestamp)",
+                "create table tto_question(id integer primary key auto_increment,questionid integer, presentation varchar(200),type varchar(200), name varchar(200),block varchar(200),source_text varchar(200),version varchar(200),created_timestamp timestamp default now())",
+                "create table newtto_question(id integer primary key auto_increment,questionid integer, presentation varchar(200),type varchar(200), name varchar(200),block varchar(200),source_text varchar(200),version varchar(200),created_timestamp timestamp default now())",
+                "create table nstptto_question(id integer primary key auto_increment,questionid integer, presentation varchar(200),type varchar(200), name varchar(200),block varchar(200),source_text varchar(200),version varchar(200),created_timestamp timestamp default now())",
+                "create table ttofeedback_question(id integer primary key auto_increment,questionid integer, presentation varchar(200),type varchar(200), name varchar(200),block varchar(200),source_text varchar(200),version varchar(200),created_timestamp timestamp default now())",
+                "create table dce_question(id integer primary key auto_increment,questionid integer,presentation varchar(200),name integer,block varchar(200),answer varchar(200),source_text varchar(200), version varchar(200),created_timestamp timestamp default now())",
+                "create table opened_question(id integer primary key auto_increment,questionid integer,presentation varchar(200),name varchar(200),block varchar(200),source_text varchar(200), version varchar(200), created_timestamp timestamp default now())",
+                "create table dce_answer(id integer primary key auto_increment,questionid integer,participant varchar(200),interviewer varchar(200),item integer, position_of_item integer,selected_state varchar(200),dce_reversal varchar(200),block varchar(200),used_time varchar(200), version varchar(200),created_timestamp timestamp default now())",
+                "create table tto_answer(id integer primary key auto_increment,questionid integer, participant varchar(200), interviewer varchar(200),item varchar(200),position_of_item integer,tto_value float,used_time varchar(200),composite_switches integer,resets integer,number_of_moves integer,block varchar(200),version varchar(200),created_timestamp timestamp default now())",
+                "create table newtto_answer(id integer primary key auto_increment,questionid integer, participant varchar(200), interviewer varchar(200),item varchar(200),position_of_item integer,start_year_random varchar(200),select1 varchar(200),select2 varchar(200),select3 varchar(200),select4 varchar(200),open_select varchar(200),end_year_random varchar(200),block varchar(200),reset varchar(200),used_time varchar(200),version varchar(200),created_timestamp timestamp default now())",
+                "create table nstptto_answer(id integer primary key auto_increment,questionid integer, participant varchar(200), interviewer varchar(200),item varchar(200),position_of_item integer,select_order integer,select_value varchar(200),page integer,block varchar(200),reset varchar(200),used_time varchar(200),version varchar(200),created_timestamp timestamp default now())",
+                "create table ttofeedback_answer(id integer primary key auto_increment,questionid integer, participant varchar(200), interviewer varchar(200),item varchar(200),position_of_item integer,tto_value float,used_time varchar(200),composite_switches integer,resets integer,number_of_moves integer,block varchar(200),version varchar(200),created_timestamp timestamp default now())",
+                "create table opened_answer(id integer primary key auto_increment,questionid integer, participant varchar(200),interviewer varchar(200),item varchar(200),position_of_item integer,participant_answer varchar(200),block varchar(200), version varchar(200),created_timestamp timestamp default now())"]
 
     for sql in SQL_TEXT:
-        conn.execute(sql)
+        cursor.execute(sql)
 
     # Insert Data
     # interviewer Question
@@ -116,25 +145,26 @@ def init_db():
     #         data[5],data[0], data[1], data[2], data[3], data[4]))
     # conn.commit()
 
-    result = cursor.execute(all_table_text)
-    table_list = []
+    # result = cursor.execute(all_table_text)
+    # table_list = []
 
-    for table in result:
-        table_list.append({"name": table[0], "sql": table[1]})
+    # for table in result:
+    #     table_list.append({"name": table[0], "sql": table[1]})
 
-    cursor.close()
-    conn.close()
-    return jsonify({"status": 200, "msg": "Reinit database successfully!", "tables": table_list})
+    # cursor.close()
+    # conn.close()
+    return jsonify({"status": 200, "msg": "Reinit database successfully!", "tables": result})
 
 
 @app.route("/api/question/version")
 def get_question_version():
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = "select distinct version from dce_question union select distinct version from tto_question union select distinct version from opened_question union select distinct version from nstptto_question union select distinct version from newtto_question"
-
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
 
     data = []
 
@@ -148,7 +178,8 @@ def get_question_version():
 
 @app.route("/api/answer/version")
 def get_answer_version():
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = """select distinct version from dce_answer
@@ -158,7 +189,8 @@ def get_answer_version():
     union select distinct version from nstptto_answer
     union select distinct version from newtto_answer"""
 
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
 
     data = []
 
@@ -202,7 +234,8 @@ def get_answer_version():
 def get_interviewer():
     version = request.args.get('version')
 
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = "select id, name,version,created_timestamp from interviewer"
@@ -210,7 +243,8 @@ def get_interviewer():
     if version is not None and version != "all":
         SQL_TEXT = SQL_TEXT + " " + "where version='{0}'".format(version)
 
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
 
     data = []
 
@@ -230,7 +264,8 @@ def get_eqlabel():
     questionid = request.args.get('questionid')
     version = request.args.get('version')
 
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = "select id,questionid,reference_id,slide,presentation,en_source_text,zh_source_text,version,created_timestamp from eq_label"
@@ -251,7 +286,8 @@ def get_eqlabel():
             else:
                 SQL_TEXT = SQL_TEXT + " " + "and version='{0}'".format(version)
 
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
 
     data = []
 
@@ -267,7 +303,8 @@ def get_tto_question():
     block = request.args.get('block')
     version = request.args.get('version')
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = "select id,presentation,type,name,block,source_text,version,created_timestamp,questionid from tto_question"
@@ -287,8 +324,8 @@ def get_tto_question():
                     "where version='{0}'".format(version)
             else:
                 SQL_TEXT = SQL_TEXT + " " + "and version='{0}'".format(version)
-
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
 
     data = []
 
@@ -304,7 +341,8 @@ def get_newtto_question():
     block = request.args.get('block')
     version = request.args.get('version')
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = "select id,presentation,type,name,block,source_text,version,created_timestamp,questionid from newtto_question"
@@ -325,7 +363,8 @@ def get_newtto_question():
             else:
                 SQL_TEXT = SQL_TEXT + " " + "and version='{0}'".format(version)
 
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
 
     data = []
 
@@ -341,7 +380,8 @@ def get_nstptto_question():
     block = request.args.get('block')
     version = request.args.get('version')
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = "select id,presentation,type,name,block,source_text,version,created_timestamp,questionid from nstptto_question"
@@ -361,8 +401,8 @@ def get_nstptto_question():
                     "where version='{0}'".format(version)
             else:
                 SQL_TEXT = SQL_TEXT + " " + "and version='{0}'".format(version)
-
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
 
     data = []
 
@@ -378,7 +418,8 @@ def get_ttofeedback_question():
     block = request.args.get('block')
     version = request.args.get('version')
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = "select id,presentation,type,name,block,source_text,version,created_timestamp,questionid from ttofeedback_question"
@@ -399,7 +440,8 @@ def get_ttofeedback_question():
             else:
                 SQL_TEXT = SQL_TEXT + " " + "and version='{0}'".format(version)
 
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
 
     data = []
 
@@ -415,7 +457,8 @@ def get_dce_question():
     block = request.args.get('block')
     version = request.args.get('version')
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = "select id,presentation,name,block,answer,source_text,version,created_timestamp,questionid from dce_question"
@@ -435,8 +478,8 @@ def get_dce_question():
                     "where version='{0}'".format(version)
             else:
                 SQL_TEXT = SQL_TEXT + " " + "and version='{0}'".format(version)
-
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
 
     data = []
 
@@ -452,7 +495,8 @@ def get_open_question():
     block = request.args.get('block')
     version = request.args.get('version')
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = "select id,presentation,name,block,source_text,version,created_timestamp,questionid from opened_question"
@@ -473,7 +517,8 @@ def get_open_question():
             else:
                 SQL_TEXT = SQL_TEXT + " " + "and version='{0}'".format(version)
 
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
 
     data = []
 
@@ -489,7 +534,8 @@ def get_question_blocks():
     block_type = str(request.args.get('type'))
     version = request.args.get('version')
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
     table_name = ""
 
@@ -516,7 +562,8 @@ def get_question_blocks():
 
     SQL_TEXT += ' order by 1'
 
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
 
     blocks = []
 
@@ -529,7 +576,8 @@ def get_question_blocks():
 @app.route("/api/answer/tto/addall", methods=['POST'])
 def add_tto_answer():
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     content = request.get_json()
@@ -558,7 +606,8 @@ def add_tto_answer():
 @app.route("/api/answer/newtto/addall", methods=['POST'])
 def add_newtto_answer():
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     content = request.get_json()
@@ -589,7 +638,8 @@ def add_newtto_answer():
 @app.route("/api/answer/nstptto/addall", methods=['POST'])
 def add_nstptto_answer():
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     content = request.get_json()
@@ -620,7 +670,8 @@ def get_tto_answer():
     version = request.args.get('version')
     participant = request.args.get('participant')
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = "select * from tto_answer"
@@ -638,7 +689,8 @@ def get_tto_answer():
                 SQL_TEXT = SQL_TEXT + " " + \
                     "and  participant='{0}'".format(participant)
 
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
     data = []
     for row in result:
         data.append({"id": row[0], "questionid": row[1], "participant": row[2], "interviewer": row[3], "item": row[4], "position_of_item": row[5], "tto_value": row[6],
@@ -652,7 +704,8 @@ def get_newtto_answer():
     version = request.args.get('version')
     participant = request.args.get('participant')
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = "select * from newtto_answer"
@@ -670,7 +723,8 @@ def get_newtto_answer():
                 SQL_TEXT = SQL_TEXT + " " + \
                     "and  participant='{0}'".format(participant)
 
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
     data = []
     for row in result:
         data.append({"id": row[0], "questionid": row[1], "participant": row[2], "interviewer": row[3], "item": row[4], "position_of_item": row[5], "start_year_random": row[6],
@@ -684,7 +738,8 @@ def get_nstptto_answer():
     version = request.args.get('version')
     participant = request.args.get('participant')
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = "select * from nstptto_answer"
@@ -702,7 +757,8 @@ def get_nstptto_answer():
                 SQL_TEXT = SQL_TEXT + " " + \
                     "and  participant='{0}'".format(participant)
 
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
     data = []
     for row in result:
         data.append({"id": row[0], "questionid": row[1], "participant": row[2], "interviewer": row[3], "item": row[4], "position_of_item": row[5], "select_order": row[6],
@@ -714,7 +770,8 @@ def get_nstptto_answer():
 @app.route("/api/answer/dce/addall", methods=['POST'])
 def add_dce_answer():
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     content = request.get_json()
@@ -748,7 +805,8 @@ def get_dce_answer():
     version = request.args.get('version')
     participant = request.args.get('participant')
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = "select * from dce_answer"
@@ -765,8 +823,8 @@ def get_dce_answer():
             else:
                 SQL_TEXT = SQL_TEXT + " " + \
                     "and  participant='{0}'".format(participant)
-    print(SQL_TEXT)
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
     data = []
     for row in result:
         print(row)
@@ -779,7 +837,8 @@ def get_dce_answer():
 @app.route("/api/answer/open/addall", methods=['POST'])
 def add_open_answer():
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     content = request.get_json()
@@ -811,7 +870,8 @@ def get_open_answer():
     version = request.args.get('version')
     participant = request.args.get('participant')
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = "select * from opened_answer"
@@ -829,7 +889,8 @@ def get_open_answer():
                 SQL_TEXT = SQL_TEXT + " " + \
                     "and  participant='{0}'".format(participant)
 
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
     data = []
     for row in result:
         print(row)
@@ -842,7 +903,8 @@ def get_open_answer():
 @app.route("/api/participant")
 def get_all_participant():
     version = request.args.get('version')
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     SQL_TEXT = """select t1.participant,t2.questionid,t3.questionid,t4.questionid,t5.questionid,t6.questionid,t7.questionid from (select distinct participant from dce_answer where version='{0}' 
@@ -858,7 +920,8 @@ def get_all_participant():
                 left join (select distinct questionid,participant from nstptto_answer where version='{0}') t6 on t1.participant=t6.participant
                 left join (select distinct questionid,participant from newtto_answer where version='{0}') t7 on t1.participant=t7.participant""".format(version)
 
-    result = cursor.execute(SQL_TEXT)
+    cursor.execute(SQL_TEXT)
+    result = cursor.fetchall() 
     data = []
 
     for row in result:
@@ -871,7 +934,8 @@ def get_all_participant():
 @app.route("/api/question/delete", methods=['POST'])
 def delete_question():
     # 连接数据库
-    conn = sqlite3.connect('question.db', check_same_thread=False)
+    # conn = sqlite3.connect('question.db', check_same_thread=False)
+    conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
     cursor = conn.cursor()
 
     version = request.get_json()["version"]
@@ -936,7 +1000,8 @@ def upload_file():
 
             filepath = os.path.join(app.config['UPLOAD_PATH'], filename)
             # 连接数据库
-            conn = sqlite3.connect('question.db', check_same_thread=False)
+            # conn = sqlite3.connect('question.db', check_same_thread=False)
+            conn = pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
             cursor = conn.cursor()
 
             msg = ""
@@ -951,36 +1016,38 @@ def upload_file():
                 # TTO
                 for data in readexcel.read(filepath, 'TTO & TTO-Feedback', True):
                     cursor.execute("insert into tto_question(questionid,presentation,type,name,block,source_text,version) values({0},'{1}','{2}','{3}','{4}','{5}','{6}')".format(
-                        data[6], data[0], data[1], data[2], data[3], data[4], data[5]))
+                        data[6], data[0], data[1], data[2], str(data[3]), data[4], data[5]))
 
                 # New TTO
                 for data in readexcel.read(filepath, 'Open TTO', True):
                     cursor.execute("insert into newtto_question(questionid,presentation,type,name,block,source_text,version) values({0},'{1}','{2}','{3}','{4}','{5}','{6}')".format(
-                        data[6], data[0], data[1], data[2], data[3], data[4], data[5]))
+                        data[6], data[0], data[1], data[2], str(data[3]), data[4], data[5]))
 
                 # Non-Stopping TTO
                 for data in readexcel.read(filepath, 'Non-Stopping TTO', True):
                     cursor.execute("insert into nstptto_question(questionid,presentation,type,name,block,source_text,version) values({0},'{1}','{2}','{3}','{4}','{5}','{6}')".format(
-                        data[6], data[0], data[1], data[2], data[3], data[4], data[5]))
+                        data[6], data[0], data[1], data[2], str(data[3]), data[4], data[5]))
 
                 # TTO-Feedback Question
                 for data in readexcel.read(filepath, 'TTO & TTO-Feedback', True):
                     cursor.execute("insert into ttofeedback_question(questionid,presentation,type,name,block,source_text,version) values({0},'{1}','{2}','{3}','{4}','{5}','{6}')".format(
-                        data[6], data[0], data[1], data[2], data[3], data[4], data[5]))
+                        data[6], data[0], data[1], data[2], str(data[3]), data[4], data[5]))
 
                 # DCE Question
                 for data in readexcel.read(filepath, 'DCE', True):
+                    print(data[2])
                     cursor.execute("insert into dce_question(questionid,presentation,name,block,answer,source_text,version) values({0},'{1}','{2}','{3}','{4}','{5}','{6}')".format(
-                        data[6], data[0], data[1], data[2], data[3], data[4], data[5]))
+                        data[6], data[0], data[1], str(data[2]), data[3], data[4], data[5]))
 
                 # Open ended Question
                 for data in readexcel.read(filepath, 'Background Questions', True):
                     cursor.execute("insert into opened_question(questionid,presentation,name,block,source_text,version) values({0},'{1}','{2}','{3}','{4}','{5}')".format(
-                        data[5], data[0], data[1], data[2], data[3], data[4]))
+                        data[5], data[0], data[1], str(data[2]), data[3], data[4]))
                 conn.commit()
                 msg = "ok"
                 status = 200
-            except:
+            except Exception as err:
+                print(err)
                 conn.rollback()
                 if os.path.exists(filepath):
                     os.remove(filepath)
@@ -990,7 +1057,7 @@ def upload_file():
     return jsonify({
         "status": status,
         "msg": msg
-    })
+    }), status
 
 
 # 访问上传的文件
