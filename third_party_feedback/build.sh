@@ -8,10 +8,10 @@ USER="abelit"
 GROUP="root"
 
 # 数据库配置信息
-DBHOST="10.50.0.210"
-DBUSER="eq"
-DBPASS="Eq_Questions2020"
-DBNAME="eqdb"
+DBHOST="{DBHOST}"
+DBUSER="{DBUSER}"
+DBPASS="{DBPASS}"
+DBNAME="{DBNAME}"
 # ---------------------- 可配置信息 ----------------------------#
 
 
