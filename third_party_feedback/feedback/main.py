@@ -31,10 +31,10 @@ app.config['adminpwd'] = "Passw0rd123!"
 app.config['JSON_SORT_KEYS'] = False
 
 # DB Settings
-DBHOST="10.50.0.210"
-DBUSER="eq"
-DBPASS="Eq_Questions2020"
-DBNAME="eqdb"
+DBHOST="{DBHOST}"
+DBUSER="{DBUSER}"
+DBPASS="{DBPASS}"
+DBNAME="{DBNAME}"
 
 # 跨域设置
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
