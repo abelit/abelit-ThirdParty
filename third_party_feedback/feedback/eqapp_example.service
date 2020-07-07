@@ -1,0 +1,12 @@
+[Unit]
+Description=uWSGI instance to serve EQ Qeustion
+After=network.target
+
+[Service]
+User={USER}
+Group={GROUP}
+WorkingDirectory={APPHOME}
+ExecStart={UWSGIPATH}/uwsgi --ini {APPHOME}/eqapp_uwsgi.ini
+
+[Install]
+WantedBy=multi-user.target

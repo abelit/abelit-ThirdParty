@@ -3,3 +3,5 @@ flask
 pymysql
 flask_cors
 werkzeug
+uwsgi
+# /etc/systemd/system/eq.service
