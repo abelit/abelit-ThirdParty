@@ -233,11 +233,11 @@
                     :class="
                       item < topYear * 4 + 1
                         ? parseInt((item - 1) / 4) % 2 == 1
-                          ? 'blue lighten-3'
-                          : 'blue darken-1'
+                          ? 'green lighten-3'
+                          : 'green darken-1'
                         : parseInt((item - 1) / 4) % 2 == 1
-                        ? 'green lighten-3'
-                        : 'green darken-1'
+                        ? 'blue lighten-3'
+                        : 'blue darken-1'
                     "
                   ></td>
                 </tr>
