@@ -141,7 +141,7 @@
                     >
                       {{
                         isSelected(item, "A") != 0
-                          ? isSelected(item, "A") == -1 
+                          ? isSelected(item, "A") == -1
                             ? "t"
                             : "mdi-arrow-up-bold"
                           : "t"
@@ -195,7 +195,7 @@
                     >
                       {{
                         isSelected(item, "B") != 0
-                          ? isSelected(item, "B") == -1 
+                          ? isSelected(item, "B") == -1
                             ? "t"
                             : "mdi-arrow-down-bold"
                           : "t"
@@ -258,11 +258,21 @@
               style="position: relative;width:100%;height:140px;background:#ffffff"
             >
               <div
-                style="background:#5b9bd5;padding:10px 10px;width:300px;border-radius: 25px;position:absolute;left:80px;"
+                style="background:#92d050;padding:10px 10px;width:300px;border-radius: 25px;position:absolute;left:80px;"
+              >
+                完全健康
+                <v-icon
+                  style="color:#92d050;font-size:5rem; position: absolute;left:150px; z-index:98; top:-45px;"
+                  >mdi-menu-up</v-icon
+                >
+              </div>
+
+              <div
+                style="background:#5b9bd5;padding:10px 10px;width:200px;border-radius: 15px;position:absolute;right:150px;"
                 v-if="block.source_text"
               >
                 <v-icon
-                  style="color:#5b9bd5;font-size:5rem; position: absolute;left:150px; z-index:98; top:-45px;"
+                  style="color:#5b9bd5;font-size:5rem; position: absolute;right:120px; z-index:98; top:-45px;"
                   >mdi-menu-up</v-icon
                 >
                 <div v-for="msg in block.source_text.split('*')" :key="msg.key">
@@ -270,15 +280,6 @@
                     <span>{{ msg }}</span>
                   </li>
                 </div>
-              </div>
-              <div
-                style="background:#92d050;padding:10px 10px;width:200px;border-radius: 15px;position:absolute;right:150px;"
-              >
-                完全健康
-                <v-icon
-                  style="color:#92d050;font-size:5rem; position: absolute;right:120px; z-index:98; top:-45px;"
-                  >mdi-menu-up</v-icon
-                >
               </div>
             </div>
           </v-col>
@@ -394,7 +395,7 @@ export default {
       this.$store.dispatch("setNstpPage", 1);
       // this.reset++;
       this.deleteItem(this.block.name);
-      this.$store.dispatch("setNstpReset", {reset: 0, value: 1});
+      this.$store.dispatch("setNstpReset", { reset: 0, value: 1 });
     },
     getStyle(w) {
       return "padding-right: " + w + "px;";
