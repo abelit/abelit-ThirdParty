@@ -64,11 +64,11 @@
                 >
                 <div :style="cStyle1" style="text-align: center">
                   {{
-                    Math.floor(currentYear) +
+                    Math.floor((tplstatus?(10-currentYear):currentYear)) +
                       eqLangLabels[$vuetify.lang.current].years +
-                      ((currentYear % 1) * 12 != 0
+                      (((tplstatus?(10-currentYear):currentYear) % 1) * 12 != 0
                         ? "," +
-                          (currentYear % 1) * 12 +
+                          ((tplstatus?(10-currentYear):currentYear) % 1) * 12 +
                           eqLangLabels[$vuetify.lang.current].months
                         : "")
                   }}
@@ -82,7 +82,7 @@
                     :key="item"
                     style="text-align: center; width: 24px"
                     :class="
-                      item <= 4 * currentYear
+                      item <= 4 * (tplstatus?(10-currentYear):currentYear)
                         ? parseInt((item - 1) / 4) % 2 == 1
                           ? 'green lighten-1'
                           : 'green darken-3'
@@ -133,11 +133,11 @@
                 >
                 <div :style="cStyle3" style="text-align: center">
                   {{
-                    Math.floor(currentYearB) +
+                    Math.floor((tplstatus?10-currentYearB:currentYearB)) +
                       eqLangLabels[$vuetify.lang.current].years +
-                      ((currentYearB % 1) * 12 != 0
+                      (((tplstatus?10-currentYearB:currentYearB) % 1) * 12 != 0
                         ? "," +
-                          (currentYearB % 1) * 12 +
+                          ((tplstatus?10-currentYearB:currentYearB) % 1) * 12 +
                           eqLangLabels[$vuetify.lang.current].months
                         : "")
                   }}
@@ -163,7 +163,7 @@
                     :key="item"
                     style="text-align: center; width: 16px"
                     :class="
-                      item <= 4 * currentYearB
+                      item <= 4 * (tplstatus?10-currentYearB:currentYearB)
                         ? parseInt((item - 1) / 4) % 2 == 1
                           ? 'green lighten-1'
                           : 'green darken-3'
@@ -417,6 +417,7 @@ export default {
     valid: true,
     disTime: 0,
     disFormatTime: "00:00:00",
+    tplstatus: false,
   }),
   watch: {
     opYear(val) {
@@ -428,10 +429,11 @@ export default {
               "canvas1",
               this.$refs.table1.offsetWidth,
               20,
-              (this.$refs.table1.offsetWidth / this.topYear) * this.currentYear,
+              (this.$refs.table1.offsetWidth / this.topYear) * (this.openQDialog?10-this.currentYear:this.currentYear),
               10,
               0
             );
+            this.tplstatus = true;
             this.cStyle1 = this.getStyle(
               this.$refs.table1.offsetWidth,
               this.topYear,
@@ -439,7 +441,7 @@ export default {
                 ? 0.5
                 : this.currentYear == 0.5
                 ? 0.8
-                : this.currentYear
+                : (this.openQDialog?10-this.currentYear:this.currentYear)
             );
           });
         } else {
@@ -450,11 +452,12 @@ export default {
               this.$refs.table3.offsetWidth,
               20,
               ((this.$refs.table3.offsetWidth / this.topYear) *
-                this.currentYearB) /
+                ((this.openQDialog?10-this.currentYearB:this.currentYearB))) /
                 2,
               10,
               0
             );
+            this.tplstatus = true;
             this.cStyle3 = this.getStyle(
               this.$refs.table3.offsetWidth,
               this.topYearB,
@@ -462,7 +465,7 @@ export default {
                 ? 1
                 : this.currentYearB == 0.5
                 ? 1.5
-                : this.currentYearB
+                : (this.openQDialog?10-this.currentYearB:this.currentYearB)
             );
           });
         }
@@ -732,6 +735,7 @@ export default {
       this.cStyle1 = "";
       this.cStyle3 = "";
       this.showDetail = true;
+      this.tplstatus = false;
       // this.currentYear = 5;
       this.topYear = 10;
       this.step = 0;
