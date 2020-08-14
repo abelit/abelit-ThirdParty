@@ -310,7 +310,8 @@
       <v-dialog v-model="openQDialog" persistent max-width="480">
         <v-card outlined>
           <v-card-title class="blue darken-1 font-weight-wwhite"
-            >开放式问题：请填写您偏好的年份？</v-card-title
+            > {{ slide==1 ? "请问您最多牺牲多少生命来换取治疗，恢复完全健康？": "请问您，当超过多少年生命来换取治疗时，您开始不愿意接受治疗，而愿意生活在生命B中20年了？" }}（注意：可以填写到半年，例如5.5表示5年半）
+            </v-card-title
           >
           <v-divider></v-divider>
           <v-card-text style="overflow: hidden;" class="px-0 py-0 mt-3">
