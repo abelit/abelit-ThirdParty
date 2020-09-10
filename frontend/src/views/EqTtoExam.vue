@@ -27,6 +27,25 @@
         </v-card>
       </v-dialog>
     </v-row>
+    <v-row>
+      <v-dialog v-model="exerciseDialog" persistent max-width="960">
+        <v-card class="pt-5 yellow lighten-4">
+          <v-card-text
+            class="display-1"
+            style="height: 500px; width:960px;font-wight: bold"
+          >练习部分到此结束，现在我们将问你问题组中的问题。</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="light-green darken-3"
+              @click="exerciseDialog = false"
+              large
+            >{{ eqLangLabels[$vuetify.lang.current].btn_ok_exmple }}</v-btn>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </div>
 </template>
 
@@ -43,8 +62,16 @@ export default {
     currentItem: 0,
     startTime: 0,
     ttoAnswers: [],
-    popupDialog: true
+    popupDialog: true,
+    exerciseDialog: false
   }),
+   watch: {
+    currentItem(val,oldVal) {
+     if ( this.eqTtoQuestions[val].block!='-' && this.eqTtoQuestions[oldVal].block=='-') {
+       this.exerciseDialog = true;
+     }
+    }
+  },
   created() {
     this.getQuestion();
     this.startTime = new Date();
