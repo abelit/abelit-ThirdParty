@@ -16,8 +16,8 @@
             <v-row justify="end">
               <v-col>
                 <v-row justify="center" class="pt-8">
-                  <v-btn class="black" @click="chooseAnswer('A')" fab dark
-                    >A</v-btn
+                  <v-btn class="black" @click="chooseAnswer('A')" fab dark style="font-weight: bold"
+                    >愿意</v-btn
                   >
                 </v-row>
                 <div style="height:80px"></div>
@@ -28,8 +28,8 @@
                 </v-row>
                 <div style="height:80px"></div>
                 <v-row justify="center" class="my-2" style="margin-top:10px">
-                  <v-btn class="black" @click="chooseAnswer('B')" fab dark
-                    >B</v-btn
+                  <v-btn class="black" @click="chooseAnswer('B')" fab dark style="font-weight: bold"
+                    >不愿意</v-btn
                   >
                 </v-row>
                 <v-row justify="center" class="my-2">
@@ -64,11 +64,14 @@
                 >
                 <div :style="cStyle1" style="text-align: center">
                   {{
-                    Math.floor((tplstatus?(10-currentYear):currentYear)) +
+                    Math.floor(tplstatus ? 10 - currentYear : currentYear) +
                       eqLangLabels[$vuetify.lang.current].years +
-                      (((tplstatus?(10-currentYear):currentYear) % 1) * 12 != 0
+                      (((tplstatus ? 10 - currentYear : currentYear) % 1) *
+                        12 !=
+                      0
                         ? "," +
-                          ((tplstatus?(10-currentYear):currentYear) % 1) * 12 +
+                          ((tplstatus ? 10 - currentYear : currentYear) % 1) *
+                            12 +
                           eqLangLabels[$vuetify.lang.current].months
                         : "")
                   }}
@@ -82,7 +85,7 @@
                     :key="item"
                     style="text-align: center; width: 24px"
                     :class="
-                      item <= 4 * (tplstatus?(10-currentYear):currentYear)
+                      item <= 4 * (tplstatus ? 10 - currentYear : currentYear)
                         ? parseInt((item - 1) / 4) % 2 == 1
                           ? 'green lighten-1'
                           : 'green darken-3'
@@ -133,11 +136,14 @@
                 >
                 <div :style="cStyle3" style="text-align: center">
                   {{
-                    Math.floor((tplstatus?10-currentYearB:currentYearB)) +
+                    Math.floor(tplstatus ? 10 - currentYearB : currentYearB) +
                       eqLangLabels[$vuetify.lang.current].years +
-                      (((tplstatus?10-currentYearB:currentYearB) % 1) * 12 != 0
+                      (((tplstatus ? 10 - currentYearB : currentYearB) % 1) *
+                        12 !=
+                      0
                         ? "," +
-                          ((tplstatus?10-currentYearB:currentYearB) % 1) * 12 +
+                          ((tplstatus ? 10 - currentYearB : currentYearB) % 1) *
+                            12 +
                           eqLangLabels[$vuetify.lang.current].months
                         : "")
                   }}
@@ -163,7 +169,7 @@
                     :key="item"
                     style="text-align: center; width: 16px"
                     :class="
-                      item <= 4 * (tplstatus?10-currentYearB:currentYearB)
+                      item <= 4 * (tplstatus ? 10 - currentYearB : currentYearB)
                         ? parseInt((item - 1) / 4) % 2 == 1
                           ? 'green lighten-1'
                           : 'green darken-3'
@@ -196,7 +202,6 @@
 
               <div>
                 <canvas id="canvas4" ref="canvas4"></canvas>
-
                 <canvas id="canvas5" ref="canvas5"></canvas>
               </div>
               <div style="width:100%" ref="tip_w">
@@ -309,10 +314,13 @@
     <v-row class="page-1">
       <v-dialog v-model="openQDialog" persistent max-width="480">
         <v-card outlined>
-          <v-card-title class="blue darken-1 font-weight-wwhite"
-            > {{ slide==1 ? "请问您最多牺牲多少生命来换取治疗，恢复完全健康？": "请问您，当超过多少年生命来换取治疗时，您开始不愿意接受治疗，而愿意生活在生命B中20年了？" }}（注意：可以填写到半年，例如5.5表示5年半）
-            </v-card-title
-          >
+          <v-card-title class="blue darken-1 font-weight-wwhite">
+            {{
+              slide == 1
+                ? "请问您最多愿意放弃多少年的生命以换取完全健康的状态"
+                : "请问您当需要放弃的年数超过多少年时，您开始不愿意恢复健康而宁愿在生命B中生活20年了？"
+            }}（注意：可以填写到半年，例如5.5表示5年半）
+          </v-card-title>
           <v-divider></v-divider>
           <v-card-text style="overflow: hidden;" class="px-0 py-0 mt-3">
             <v-form ref="form" v-model="valid" lazy-validation>
@@ -404,10 +412,10 @@ export default {
     ticksLabels: Array.from({ length: 21 }, (v, k) => k / 2),
     yearRange: [0, 10],
     rules: {
-      required: value => !!value || "年份为必填项.",
-      numRequired: v =>
+      required: (value) => !!value || "年份为必填项.",
+      numRequired: (v) =>
         !!((v * 10) % 5 == 0 && v >= 0 && v <= 10) ||
-        "填写的年份应在0-10之间，且只包含半年或整年，如1.5，1"
+        "填写的年份应在0-10之间，且只包含半年或整年，如1.5，1",
     },
     opYearType: "",
     opYear: "",
@@ -430,7 +438,8 @@ export default {
               "canvas1",
               this.$refs.table1.offsetWidth,
               20,
-              (this.$refs.table1.offsetWidth / this.topYear) * (this.openQDialog?10-this.currentYear:this.currentYear),
+              (this.$refs.table1.offsetWidth / this.topYear) *
+                (this.openQDialog ? 10 - this.currentYear : this.currentYear),
               10,
               0
             );
@@ -442,7 +451,9 @@ export default {
                 ? 0.5
                 : this.currentYear == 0.5
                 ? 0.8
-                : (this.openQDialog?10-this.currentYear:this.currentYear)
+                : this.openQDialog
+                ? 10 - this.currentYear
+                : this.currentYear
             );
           });
         } else {
@@ -453,7 +464,9 @@ export default {
               this.$refs.table3.offsetWidth,
               20,
               ((this.$refs.table3.offsetWidth / this.topYear) *
-                ((this.openQDialog?10-this.currentYearB:this.currentYearB))) /
+                (this.openQDialog
+                  ? 10 - this.currentYearB
+                  : this.currentYearB)) /
                 2,
               10,
               0
@@ -466,7 +479,9 @@ export default {
                 ? 1
                 : this.currentYearB == 0.5
                 ? 1.5
-                : (this.openQDialog?10-this.currentYearB:this.currentYearB)
+                : this.openQDialog
+                ? 10 - this.currentYearB
+                : this.currentYearB
             );
           });
         }
@@ -613,7 +628,7 @@ export default {
           });
         }
       }
-    }
+    },
   },
 
   methods: {
@@ -622,8 +637,15 @@ export default {
       this.openQDialog = false;
     },
     submitAnswer() {
-      if (this.opYear == '' || this.opYear * 10 % 5 != 0 || this.opYear >10 ||this.opYear < 0) {
-        alert("请填写符合条件的答案，通常，填写的年份在0~10之间，且小数部分只能包含0.5（如5, 5.5）。");
+      if (
+        this.opYear == "" ||
+        (this.opYear * 10) % 5 != 0 ||
+        this.opYear > 10 ||
+        this.opYear < 0
+      ) {
+        alert(
+          "请填写符合条件的答案，通常，填写的年份在0~10之间，且小数部分只能包含0.5（如5, 5.5）。"
+        );
         return;
       }
       this.popupDialog2 = true;
@@ -674,7 +696,7 @@ export default {
         end_year_random: this.randomYearB,
         version: this.qVersion,
         reset: this.resets,
-        used_time: this.disTime
+        used_time: this.disTime,
       };
 
       let [s1, s2, s3, s4] = this.selectList;
@@ -706,7 +728,7 @@ export default {
       if (type == 1) {
         let displayYear1 =
           this.opYearType == 1
-            ? 10 - this.opYear
+            ? this.opYear
             : (10 - this.opYearEnd).toString() +
               "~" +
               (10 - this.opYearStart).toString();
@@ -719,7 +741,7 @@ export default {
       if (type == 2) {
         let displayYear2 =
           this.opYearType == 1
-            ? 20 - this.opYear
+            ? this.opYear
             : (20 - this.opYearEnd).toString() +
               "~" +
               (20 - this.opYearStart).toString();
@@ -764,7 +786,6 @@ export default {
       this.radio1 = "";
       this.radio2 = "";
       this.valid = true;
-
 
       this.currentYear = this.randomYear;
 
@@ -834,7 +855,8 @@ export default {
         case 2:
           this.slide = type == "A" ? 2 : 1;
           console.log(this.slide);
-          this.randomYearB = this.slide == 2 ? Math.round(Math.random() * 6) + 2 : '';
+          this.randomYearB =
+            this.slide == 2 ? Math.round(Math.random() * 6) + 2 : "";
           this.currentYearB = this.randomYearB;
           this.openQDialog = type == "B";
           if (this.slide == 2) {
@@ -905,6 +927,23 @@ export default {
               ? 1.5
               : this.currentYearB
           );
+          this.drawLine(
+            "canvas4",
+            this.$refs.table3.offsetWidth / 2,
+            20,
+            this.$refs.table3.offsetWidth / 2,
+            10,
+            0
+          );
+          this.drawLine(
+            "canvas5",
+            this.$refs.table3.offsetWidth / 2,
+            20,
+            this.$refs.table3.offsetWidth / 2,
+            10,
+            0
+          );
+          this.$refs.tenyear.style.width = this.$refs.table2.offsetWidth + "px";
         }
       });
     },
@@ -984,7 +1023,7 @@ export default {
       this.popAZero = false;
       this.popBFull = false;
     },
-     countTime() {
+    countTime() {
       intervalTimer = setInterval(() => {
         this.disTime = this.disTime + 1;
         this.disFormatTime = this.displayTime(this.disTime);
@@ -1004,7 +1043,7 @@ export default {
       return num < 10 ? `0${num}` : num;
     },
   },
-   beforeDestroy() {
+  beforeDestroy() {
     clearInterval(intervalTimer);
   },
   mounted() {
@@ -1077,8 +1116,8 @@ export default {
         return arr;
       };
     },
-    ...mapState(["userInfo", "examType", "qVersion", "eqLangLabels"])
-  }
+    ...mapState(["userInfo", "examType", "qVersion", "eqLangLabels"]),
+  },
 };
 </script>
 
