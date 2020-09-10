@@ -5,7 +5,9 @@
         <v-row>
           <v-col>
             <v-alert dense type="info">{{
-             slide==1 ? eqLangLabels[$vuetify.lang.current].question : eqLangLabels[$vuetify.lang.current].questionb
+              slide == 1
+                ? eqLangLabels[$vuetify.lang.current].question
+                : eqLangLabels[$vuetify.lang.current].questionb
             }}</v-alert>
           </v-col>
         </v-row>
@@ -16,7 +18,12 @@
             <v-row justify="end">
               <v-col>
                 <v-row justify="center" class="pt-8">
-                  <v-btn class="black" @click="chooseAnswer('A')" fab dark style="font-weight: bold"
+                  <v-btn
+                    class="black"
+                    @click="chooseAnswer('A')"
+                    fab
+                    dark
+                    style="font-weight: bold"
                     >愿意</v-btn
                   >
                 </v-row>
@@ -28,7 +35,12 @@
                 </v-row>
                 <div style="height:80px"></div>
                 <v-row justify="center" class="my-2" style="margin-top:10px">
-                  <v-btn class="black" @click="chooseAnswer('B')" fab dark style="font-weight: bold"
+                  <v-btn
+                    class="black"
+                    @click="chooseAnswer('B')"
+                    fab
+                    dark
+                    style="font-weight: bold"
                     >不愿意</v-btn
                   >
                 </v-row>
@@ -317,7 +329,7 @@
           <v-card-title class="blue darken-1 font-weight-wwhite">
             {{
               slide == 1
-                ? "请问您最多愿意放弃多少年的生命以换取完全健康的状态"
+                ? "请问您当需要放弃的年数超过多少年时，您开始不愿意恢复健康而宁愿在生命B中生活10年了？"
                 : "请问您当需要放弃的年数超过多少年时，您开始不愿意恢复健康而宁愿在生命B中生活20年了？"
             }}（注意：可以填写到半年，例如5.5表示5年半）
           </v-card-title>
