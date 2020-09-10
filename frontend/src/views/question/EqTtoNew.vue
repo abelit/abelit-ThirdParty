@@ -5,7 +5,7 @@
         <v-row>
           <v-col>
             <v-alert dense type="info">{{
-              eqLangLabels[$vuetify.lang.current].question
+             slide==1 ? eqLangLabels[$vuetify.lang.current].question : eqLangLabels[$vuetify.lang.current].questionb
             }}</v-alert>
           </v-col>
         </v-row>
