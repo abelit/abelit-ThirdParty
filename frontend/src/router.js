@@ -32,6 +32,11 @@ const router = new Router({
       component: () => import("@/views/EqTtoExam.vue")
     },
     {
+      path: "/eq/ptto",
+      name: "tto",
+      component: () => import("@/views/EqPTtoExam.vue")
+    },
+    {
       path: "/eq/newtto",
       name: "newtto",
       component: () => import("@/views/EqTtoExamNew.vue")

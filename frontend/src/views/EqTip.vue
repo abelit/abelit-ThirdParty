@@ -38,7 +38,7 @@ export default {
           this.$router.push({ path: "/eq/tto" });
           break;
         case 3:
-          this.$router.push({ path: "/eq/ttofeedback" });
+          this.$router.push({ path: "/eq/ptto" });
           break;
         case 4:
           this.$router.push({ path: "/eq/opened" });

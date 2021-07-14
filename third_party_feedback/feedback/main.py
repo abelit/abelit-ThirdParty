@@ -568,7 +568,7 @@ def get_question_blocks():
     blocks = []
 
     for row in result:
-        blocks.append(row[0])
+        blocks.append(int(row[0]))
 
     return jsonify(blocks)
 
